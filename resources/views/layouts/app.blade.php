@@ -3,22 +3,12 @@
 <head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title>@yield('title', 'Ramysta Salon')</title>
+    <title>@yield('title', 'Ramysta Salon - Haute Beauté & Atelier')</title>
 
     <link href="https://fonts.googleapis.com" rel="preconnect"/>
     <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
-
-    <style>
-        @layer base {
-            html, body { margin: 0; padding: 0; }
-            body { overscroll-behavior: none; }
-            main > :first-child { margin-top: 0 !important; }
-            main > :last-child { margin-bottom: 0 !important; }
-        }
-        ::-webkit-scrollbar { display: none; }
-    </style>
 
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <script id="tailwind-config">
@@ -45,18 +35,15 @@
                         "on-primary-fixed-variant": "#51443f", "primary-fixed-dim": "#d5c3bc"
                     },
                     borderRadius: { "DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem" },
-                    spacing: { "space-sm": "0.5rem", "space-md": "1rem", "margin-mobile": "1.25rem", "space-lg": "1.75rem", "gutter": "1.5rem", "gutter-mobile": "1rem", "space-xl": "3rem", "margin": "3rem", "space-xs": "0.25rem" },
                     fontFamily: {
-                        "headline-lg-mobile": ["Playfair Display"], "body-md": ["DM Sans"], "headline-sm": ["Playfair Display"],
-                        "display-lg-mobile": ["Playfair Display"], "headline-md": ["Playfair Display"], "body-sm": ["DM Sans"],
+                        "body-md": ["DM Sans"], "headline-sm": ["Playfair Display"],
+                        "headline-md": ["Playfair Display"], "body-sm": ["DM Sans"],
                         "label-sm": ["DM Sans"], "label-md": ["DM Sans"], "display-lg": ["Playfair Display"],
                         "body-lg": ["DM Sans"], "subhead-uppercase": ["DM Sans"], "headline-lg": ["Playfair Display"]
                     },
                     fontSize: {
-                        "headline-lg-mobile": ["1.75rem", { "lineHeight": "2.25rem", "letterSpacing": "0em", "fontWeight": "400" }],
                         "body-md": ["0.9375rem", { "lineHeight": "1.6rem", "letterSpacing": "0.01em", "fontWeight": "400" }],
                         "headline-sm": ["1.25rem", { "lineHeight": "1.75rem", "letterSpacing": "0em", "fontWeight": "500" }],
-                        "display-lg-mobile": ["2.25rem", { "lineHeight": "2.75rem", "letterSpacing": "-0.01em", "fontWeight": "400" }],
                         "headline-md": ["1.75rem", { "lineHeight": "2.25rem", "letterSpacing": "-0.01em", "fontWeight": "500" }],
                         "body-sm": ["0.8125rem", { "lineHeight": "1.35rem", "letterSpacing": "0.01em", "fontWeight": "400" }],
                         "label-sm": ["0.6875rem", { "lineHeight": "0.875rem", "letterSpacing": "0.12em", "fontWeight": "600" }],
@@ -70,6 +57,9 @@
             }
         }
     </script>
+
+    <!-- Custom CSS Ramysta Salon -->
+    <link rel="stylesheet" href="{{ asset('css/ramysta.css') }}">
     @stack('styles')
 </head>
 <body class="bg-surface font-body-md text-on-surface antialiased selection:bg-secondary-fixed selection:text-on-secondary-fixed">
@@ -80,6 +70,8 @@
         @yield('content')
     </main>
 
+    <!-- Custom JS Ramysta Salon -->
+    <script src="{{ asset('js/ramysta.js') }}"></script>
     @stack('scripts')
 </body>
 </html>
