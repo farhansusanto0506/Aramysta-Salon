@@ -45,7 +45,7 @@
         </nav>
 
         <!-- 3. Action Buttons (Kanan) -->
-        <div class="flex items-center gap-2.5 shrink-0">
+        <div class="flex items-center gap-3">
             @auth
                 <span
                     class="hidden md:inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-secondary-fixed/60 text-on-secondary-fixed font-label-sm text-[10px] uppercase tracking-widest">
@@ -62,7 +62,16 @@
                     </button>
                 </form>
             @endauth
+
+            @guest
+                <a href="{{ route('login') }}"
+                    class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-primary-container text-on-primary font-label-sm uppercase tracking-wider text-xs hover:bg-secondary transition-colors shadow-sm">
+                    <span class="material-symbols-outlined text-sm leading-none">login</span>
+                    <span>Login</span>
+                </a>
+            @endguest
         </div>
+    </div>
 
     </div>
 </header>

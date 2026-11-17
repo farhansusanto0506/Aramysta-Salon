@@ -1,4 +1,4 @@
-<section class="sticky top-20 z-30 bg-[#FAF7F2]/95 backdrop-blur-md py-5 transition-all shadow-sm" id="discovery-grid">
+<section class="bg-[#FAF7F2] py-5 transition-all" id="discovery-grid">
     <div class="max-w-7xl mx-auto px-6 lg:px-12 flex flex-col gap-4">
         <!-- Controls Row: Search + Kelola Karya + View Switcher -->
         <div class="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
