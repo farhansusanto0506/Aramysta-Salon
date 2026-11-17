@@ -30,8 +30,8 @@
                 class="nav-scroll-link font-label-md uppercase tracking-wider text-xs py-1 transition-colors text-on-surface-variant hover:text-primary">
                 Koleksi
             </a>
-            <a href="{{ $isHome ? '#client-love' : route('portfolio.index') }}"
-                class="font-label-md uppercase tracking-wider text-xs py-1 text-on-surface-variant hover:text-primary transition-colors">
+            <a href="{{ $isHome ? '#testimoni-section' : route('portfolio.index') }}" data-target="testimoni-section"
+                class="nav-scroll-link font-label-md uppercase tracking-wider text-xs py-1 transition-colors text-on-surface-variant hover:text-primary">
                 Testimoni
             </a>
             <a href="#"

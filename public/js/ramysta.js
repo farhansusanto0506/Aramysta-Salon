@@ -81,7 +81,11 @@ document.addEventListener('DOMContentLoaded', function () {
     // 4. NAVBAR SCROLLSPY & SMOOTH SCROLL
     // ==========================================
     const navLinks = document.querySelectorAll('.nav-scroll-link');
-    const sections = document.querySelectorAll('#portofolio-section, #koleksi-section');
+    const sections = [
+        document.getElementById('portofolio-section'),
+        document.getElementById('koleksi-section'),
+        document.getElementById('testimoni-section')
+    ].filter(Boolean);
 
     if (navLinks.length && sections.length) {
         const setActive = (id) => {
@@ -95,6 +99,26 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         };
 
+        const updateOnScroll = () => {
+            // Titik deteksi 200px dari atas viewport (tepat di bawah navbar)
+            const scrollPos = window.scrollY + 200;
+            let currentId = sections[0].id;
+
+            for (const sec of sections) {
+                const top = sec.getBoundingClientRect().top + window.scrollY;
+                if (scrollPos >= top) {
+                    currentId = sec.id;
+                }
+            }
+
+            // Jika sudah mentok paling bawah halaman, pastikan sesi terakhir aktif
+            if ((window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight - 20) {
+                currentId = sections[sections.length - 1].id;
+            }
+
+            setActive(currentId);
+        };
+
         navLinks.forEach(link => {
             link.addEventListener('click', (e) => {
                 const target = document.getElementById(link.dataset.target);
@@ -106,12 +130,7 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         });
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) setActive(entry.target.id);
-            });
-        }, { rootMargin: '-30% 0px -60% 0px' });
-
-        sections.forEach(sec => observer.observe(sec));
+        window.addEventListener('scroll', updateOnScroll, { passive: true });
+        updateOnScroll();
     }
 });
