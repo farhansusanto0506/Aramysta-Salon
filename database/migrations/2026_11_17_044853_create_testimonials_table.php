@@ -13,12 +13,9 @@ return new class extends Migration
     {
         Schema::create('testimonials', function (Blueprint $table) {
             $table->id();
-            $table->string('client_name'); // Contoh: Nadia Putri
-            $table->string('event_or_role'); // Contoh: Pengantin Akad & Resepsi, Malang
-            $table->string('category_label')->nullable(); // Contoh: Pengantin Couture
-            $table->text('quote'); // Isi ulasan klien
-            $table->unsignedTinyInteger('rating')->default(5); // 1 - 5 bintang
-            $table->string('avatar')->nullable(); // Foto klien (opsional)
+            $table->string('client_name');
+            $table->unsignedTinyInteger('rating')->default(5);
+            $table->text('quote');
             $table->timestamps();
         });
     }

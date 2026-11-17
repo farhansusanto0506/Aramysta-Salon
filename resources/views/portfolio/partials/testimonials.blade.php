@@ -24,40 +24,22 @@
             @forelse($testimonials as $item)
                 <article class="bg-surface-container-lowest rounded-xl p-7 md:p-8 shadow-sm border border-outline-variant/20 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 hover:shadow-md">
                     <div>
-                        <!-- Rating & Kategori -->
-                        <div class="flex items-center justify-between gap-2 mb-5">
-                            <div class="flex items-center gap-0.5 text-secondary">
-                                @for($i = 1; $i <= 5; $i++)
-                                    <span class="material-symbols-outlined text-base" style="font-variation-settings: 'FILL' {{ $i <= $item->rating ? 1 : 0 }};">star</span>
-                                @endfor
-                            </div>
-                            @if($item->category_label)
-                                <span class="font-label-sm text-[10px] uppercase tracking-widest px-2.5 py-1 rounded-full bg-surface-container text-on-surface-variant">
-                                    {{ $item->category_label }}
-                                </span>
-                            @endif
+                        <!-- Rating Bintang -->
+                        <div class="flex items-center gap-0.5 text-secondary mb-4">
+                            @for($i = 1; $i <= 5; $i++)
+                                <span class="material-symbols-outlined text-base" style="font-variation-settings: 'FILL' {{ $i <= $item->rating ? 1 : 0 }};">star</span>
+                            @endfor
                         </div>
 
-                        <!-- Quote -->
+                        <!-- Isi Testimoni -->
                         <blockquote class="font-body-md text-primary leading-relaxed mb-6 italic">
                             “{{ $item->quote }}”
                         </blockquote>
                     </div>
 
-                    <!-- Client Info -->
-                    <div class="pt-5 border-t border-surface-container flex items-center gap-3.5">
-                        @if($item->avatar)
-                            <img src="{{ asset('storage/' . $item->avatar) }}" alt="{{ $item->client_name }}" class="w-11 h-11 rounded-full object-cover shrink-0 border border-outline-variant/40">
-                        @else
-                            <div class="w-11 h-11 rounded-full bg-primary-container text-tertiary-fixed flex items-center justify-center font-headline-sm text-sm uppercase shrink-0">
-                                {{ substr($item->client_name, 0, 1) }}
-                            </div>
-                        @endif
-
-                        <div class="min-w-0">
-                            <h3 class="font-headline-sm text-base text-primary truncate">{{ $item->client_name }}</h3>
-                            <p class="font-body-sm text-on-surface-variant truncate">{{ $item->event_or_role }}</p>
-                        </div>
+                    <!-- Nama Klien -->
+                    <div class="pt-4 border-t border-surface-container">
+                        <h3 class="font-headline-sm text-base text-primary">{{ $item->client_name }}</h3>
                     </div>
                 </article>
             @empty
