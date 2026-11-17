@@ -73,5 +73,7 @@
     <!-- Custom JS Ramysta Salon -->
     <script src="{{ asset('js/ramysta.js') }}"></script>
     @stack('scripts')
+
+
 </body>
 </html>

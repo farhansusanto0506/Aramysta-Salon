@@ -10,8 +10,8 @@
     <div class="absolute -top-40 right-10 w-96 h-96 bg-tertiary-fixed/30 rounded-full blur-3xl pointer-events-none -z-10"></div>
     <div class="absolute top-80 -left-20 w-80 h-80 bg-secondary-fixed/20 rounded-full blur-3xl pointer-events-none -z-10"></div>
 
-    <!-- Editorial Hero Section -->
-    <section class="max-w-7xl mx-auto px-6 lg:px-12 pt-8 lg:pt-16 pb-16">
+    <!-- Editorial Hero Section (ID target dipasang di sini) -->
+    <section id="portofolio-section" class="max-w-7xl mx-auto px-6 lg:px-12 pt-8 lg:pt-16 pb-16">
         
         @if(session('success'))
             <div class="mb-6 p-3.5 rounded-xl bg-secondary-fixed/50 border border-secondary/30 text-on-secondary-fixed text-xs font-medium">

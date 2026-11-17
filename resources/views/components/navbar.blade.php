@@ -14,25 +14,29 @@
             </a>
         </div>
 
-        <!-- 2. Navigation Links (Tengah) -->
-        <nav class="hidden xl:flex items-center space-x-6">
-            <a class="font-label-md uppercase tracking-wider text-xs transition-colors py-1 {{ request()->routeIs('portfolio.index') ? 'text-primary font-semibold border-b-2 border-secondary' : 'text-on-surface-variant hover:text-primary' }}" href="{{ route('portfolio.index') }}">
-                Portofolio
-            </a>
-            <a class="font-label-md uppercase tracking-wider text-xs text-on-surface-variant hover:text-primary transition-colors py-1" href="{{ route('portfolio.index') }}#discovery-grid">
-                Koleksi
-            </a>
-            <a class="font-label-md uppercase tracking-wider text-xs text-on-surface-variant hover:text-primary transition-colors py-1" href="#client-love">
-                Testimoni
-            </a>
-            <a class="font-label-md uppercase tracking-wider text-xs text-on-surface-variant hover:text-primary transition-colors py-1" href="#">
-                Layanan
-            </a>
-            <a class="font-label-md uppercase tracking-wider text-xs text-on-surface-variant hover:text-primary transition-colors py-1" href="#">
-                Kontak
-            </a>
-        </nav>
-
+            <!-- 2. Navigation Links (Tengah) -->
+            <nav class="hidden xl:flex items-center space-x-6" id="mainNav">
+                <a class="nav-scroll-link font-label-md uppercase tracking-wider text-xs transition-colors py-1 text-primary font-semibold border-b-2 border-secondary" 
+                data-target="portofolio-section" 
+                href="{{ request()->routeIs('portfolio.index') ? '#portofolio-section' : route('portfolio.index') . '#portofolio-section' }}">
+                    Portofolio
+                </a>
+                <a class="nav-scroll-link font-label-md uppercase tracking-wider text-xs transition-colors py-1 text-on-surface-variant hover:text-primary" 
+                data-target="koleksi-section" 
+                href="{{ request()->routeIs('portfolio.index') ? '#koleksi-section' : route('portfolio.index') . '#koleksi-section' }}">
+                    Koleksi
+                </a>
+                <a class="font-label-md uppercase tracking-wider text-xs text-on-surface-variant hover:text-primary transition-colors py-1" href="#client-love">
+                    Testimoni
+                </a>
+                <a class="font-label-md uppercase tracking-wider text-xs text-on-surface-variant hover:text-primary transition-colors py-1" href="#">
+                    Layanan
+                </a>
+                <a class="font-label-md uppercase tracking-wider text-xs text-on-surface-variant hover:text-primary transition-colors py-1" href="#">
+                    Kontak
+                </a>
+            </nav>
+            
         <!-- 3. Action Buttons (Kanan) -->
         <div class="flex items-center gap-2.5 shrink-0">
             @auth
