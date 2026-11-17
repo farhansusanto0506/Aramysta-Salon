@@ -122,83 +122,43 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     });
-    
     // ==========================================
-    // 5. NAVBAR ACTIVE LINE & AUTO SCROLL (SCROLLSPY)
+    // 5. NAVBAR SCROLLSPY & SMOOTH SCROLL
     // ==========================================
     const navLinks = document.querySelectorAll('.nav-scroll-link');
-    const sections = [
-        document.getElementById('portofolio-section'),
-        document.getElementById('koleksi-section')
-    ].filter(Boolean);
-
-    let isClickScrolling = false;
-    let scrollTimeout = null;
-
-    function setActiveNav(targetId) {
-        navLinks.forEach(link => {
-            if (link.getAttribute('data-target') === targetId) {
-                link.classList.add('text-primary', 'font-semibold', 'border-b-2', 'border-secondary');
-                link.classList.remove('text-on-surface-variant');
-            } else {
-                link.classList.remove('text-primary', 'font-semibold', 'border-b-2', 'border-secondary');
-                link.classList.add('text-on-surface-variant');
-            }
-        });
-    }
-
-    function updateActiveSectionOnScroll() {
-        // Jangan timpa garis aktif saat animasi klik sedang berjalan
-        if (!sections.length || isClickScrolling) return;
-
-        const triggerPoint = window.scrollY + 220;
-        let currentSectionId = sections[0].id;
-
-        sections.forEach(section => {
-            const sectionTop = section.getBoundingClientRect().top + window.scrollY;
-            if (triggerPoint >= sectionTop) {
-                currentSectionId = section.id;
-            }
-        });
-
-        // Jika sudah mentok di paling bawah halaman, aktifkan sesi terakhir
-        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 30) {
-            currentSectionId = sections[sections.length - 1].id;
-        }
-
-        setActiveNav(currentSectionId);
-    }
+    const sections = document.querySelectorAll('#portofolio-section, #koleksi-section');
 
     if (navLinks.length && sections.length) {
+        const setActive = (id) => {
+            navLinks.forEach(link => {
+                const active = link.dataset.target === id;
+                link.classList.toggle('text-primary', active);
+                link.classList.toggle('font-semibold', active);
+                link.classList.toggle('border-b-2', active);
+                link.classList.toggle('border-secondary', active);
+                link.classList.toggle('text-on-surface-variant', !active);
+            });
+        };
+
+        // Klik: langsung smooth scroll tanpa mengubah URL
         navLinks.forEach(link => {
-            link.addEventListener('click', function (e) {
-                const targetId = this.getAttribute('data-target');
-                const targetEl = document.getElementById(targetId);
-
-                if (targetEl) {
+            link.addEventListener('click', (e) => {
+                const target = document.getElementById(link.dataset.target);
+                if (target) {
                     e.preventDefault();
-                    
-                    // Kunci ScrollSpy sementara selama animasi scroll berjalan
-                    isClickScrolling = true;
-                    setActiveNav(targetId);
-
-                    const navbarHeight = 80;
-                    const targetPosition = targetEl.getBoundingClientRect().top + window.scrollY - navbarHeight;
-
-                    window.scrollTo({
-                        top: targetPosition,
-                        behavior: 'smooth'
-                    });
-
-                    clearTimeout(scrollTimeout);
-                    scrollTimeout = setTimeout(() => {
-                        isClickScrolling = false;
-                    }, 800);
+                    setActive(link.dataset.target);
+                    target.scrollIntoView({ behavior: 'smooth' });
                 }
             });
         });
 
-        window.addEventListener('scroll', updateActiveSectionOnScroll, { passive: true });
-        updateActiveSectionOnScroll();
+        // Scroll: otomatis pindah garis sesuai section yang terlihat
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) setActive(entry.target.id);
+            });
+        }, { rootMargin: '-30% 0px -60% 0px' });
+
+        sections.forEach(sec => observer.observe(sec));
     }
 });
