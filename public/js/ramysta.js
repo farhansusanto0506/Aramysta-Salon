@@ -60,53 +60,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // ==========================================
-    // 3. MODAL LIGHTBOX DETAIL KARYA (PUBLIK)
-    // ==========================================
-    const modal = document.getElementById('portfolioModal');
-    const closeModalBtn = document.getElementById('closePortfolioModal');
-
-    if (modal && cards.length) {
-        const modalImg = document.getElementById('modalImg');
-        const modalCategory = document.getElementById('modalCategory');
-        const modalTitle = document.getElementById('modalTitle');
-        const modalLocation = document.getElementById('modalLocation');
-        const modalDesc = document.getElementById('modalDesc');
-
-        cards.forEach(card => {
-            card.addEventListener('click', () => {
-                const imgSrc = card.querySelector('img')?.src || '';
-                const title = card.getAttribute('data-title') || '';
-                const category = card.getAttribute('data-category-label') || '';
-                const location = card.getAttribute('data-location') || '';
-                const desc = card.getAttribute('data-description') || 'Sentuhan riasan eksklusif oleh Ramysta Salon.';
-
-                modalImg.src = imgSrc;
-                modalCategory.textContent = category;
-                modalTitle.textContent = title;
-                modalLocation.textContent = location;
-                modalDesc.textContent = desc;
-
-                modal.classList.remove('hidden');
-                document.body.style.overflow = 'hidden';
-            });
-        });
-
-        function closeModal() {
-            modal.classList.add('hidden');
-            document.body.style.overflow = '';
-        }
-
-        closeModalBtn?.addEventListener('click', closeModal);
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal) closeModal();
-        });
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && !modal.classList.contains('hidden')) closeModal();
-        });
-    }
-
-    // ==========================================
-    // 4. LIVE IMAGE PREVIEW DI HALAMAN ADMIN
+    // 3. LIVE IMAGE PREVIEW DI HALAMAN ADMIN
     // ==========================================
     const adminImageInputs = document.querySelectorAll('input[type="file"][name="image"]');
     adminImageInputs.forEach(input => {
@@ -115,15 +69,16 @@ document.addEventListener('DOMContentLoaded', function () {
             if (!file) return;
 
             const form = input.closest('form');
-            let previewImg = form?.querySelector('img');
+            const previewImg = form?.querySelector('img');
 
             if (previewImg) {
                 previewImg.src = URL.createObjectURL(file);
             }
         });
     });
+
     // ==========================================
-    // 5. NAVBAR SCROLLSPY & SMOOTH SCROLL
+    // 4. NAVBAR SCROLLSPY & SMOOTH SCROLL
     // ==========================================
     const navLinks = document.querySelectorAll('.nav-scroll-link');
     const sections = document.querySelectorAll('#portofolio-section, #koleksi-section');
@@ -140,7 +95,6 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         };
 
-        // Klik: langsung smooth scroll tanpa mengubah URL
         navLinks.forEach(link => {
             link.addEventListener('click', (e) => {
                 const target = document.getElementById(link.dataset.target);
@@ -152,7 +106,6 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         });
 
-        // Scroll: otomatis pindah garis sesuai section yang terlihat
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) setActive(entry.target.id);

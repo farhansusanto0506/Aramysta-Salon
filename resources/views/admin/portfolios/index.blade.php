@@ -33,10 +33,9 @@
             <div class="flex flex-col gap-1.5">
                 <label class="font-label-sm uppercase text-on-surface-variant">Kategori *</label>
                 <select name="category" class="rounded-lg bg-surface-container-low border-transparent focus:border-secondary focus:ring-secondary">
-                    <option value="bridal">Pengantin Couture</option>
-                    <option value="red-carpet">Red Carpet & Gala</option>
-                    <option value="editorial">Editorial & Fashion</option>
-                    <option value="soft-glam">Soft Glam</option>
+                    @foreach (\App\Models\Portfolio::CATEGORIES as $value => $label)
+                        <option value="{{ $value }}">{{ $label }}</option>
+                    @endforeach
                 </select>
             </div>
             <div class="flex flex-col gap-1.5">

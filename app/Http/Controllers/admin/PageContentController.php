@@ -16,7 +16,7 @@ class PageContentController extends Controller
         ]);
 
         $oldImage = SiteContent::where('key', 'hero_image')->value('value');
-        if ($oldImage && Storage::disk('public')->exists($oldImage)) {
+        if ($oldImage) {
             Storage::disk('public')->delete($oldImage);
         }
 
@@ -27,6 +27,6 @@ class PageContentController extends Controller
             ['section' => 'hero', 'value' => $path, 'type' => 'image']
         );
 
-        return back()->with('success', 'Gambar berhasil diperbarui!');
+        return back()->with('success', 'Gambar Hero berhasil diperbarui!');
     }
 }

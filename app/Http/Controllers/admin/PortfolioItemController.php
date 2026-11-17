@@ -17,24 +17,7 @@ class PortfolioItemController extends Controller
 
     public function store(Request $request)
     {
-        $data = $request->validate([
-            'title' => 'required|string|max:255',
-            'category' => 'required|string',
-            'location_or_event' => 'nullable|string|max:255',
-            'description' => 'nullable|string',
-            'tags' => 'nullable|string',
-            'image' => 'required|image|mimes:jpg,jpeg,png,webp|max:4096',
-        ]);
-
-        $labels = [
-            'bridal' => 'Pengantin Couture',
-            'red-carpet' => 'Red Carpet & Gala',
-            'editorial' => 'Editorial & Fashion',
-            'soft-glam' => 'Soft Glam',
-        ];
-
-        $data['category_label'] = $labels[$data['category']] ?? 'Koleksi Ramysta';
-        $data['is_featured'] = $request->has('is_featured');
+        $data = $this->prepare($request, $request->validate($this->rules(imageRequired: true)));
         $data['image'] = $request->file('image')->store('portfolios', 'public');
 
         Portfolio::create($data);
@@ -42,50 +25,57 @@ class PortfolioItemController extends Controller
         return back()->with('success', 'Karya portofolio baru berhasil ditambahkan!');
     }
 
+    public function edit(Portfolio $portfolio)
+    {
+        return view('admin.portfolios.edit', compact('portfolio'));
+    }
+
+    public function update(Request $request, Portfolio $portfolio)
+    {
+        $data = $this->prepare($request, $request->validate($this->rules(imageRequired: false)));
+
+        if ($request->hasFile('image')) {
+            $this->deleteImage($portfolio->image);
+            $data['image'] = $request->file('image')->store('portfolios', 'public');
+        }
+
+        $portfolio->update($data);
+
+        return redirect()->route('admin.portfolios.index')->with('success', 'Karya portofolio berhasil diperbarui!');
+    }
+
     public function destroy(Portfolio $portfolio)
     {
-        if ($portfolio->image && Storage::disk('public')->exists($portfolio->image)) {
-            Storage::disk('public')->delete($portfolio->image);
-        }
+        $this->deleteImage($portfolio->image);
         $portfolio->delete();
 
         return back()->with('success', 'Karya portofolio dihapus.');
     }
-    public function edit(Portfolio $portfolio)
-{
-    return view('admin.portfolios.edit', compact('portfolio'));
-}
 
-public function update(Request $request, Portfolio $portfolio)
-{
-    $data = $request->validate([
-        'title' => 'required|string|max:255',
-        'category' => 'required|string',
-        'location_or_event' => 'nullable|string|max:255',
-        'description' => 'nullable|string',
-        'tags' => 'nullable|string',
-        'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:4096',
-    ]);
-
-    $labels = [
-        'bridal' => 'Pengantin Couture',
-        'red-carpet' => 'Red Carpet & Gala',
-        'editorial' => 'Editorial & Fashion',
-        'soft-glam' => 'Soft Glam',
-    ];
-
-    $data['category_label'] = $labels[$data['category']] ?? 'Koleksi Ramysta';
-    $data['is_featured'] = $request->has('is_featured');
-
-    if ($request->hasFile('image')) {
-        if ($portfolio->image && Storage::disk('public')->exists($portfolio->image)) {
-            Storage::disk('public')->delete($portfolio->image);
-        }
-        $data['image'] = $request->file('image')->store('portfolios', 'public');
+    private function rules(bool $imageRequired): array
+    {
+        return [
+            'title' => 'required|string|max:255',
+            'category' => 'required|string',
+            'location_or_event' => 'nullable|string|max:255',
+            'description' => 'nullable|string',
+            'tags' => 'nullable|string',
+            'image' => ($imageRequired ? 'required' : 'nullable') . '|image|mimes:jpg,jpeg,png,webp|max:4096',
+        ];
     }
 
-    $portfolio->update($data);
+    private function prepare(Request $request, array $data): array
+    {
+        $data['category_label'] = Portfolio::CATEGORIES[$data['category']] ?? 'Koleksi Ramysta';
+        $data['is_featured'] = $request->has('is_featured');
 
-    return redirect()->route('admin.portfolios.index')->with('success', 'Karya portofolio berhasil diperbarui!');
-}
+        return $data;
+    }
+
+    private function deleteImage(?string $path): void
+    {
+        if ($path) {
+            Storage::disk('public')->delete($path);
+        }
+    }
 }

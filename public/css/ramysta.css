@@ -19,21 +19,5 @@ main > :last-child {
 
 /* Transisi Halus Kartu Portofolio */
 .portfolio-card {
-    cursor: pointer;
     transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
-}
-
-/* Animasi Modal Lightbox */
-#portfolioModal {
-    transition: opacity 0.25s ease;
-}
-
-#portfolioModal.hidden {
-    opacity: 0;
-    pointer-events: none;
-}
-
-#portfolioModal:not(.hidden) {
-    opacity: 1;
-    pointer-events: auto;
 }
