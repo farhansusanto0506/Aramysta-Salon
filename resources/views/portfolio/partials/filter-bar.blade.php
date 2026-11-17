@@ -1,6 +1,6 @@
 <section class="sticky top-20 z-30 bg-[#FAF7F2]/95 backdrop-blur-md py-5 transition-all shadow-sm" id="discovery-grid">
     <div class="max-w-7xl mx-auto px-6 lg:px-12 flex flex-col gap-4">
-        <!-- Controls Row: Search + View Switcher -->
+        <!-- Controls Row: Search + Kelola Karya + View Switcher -->
         <div class="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
             <div class="relative flex-1 max-w-md">
                 <span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-on-surface-variant text-lg">search</span>
@@ -8,6 +8,13 @@
             </div>
 
             <div class="flex items-center gap-3 self-end md:self-auto">
+                @auth
+                    <a href="{{ route('admin.portfolios.index') }}" class="inline-flex items-center gap-1.5 h-10 px-4 rounded-lg bg-primary-container text-on-primary font-label-sm uppercase tracking-wider text-xs hover:bg-secondary transition-colors shadow-sm">
+                        <span class="material-symbols-outlined text-base leading-none">photo_library</span>
+                        <span>Kelola Karya</span>
+                    </a>
+                @endauth
+
                 <div class="flex items-center bg-surface-container-high/60 p-1 rounded-lg">
                     <button aria-label="Tampilan Editorial Masonry" class="p-1.5 rounded bg-surface-container-lowest text-primary shadow-sm hover:text-secondary transition-all" id="viewMasonryBtn" type="button">
                         <span class="material-symbols-outlined text-lg leading-none">dashboard</span>

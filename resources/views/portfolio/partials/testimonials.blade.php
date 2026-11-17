@@ -6,10 +6,20 @@
         <!-- Section Header -->
         <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-14">
             <div>
-                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-surface-container-lowest text-secondary mb-4 shadow-sm">
-                    <span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
-                    <span class="font-subhead-uppercase text-subhead-uppercase tracking-[0.2em]">Ulasan Klien</span>
+                <div class="flex flex-wrap items-center gap-3 mb-4">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-surface-container-lowest text-secondary shadow-sm">
+                        <span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+                        <span class="font-subhead-uppercase text-subhead-uppercase tracking-[0.2em]">Ulasan Klien</span>
+                    </div>
+
+                    @auth
+                        <a href="{{ route('admin.testimonials.index') }}" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-primary-container text-on-primary font-label-sm uppercase tracking-wider text-[11px] hover:bg-secondary transition-colors shadow-sm">
+                            <span class="material-symbols-outlined text-sm leading-none">reviews</span>
+                            <span>Kelola Ulasan</span>
+                        </a>
+                    @endauth
                 </div>
+
                 <h2 class="font-headline-lg text-headline-lg text-primary leading-tight">
                     Cerita Keindahan Bersama Ramysta
                 </h2>

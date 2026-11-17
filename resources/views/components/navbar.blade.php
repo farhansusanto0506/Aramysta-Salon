@@ -47,43 +47,20 @@
         <!-- 3. Action Buttons (Kanan) -->
         <div class="flex items-center gap-2.5 shrink-0">
             @auth
-                <!-- Badge Status Admin -->
                 <span
-                    class="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-tertiary-fixed/60 text-primary font-label-sm text-[10px] uppercase tracking-widest mr-1">
+                    class="hidden md:inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-secondary-fixed/60 text-on-secondary-fixed font-label-sm text-[10px] uppercase tracking-widest">
                     <span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
                     Mode Admin
                 </span>
 
-                <!-- Tombol Kelola Karya -->
-                <a href="{{ route('admin.portfolios.index') }}"
-                    class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg font-label-sm uppercase tracking-wider text-[11px] transition-all {{ request()->routeIs('admin.portfolios.*') ? 'bg-primary-container text-on-primary shadow-sm' : 'bg-surface-container text-primary hover:bg-surface-container-high' }}">
-                    <span class="material-symbols-outlined text-sm leading-none">photo_library</span>
-                    <span>Kelola Karya</span>
-                </a>
-
-                <!-- Pembatas Vertikal -->
-                <div class="h-5 w-px bg-outline-variant/50 mx-1"></div>
-
-                <!-- Tombol Logout -->
-                <form action="{{ route('logout') }}" method="POST" class="m-0">
+                <form action="{{ route('logout') }}" method="POST" class="inline">
                     @csrf
                     <button type="submit"
-                        class="inline-flex items-center gap-1 px-3 py-2 rounded-lg font-label-sm uppercase tracking-wider text-[11px] text-error hover:bg-error-container/40 transition-colors cursor-pointer">
+                        class="inline-flex items-center gap-1 px-3 py-2 rounded-lg text-error hover:bg-error-container/40 font-label-sm uppercase tracking-wider text-[11px] transition-colors">
                         <span class="material-symbols-outlined text-sm leading-none">logout</span>
                         <span>Keluar</span>
                     </button>
                 </form>
-            @else
-                <!-- Mode Pengunjung -->
-                <a href="{{ route('login') }}"
-                    class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg font-label-md uppercase tracking-wider text-xs text-on-surface-variant hover:text-primary hover:bg-surface-container-low transition-colors">
-                    <span class="material-symbols-outlined text-base leading-none">lock</span>
-                    <span>Admin</span>
-                </a>
-                <a href="#"
-                    class="inline-flex items-center justify-center font-label-md uppercase tracking-[0.12em] bg-primary-container text-on-primary px-5 py-2.5 rounded-lg text-xs hover:bg-secondary transition-colors shadow-sm">
-                    Reservasi
-                </a>
             @endauth
         </div>
 

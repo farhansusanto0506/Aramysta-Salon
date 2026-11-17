@@ -10,7 +10,7 @@
             <h1 class="font-headline-lg text-headline-lg text-primary">Kelola Testimoni Klien</h1>
         </div>
         <div class="flex items-center gap-3">
-            <a href="{{ route('portfolio.index') }}#testimoni-section" target="_blank" class="px-4 py-2.5 rounded-lg bg-primary-container text-on-primary font-label-md text-xs uppercase tracking-wider hover:bg-secondary transition-colors">Lihat Website</a>
+           <a href="{{ route('portfolio.index') }}" target="_blank" class="px-4 py-2.5 rounded-lg bg-primary-container text-on-primary font-label-md text-xs uppercase tracking-wider hover:bg-secondary transition-colors">Lihat Website</a>
         </div>
     </div>
 
