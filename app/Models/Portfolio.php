@@ -10,7 +10,7 @@ class Portfolio extends Model
 
     // Sumber tunggal kategori: dipakai validasi, form admin, dan filter publik
     public const CATEGORIES = [
-        'bridal'     => 'Pengantin Couture',
+        'bridal'     => 'Pengantin Couronne',
         'red-carpet' => 'Red Carpet & Gala',
         'editorial'  => 'Editorial & Fashion',
         'soft-glam'  => 'Soft Glam',

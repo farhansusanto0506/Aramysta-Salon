@@ -70,9 +70,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
             const form = input.closest('form');
             const previewImg = form?.querySelector('img');
+            const previewWrap = document.getElementById('createImagePreviewWrap');
 
             if (previewImg) {
                 previewImg.src = URL.createObjectURL(file);
+            }
+            if (previewWrap) {
+                previewWrap.classList.remove('hidden');
+                previewWrap.classList.add('flex');
             }
         });
     });
@@ -129,6 +134,14 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             });
         });
+
+        // Toggle expand teks deskripsi pada kartu portofolio
+    document.querySelectorAll('.toggle-desc-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            btn.querySelector('.desc-text')?.classList.toggle('truncate');
+            btn.querySelector('.desc-icon')?.classList.toggle('rotate-90');
+        });
+    });
 
         window.addEventListener('scroll', updateOnScroll, { passive: true });
         updateOnScroll();

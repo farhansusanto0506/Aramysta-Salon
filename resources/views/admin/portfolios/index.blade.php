@@ -56,8 +56,14 @@
         </div>
 
         <div class="flex flex-wrap items-center justify-between gap-4 pt-2">
-            <div class="flex items-center gap-6">
+            <div class="flex flex-wrap items-center gap-5">
+                <!-- Kotak Preview Gambar (Muncul otomatis saat file dipilih) -->
+                <div id="createImagePreviewWrap" class="hidden items-center gap-3 p-2 rounded-xl bg-surface-container-low border border-outline-variant/30">
+                    <img id="createImagePreview" src="" alt="Preview Karya" class="w-16 h-20 object-cover rounded-lg shadow-sm">
+                </div>
+
                 <input type="file" name="image" required accept="image/*" class="text-xs text-on-surface-variant file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-primary-container file:text-on-primary cursor-pointer">
+
                 <label class="inline-flex items-center gap-2 text-sm text-primary cursor-pointer">
                     <input type="checkbox" name="is_featured" class="rounded text-secondary focus:ring-secondary">
                     <span>Jadikan Kartu Lebar (Unggulan)</span>
@@ -83,7 +89,12 @@
                     <div>
                         <span class="text-[11px] uppercase text-secondary font-semibold">{{ $item->category_label }}</span>
                         <h3 class="font-headline-sm text-primary">{{ $item->title }}</h3>
-                        <p class="text-xs text-on-surface-variant mt-1">{{ $item->location_or_event }}</p>
+                        @if($item->location_or_event)
+                            <p class="text-xs text-on-surface-variant mt-1">{{ $item->location_or_event }}</p>
+                        @endif
+                        @if($item->description)
+                            <p class="text-xs text-on-surface-variant/80 mt-2 line-clamp-2">{{ $item->description }}</p>
+                        @endif
                     </div>
                     <div class="mt-4 pt-3 border-t border-surface-container flex items-center justify-between">
                         <a href="{{ route('admin.portfolios.edit', $item) }}" class="text-xs font-semibold text-secondary hover:underline">

@@ -62,7 +62,6 @@
         <div class="flex flex-col sm:flex-row items-start sm:items-center gap-6 p-4 rounded-xl bg-surface-container-low">
             <img src="{{ asset('storage/' . $portfolio->image) }}" alt="{{ $portfolio->title }}" class="w-24 h-28 object-cover rounded-lg shadow-sm shrink-0">
             <div class="flex flex-col gap-2">
-                <label class="font-label-sm uppercase text-on-surface-variant">Ganti Foto Karya (Opsional — biarkan kosong jika tetap pakai foto ini)</label>
                 <input type="file" name="image" accept="image/*" class="text-xs text-on-surface-variant file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-primary-container file:text-on-primary cursor-pointer">
             </div>
         </div>
