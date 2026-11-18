@@ -16,8 +16,6 @@ Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth')->n
 
 // Halaman Admin (Terkunci dengan middleware 'auth')
 Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
-    // Upload langsung foto Hero
-    Route::post('/hero-image', [PageContentController::class, 'updateHeroImage'])->name('hero.image');
 
     // Kelola Karya Portofolio
     Route::get('/portfolios', [PortfolioItemController::class, 'index'])->name('portfolios.index');
