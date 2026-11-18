@@ -70,18 +70,7 @@
                     </div>
                 </div>
 
-                <!-- CTA Buttons -->
-                <div class="flex flex-wrap items-center gap-4">
-                    <a class="inline-flex items-center gap-2 bg-primary-container text-on-primary font-label-md text-label-md uppercase tracking-[0.12em] px-7 py-3.5 rounded-lg transition-all duration-300 hover:bg-secondary shadow-md"
-                        href="#discovery-grid">
-                        <span>Jelajahi Arsip</span>
-                        <span class="material-symbols-outlined text-sm">arrow_downward</span>
-                    </a>
-                    <a class="inline-flex items-center gap-2 text-primary font-label-md text-label-md uppercase tracking-wider px-5 py-3.5 rounded-lg bg-surface-container-high/40 hover:bg-surface-container-high transition-colors"
-                        href="#client-love">
-                        <span>Baca Ulasan Klien</span>
-                    </a>
-                </div>
+
             </div>
 
             <!-- Right Asymmetric Hero Visual Showcase -->

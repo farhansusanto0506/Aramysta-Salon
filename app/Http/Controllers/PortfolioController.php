@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Portfolio;
 use App\Models\SiteContent;
-use App\Models\Testimonial;
 use Illuminate\Support\Facades\Schema;
 
 class PortfolioController extends Controller
@@ -19,10 +18,6 @@ class PortfolioController extends Controller
             ? Portfolio::latest()->get()
             : collect();
 
-        $testimonials = Schema::hasTable('testimonials')
-            ? Testimonial::latest()->get()
-            : collect();
-
-        return view('portfolio.index', compact('content', 'portfolios', 'testimonials'));
+        return view('portfolio.index', compact('content', 'portfolios'));
     }
 }

@@ -5,7 +5,6 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PortfolioController;
 use App\Http\Controllers\Admin\PageContentController;
 use App\Http\Controllers\Admin\PortfolioItemController;
-use App\Http\Controllers\Admin\TestimonialController;
 
 // Halaman Pengunjung (Publik)
 Route::get('/', [PortfolioController::class, 'index'])->name('portfolio.index');
@@ -26,9 +25,4 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     Route::get('/portfolios/{portfolio}/edit', [PortfolioItemController::class, 'edit'])->name('portfolios.edit');
     Route::put('/portfolios/{portfolio}', [PortfolioItemController::class, 'update'])->name('portfolios.update');
     Route::delete('/portfolios/{portfolio}', [PortfolioItemController::class, 'destroy'])->name('portfolios.destroy');
-
-    // Kelola Testimoni
-    Route::get('/testimonials', [TestimonialController::class, 'index'])->name('testimonials.index');
-    Route::post('/testimonials', [TestimonialController::class, 'store'])->name('testimonials.store');
-    Route::delete('/testimonials/{testimonial}', [TestimonialController::class, 'destroy'])->name('testimonials.destroy');
 });
