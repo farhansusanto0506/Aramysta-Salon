@@ -170,6 +170,8 @@
         @yield('content')
     </main>
 
+    @include('components.footer')
+
     <!-- Flatpickr Calendar JS & Locale Indonesia -->
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/id.js"></script>

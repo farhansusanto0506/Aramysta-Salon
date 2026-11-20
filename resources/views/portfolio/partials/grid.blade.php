@@ -1,76 +1,63 @@
-<section class="max-w-7xl mx-auto px-6 lg:px-12 py-12">
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 items-start" id="portfolioGrid">
-        @forelse($portfolios as $item)
-            @php
-                $imgUrl = str_starts_with($item->image, 'http') ? $item->image : asset('storage/' . $item->image);
-                $colSpan = $item->is_featured ? 'lg:col-span-8' : 'lg:col-span-4';
-                $aspectRatio = $item->is_featured ? 'aspect-[16/10]' : 'aspect-[4/5]';
-            @endphp
+<section class="max-w-7xl mx-auto px-6 lg:px-12 pb-16">
+    <!-- Track Carousel Horizontal -->
+    <div id="portfolioSliderTrack"
+         class="flex gap-6 overflow-x-auto scroll-smooth snap-x snap-mandatory pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        
+        @forelse ($portfolios as $item)
+            <article class="portfolio-card shrink-0 snap-start w-[84%] sm:w-[calc((100%-1.5rem)/2)] lg:w-[calc((100%-3rem)/3)] bg-surface-container-lowest rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-outline-variant/20 flex flex-col"
+                     data-category="{{ $item->category }}"
+                     data-tags="{{ strtolower($item->title . ' ' . $item->category_label . ' ' . $item->description . ' ' . ($item->location ?? '')) }}"
+                     data-featured="{{ $item->is_featured ? '1' : '0' }}">
+                
+                <!-- Gambar Karya -->
+                <div class="relative aspect-[4/5] w-full overflow-hidden bg-surface-container group">
+                    <img src="{{ asset('storage/' . $item->image) }}" 
+                         alt="{{ $item->title }}" 
+                         class="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105" />
 
-            <article
-                class="portfolio-card {{ $colSpan }} group relative bg-surface-container-lowest rounded-xl overflow-hidden shadow-lg hover:-translate-y-1"
-                data-category="{{ $item->category }}" data-featured="{{ $item->is_featured ? '1' : '0' }}"
-                data-tags="{{ strtolower($item->tags . ' ' . $item->title . ' ' . $item->location_or_event) }}">
+                    <!-- Gradient Overlay Bawah -->
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent"></div>
 
-                <div class="relative {{ $aspectRatio }} w-full overflow-hidden bg-surface-container">
-                    <img alt="{{ $item->title }}"
-                        class="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-                        src="{{ $imgUrl }}" />
-                    <div class="absolute inset-0 bg-gradient-to-t from-primary/80 via-primary/20 to-transparent"></div>
-
-                    @if ($item->is_featured)
-                        <div
-                            class="absolute top-5 left-5 bg-secondary text-on-secondary px-3 py-1 rounded-full font-label-sm text-label-sm uppercase tracking-widest shadow-md">
-                            Karya Unggulan
+                    <!-- Tombol Edit/Hapus Admin di Kartu -->
+                    @auth
+                        <div class="absolute top-3.5 right-3.5 flex items-center gap-1.5 z-10">
+                            <a href="{{ route('admin.portfolios.edit', $item) }}" 
+                               class="w-8 h-8 rounded-full bg-surface-container-lowest/90 text-primary hover:bg-secondary hover:text-on-primary flex items-center justify-center shadow-md transition-colors"
+                               title="Edit Karya">
+                                <span class="material-symbols-outlined text-sm">edit</span>
+                            </a>
+                            <form action="{{ route('admin.portfolios.destroy', $item) }}" method="POST" onsubmit="return confirm('Hapus karya ini?')">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" 
+                                        class="w-8 h-8 rounded-full bg-surface-container-lowest/90 text-error hover:bg-error hover:text-on-error flex items-center justify-center shadow-md transition-colors cursor-pointer"
+                                        title="Hapus Karya">
+                                    <span class="material-symbols-outlined text-sm">delete</span>
+                                </button>
+                            </form>
                         </div>
-                    @else
-                        <div class="absolute bottom-4 left-4 right-4 text-on-primary">
-                            <span
-                                class="font-subhead-uppercase text-subhead-uppercase text-tertiary-fixed tracking-wider block mb-1">{{ $item->category_label }}</span>
-                            <h3 class="font-headline-md text-headline-md text-on-primary mb-1">{{ $item->title }}</h3>
-                            <p class="font-body-sm text-body-sm text-surface-container-high/90">
-                                {{ $item->location_or_event }}</p>
-                        </div>
-                    @endif
+                    @endauth
+
+                    <!-- Info Judul & Deskripsi di Atas Gambar -->
+                    <div class="absolute bottom-4 left-4 right-4 text-white">
+                        <span class="inline-block px-2.5 py-0.5 rounded-full bg-white/15 backdrop-blur-xs font-label-sm text-[10px] uppercase tracking-wider text-secondary-fixed mb-2">
+                            {{ $item->category_label }}
+                        </span>
+                        <h3 class="font-headline-sm text-lg text-white leading-snug mb-1">
+                            {{ $item->title }}
+                        </h3>
+                        <p class="font-body-sm text-xs text-white/80 line-clamp-2">
+                            {{ $item->description }}
+                        </p>
+                    </div>
                 </div>
 
-                @if ($item->is_featured)
-                    <div class="p-6 md:p-8 flex flex-col justify-between">
-                        <div class="flex items-center justify-between mb-2">
-                            <span
-                                class="font-subhead-uppercase text-subhead-uppercase text-secondary tracking-widest">{{ $item->category_label }}</span>
-                            <span
-                                class="font-body-sm text-body-sm text-on-surface-variant">{{ $item->location_or_event }}</span>
-                        </div>
-                        <h3 class="font-headline-lg text-headline-lg text-primary mb-3">{{ $item->title }}</h3>
-                        <p class="font-body-md text-body-md text-on-surface-variant max-w-2xl mb-6">
-                            {{ $item->description }}</p>
-                        @if ($item->tags)
-                            <div class="flex flex-wrap items-center gap-2">
-                                @foreach (explode(',', $item->tags) as $tag)
-                                    <span
-                                        class="px-2.5 py-1 rounded bg-surface-container text-on-surface-variant font-label-sm text-label-sm">{{ trim($tag) }}</span>
-                                @endforeach
-                            </div>
-                        @endif
-                    </div>
-                @else
-                    <div class="p-5 flex items-start justify-between gap-3">
-                        <span
-                            class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant leading-relaxed">
-                            {{ $item->description }}
-                        </span>
-                    </div>
-                @endif
             </article>
         @empty
-            <div class="lg:col-span-12 text-center py-16 bg-surface-container-low rounded-xl">
-                <p class="font-headline-sm text-primary mb-2">Belum ada karya portofolio yang ditambahkan.</p>
-                @auth
-                    <a href="{{ route('admin.portfolios.index') }}" class="text-secondary underline text-sm">Tambah karya
-                        pertama di Halaman Admin</a>
-                @endauth
+            <div class="w-full py-16 text-center text-on-surface-variant bg-surface-container-lowest rounded-2xl border border-outline-variant/20">
+                Belum ada karya portofolio yang dipublikasikan.
             </div>
         @endforelse
+
     </div>
 </section>

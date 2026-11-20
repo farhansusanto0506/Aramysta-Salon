@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', function () {
     if (sliderTrack) {
         const getScrollStep = () => {
             const firstVisible = Array.from(cards).find(c => !c.classList.contains('hidden'));
-            return firstVisible ? firstVisible.offsetWidth + 24 : 360;
+            return firstVisible ? firstVisible.offsetWidth + 24 : 320;
         };
 
         prevBtn?.addEventListener('click', () => {
@@ -54,12 +54,12 @@ document.addEventListener('DOMContentLoaded', function () {
             sliderTrack.scrollBy({ left: getScrollStep(), behavior: 'smooth' });
         });
 
-        // Kembalikan posisi geser ke awal setiap kali filter/pencarian berubah
         filterButtons.forEach(btn => {
             btn.addEventListener('click', () => {
                 sliderTrack.scrollTo({ left: 0, behavior: 'smooth' });
             });
         });
+
         searchInput?.addEventListener('input', () => {
             sliderTrack.scrollTo({ left: 0, behavior: 'smooth' });
         });
@@ -115,61 +115,83 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // ==========================================
-    // 4. NAVBAR SCROLLSPY & SMOOTH SCROLL
+    // 4. SMOOTH SCROLL TANPA HASH URL & SCROLLSPY
     // ==========================================
     const navLinks = document.querySelectorAll('.nav-scroll-link');
-    const sections = [
-        document.getElementById('portofolio-section'),
-        document.getElementById('koleksi-section'),
-        document.getElementById('testimoni-section'),
-        document.getElementById('kontak-section')
-    ].filter(Boolean);
+    const sectionIds = [
+        'portofolio-section',
+        'koleksi-section',
+        'layanan-section',
+        'testimoni-section',
+        'kontak-section'
+    ];
 
-    if (navLinks.length && sections.length) {
-        const setActive = (id) => {
-            navLinks.forEach(link => {
-                const active = link.dataset.target === id;
-                link.classList.toggle('text-primary', active);
-                link.classList.toggle('font-semibold', active);
-                link.classList.toggle('border-b-2', active);
-                link.classList.toggle('border-secondary', active);
-                link.classList.toggle('text-on-surface-variant', !active);
-            });
-        };
+    navLinks.forEach(link => {
+        link.addEventListener('click', function (e) {
+            const targetId = this.dataset.target;
+            if (!targetId) return;
 
-        const updateOnScroll = () => {
-            const scrollPos = window.scrollY + 200;
-            let currentId = sections[0].id;
+            const targetEl = document.getElementById(targetId);
+            if (targetEl) {
+                e.preventDefault();
+                targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
-            for (const sec of sections) {
-                const top = sec.getBoundingClientRect().top + window.scrollY;
-                if (scrollPos >= top) {
-                    currentId = sec.id;
+                // Pastikan URL tetap bersih tanpa #hash
+                if (window.location.hash) {
+                    history.replaceState(null, '', window.location.pathname);
                 }
+            } else {
+                // Jika sedang di halaman admin, simpan tujuan lalu kembali ke beranda
+                e.preventDefault();
+                sessionStorage.setItem('scrollTarget', targetId);
+                window.location.href = '/';
             }
-
-            if ((window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight - 20) {
-                currentId = sections[sections.length - 1].id;
-            }
-
-            setActive(currentId);
-        };
-
-        navLinks.forEach(link => {
-            link.addEventListener('click', (e) => {
-                const target = document.getElementById(link.dataset.target);
-                if (target) {
-                    e.preventDefault();
-                    setActive(link.dataset.target);
-                    target.scrollIntoView({ behavior: 'smooth' });
-                }
-            });
         });
+    });
 
-        window.addEventListener('scroll', updateOnScroll, { passive: true });
-        updateOnScroll();
+    // Jalankan scroll otomatis jika baru pindah dari halaman admin
+    const pendingTarget = sessionStorage.getItem('scrollTarget');
+    if (pendingTarget) {
+        sessionStorage.removeItem('scrollTarget');
+        const targetEl = document.getElementById(pendingTarget);
+        if (targetEl) {
+            setTimeout(() => {
+                targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 100);
+        }
     }
 
+    const sections = sectionIds
+        .map(id => document.getElementById(id))
+        .filter(Boolean);
+
+    if (navLinks.length > 0 && sections.length > 0) {
+        const updateActiveNav = () => {
+            const scrollPos = window.scrollY + 140;
+            let currentId = sections[0].id;
+
+            sections.forEach(section => {
+                if (scrollPos >= section.offsetTop) {
+                    currentId = section.id;
+                }
+            });
+
+            navLinks.forEach(link => {
+                // Abaikan tombol CTA Reservasi agar stylenya tidak berubah
+                if (link.classList.contains('bg-primary-container')) return;
+
+                const isActive = link.dataset.target === currentId;
+                link.classList.toggle('text-primary', isActive);
+                link.classList.toggle('font-semibold', isActive);
+                link.classList.toggle('border-secondary', isActive);
+                link.classList.toggle('text-on-surface-variant', !isActive);
+                link.classList.toggle('border-transparent', !isActive);
+            });
+        };
+
+        window.addEventListener('scroll', updateActiveNav, { passive: true });
+        updateActiveNav();
+    }
     // ==========================================
     // 5. RESERVASI KONTAK, CEK TANGGAL PENUH & PREVIEW WHATSAPP
     // ==========================================
