@@ -126,7 +126,7 @@ document.addEventListener('DOMContentLoaded', function () {
             });
 
             navLinks.forEach(link => {
-                if (link.classList.contains('bg-primary-container')) return;
+                if (link.classList.contains('cta-reservasi-btn') || link.classList.contains('bg-primary-container')) return;
 
                 const isActive = link.dataset.target === currentId;
                 link.classList.toggle('text-primary', isActive);

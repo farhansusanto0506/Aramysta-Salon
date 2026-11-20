@@ -16,16 +16,16 @@
             </div>
         @endif
 
-        <form action="{{ route('login.post') }}" method="POST" class="flex flex-col gap-4">
+        <form action="{{ route('login.post') }}" method="POST" autocomplete="off" class="flex flex-col gap-4">
             @csrf
             <div class="flex flex-col gap-1">
                 <label class="font-label-sm uppercase text-on-surface-variant">Email</label>
-                <input type="email" name="email" value="{{ old('email', 'admin@Aramysta.com') }}" required class="rounded-lg bg-surface-container-low border-transparent focus:border-secondary focus:ring-secondary text-primary">
+                <input type="email" name="email" value="{{ old('email') }}" required autocomplete="off" placeholder="Masukkan email admin" class="rounded-lg bg-surface-container-low border-transparent focus:border-secondary focus:ring-secondary text-primary">
             </div>
 
             <div class="flex flex-col gap-1">
                 <label class="font-label-sm uppercase text-on-surface-variant">Password</label>
-                <input type="password" name="password" required placeholder="••••••••" class="rounded-lg bg-surface-container-low border-transparent focus:border-secondary focus:ring-secondary text-primary">
+                <input type="password" name="password" required autocomplete="new-password" placeholder="••••••••" class="rounded-lg bg-surface-container-low border-transparent focus:border-secondary focus:ring-secondary text-primary">
             </div>
 
             <button type="submit" class="mt-2 w-full py-3 rounded-lg bg-primary-container text-on-primary font-label-md uppercase tracking-widest text-xs hover:bg-secondary transition-colors">
