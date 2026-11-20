@@ -1,3 +1,9 @@
+@php
+    $heroImage = !empty($content['hero_image'])
+        ? asset('storage/' . $content['hero_image'])
+        : 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1000&q=85';
+@endphp
+
 <div class="relative w-full overflow-hidden">
     <!-- Ambient Glow -->
     <div class="absolute -top-40 right-10 w-96 h-96 bg-tertiary-fixed/30 rounded-full blur-3xl pointer-events-none -z-10"></div>
@@ -12,6 +18,12 @@
             </div>
         @endif
 
+        @error('hero_image')
+            <div class="mb-6 p-3.5 rounded-xl bg-error-container/50 border border-error/30 text-on-error-container text-xs font-medium">
+                {{ $message }}
+            </div>
+        @enderror
+
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
             
             <!-- Left Text Column -->
@@ -19,82 +31,93 @@
                 <div class="inline-flex items-center gap-2.5 px-3.5 py-1 rounded-full bg-surface-container-high/60 text-secondary mb-6 shadow-sm">
                     <span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
                     <span class="font-subhead-uppercase text-subhead-uppercase tracking-[0.2em]">
-                        Portofolio — Arsip Ramysta Salon
+                        Ramysta Salon
                     </span>
                 </div>
 
-                <h1 class="font-display-lg text-display-lg text-primary tracking-tight leading-[1.08] mb-6">
-                    Seni Keindahan Rias
+                <h1 class="font-display-lg text-4xl sm:text-5xl lg:text-display-lg text-primary tracking-tight leading-[1.08] mb-6">
+                    Keanggunan Rias di Setiap Momen Istimewa
                 </h1>
 
                 <p class="font-body-lg text-body-lg text-on-surface-variant max-w-xl leading-relaxed mb-8">
-                    Temukan kurasi tata rias berkelas dari Ramysta Salon untuk pernikahan, selebrasi istimewa, dan publikasi editorial. Diciptakan dengan sentuhan kilau alami kulit yang paripurna serta keahlian artistik eksklusif.
+                    Koleksi karya tata rias dan sanggul dari Ramysta Salon untuk pernikahan, lamaran, wisuda, hingga acara spesial. Dirancang menyesuaikan karakter wajah dengan hasil riasan yang halus, tahan lama, dan memancarkan pesona alami Anda.
                 </p>
 
                 <!-- Metrics Strip -->
-                <div class="flex flex-wrap items-center gap-6 py-4 px-5 rounded-lg bg-surface-container-low shadow-sm mb-10 w-full max-w-xl">
-                    <div class="flex flex-col">
-                        <span class="font-headline-sm text-headline-sm text-primary font-medium">24</span>
-                        <span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant">Karya Dipublikasikan</span>
+                <div class="grid grid-cols-2 sm:grid-cols-3 gap-y-4 sm:gap-y-0 py-4 px-5 rounded-xl bg-surface-container-low shadow-sm mb-10 w-full max-w-xl sm:divide-x sm:divide-on-surface-variant/20">
+                    <div class="flex flex-col pr-4 border-r border-on-surface-variant/20 sm:border-r-0">
+                        <span class="font-headline-sm text-headline-sm text-primary font-medium">{{ $portfolios->count() ?: '20+' }}</span>
+                        <span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant">Karya Portofolio</span>
                     </div>
-                    <div class="h-8 w-px bg-on-surface-variant/20"></div>
-                    <div class="flex flex-col">
-                        <span class="font-headline-sm text-headline-sm text-primary font-medium">08</span>
-                        <span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant">Koleksi Editorial</span>
+
+                    <div class="flex flex-col pl-4 sm:px-5">
+                        <span class="font-headline-sm text-headline-sm text-primary font-medium">Studio &amp; Home</span>
+                        <span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant">Layanan Rias</span>
                     </div>
-                    <div class="h-8 w-px bg-on-surface-variant/20"></div>
-                    <div class="flex flex-col">
+
+                    <div class="col-span-2 sm:col-span-1 flex flex-col pt-3.5 sm:pt-0 border-t border-on-surface-variant/20 sm:border-t-0 sm:pl-5">
                         <span class="font-headline-sm text-headline-sm text-primary font-medium">Probolinggo</span>
-                        <span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant">Lokasi</span>
+                        <span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant">Jawa Timur</span>
                     </div>
                 </div>
 
+                <!-- CTA Buttons -->
+                <div class="flex flex-wrap items-center gap-4">
+                    <a class="inline-flex items-center gap-2 bg-primary-container text-on-primary font-label-md text-label-md uppercase tracking-[0.12em] px-7 py-3.5 rounded-lg transition-all duration-300 hover:bg-secondary shadow-md" href="#koleksi-section">
+                        <span>Lihat Koleksi Rias</span>
+                        <span class="material-symbols-outlined text-sm">arrow_downward</span>
+                    </a>
+                    <a class="inline-flex items-center gap-2 text-primary font-label-md text-label-md uppercase tracking-wider px-5 py-3.5 rounded-lg bg-surface-container-high/40 hover:bg-surface-container-high transition-colors" href="#kontak-section">
+                        <span>Reservasi Jadwal</span>
+                    </a>
+                </div>
             </div>
 
-            <!-- Right Asymmetric Hero Google Maps Showcase -->
+            <!-- Right Asymmetric Hero Visual Showcase -->
             <div class="lg:col-span-5 relative">
-                <div class="w-full rounded-xl overflow-hidden shadow-2xl bg-surface-container-lowest border border-outline-variant/30 flex flex-col">
-                    <!-- Area Peta (Bebas dari halangan kartu) -->
-                    <div class="relative w-full aspect-[4/3] bg-surface-container">
-                        <iframe 
-                            src="https://maps.google.com/maps?q=Ramysta+Salon,+Jl.+Hos+Cokroaminoto+No.221,+Kebonsari+Kulon,+Kec.+Kanigaran,+Kota+Probolinggo,+Jawa+Timur+67213&t=&z=16&ie=UTF8&iwloc=&output=embed"
-                            class="w-full h-full border-0"
-                            loading="lazy"
-                            allowfullscreen
-                            referrerpolicy="no-referrer-when-downgrade"
-                            title="Lokasi Ramysta Salon Probolinggo">
-                        </iframe>
+                <div class="relative w-full aspect-[4/5] rounded-xl overflow-hidden shadow-2xl bg-surface-container group">
+                    <img id="heroShowcaseImg"
+                         src="{{ $heroImage }}" 
+                         alt="Karya Tata Rias Ramysta Salon" 
+                         class="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105" />
 
-                        <!-- Floating Top Luxury Badge -->
-                        <div class="absolute top-3 right-3 bg-surface-container-lowest/95 backdrop-blur-md px-3 py-1.5 rounded-full shadow-md pointer-events-none">
-                            <div class="flex items-center gap-1.5 text-primary">
-                                <span class="material-symbols-outlined text-secondary text-sm">location_on</span>
-                                <span class="font-label-sm text-label-sm uppercase tracking-widest text-[0.6rem] font-semibold">
-                                    Lokasi Ramysta Salon
-                                </span>
-                            </div>
+                    <!-- Tombol Edit Gambar Khusus Admin -->
+                    @auth
+                        <form action="{{ route('admin.hero.image') }}" method="POST" enctype="multipart/form-data" class="absolute top-4 left-4 z-20">
+                            @csrf
+                            <label class="inline-flex items-center gap-1.5 bg-primary-container/90 hover:bg-secondary text-on-primary backdrop-blur-md px-3.5 py-2 rounded-full shadow-lg cursor-pointer transition-colors">
+                                <span class="material-symbols-outlined text-sm leading-none">photo_camera</span>
+                                <span class="font-label-sm uppercase tracking-widest text-[0.65rem] font-semibold">Edit Gambar</span>
+                                <input type="file" name="hero_image" accept="image/jpeg,image/png,image/webp" class="hidden" onchange="this.form.submit()">
+                            </label>
+                        </form>
+                    @endauth
+
+                    <!-- Floating Top Luxury Badge -->
+                    <div class="absolute top-4 right-4 bg-surface-container-lowest/90 backdrop-blur-md px-3.5 py-1.5 rounded-full shadow-lg pointer-events-none">
+                        <div class="flex items-center gap-2 text-primary">
+                            <span class="material-symbols-outlined text-secondary text-sm">verified</span>
+                            <span class="font-label-sm text-label-sm uppercase tracking-widest text-[0.65rem] font-semibold">
+                                Signature Makeup
+                            </span>
                         </div>
                     </div>
 
-                    <!-- Kartu Alamat di Bawah Peta -->
-                    <div class="p-5 bg-surface-container-lowest text-primary border-t border-outline-variant/20">
+                    <!-- Bottom Floating Metadata Card -->
+                    <div class="absolute bottom-4 left-4 right-4 p-4 rounded-lg bg-surface-container-lowest/95 backdrop-blur-md shadow-xl text-primary">
                         <div class="flex items-center justify-between gap-2 mb-1">
                             <span class="font-label-sm text-label-sm uppercase tracking-[0.15em] text-secondary">
-                                Studio Utama
+                                Karya Pilihan
                             </span>
-                            <a href="https://maps.app.goo.gl/WMjQfeGMHohh8ZXC6" 
-                               target="_blank" 
-                               rel="noopener noreferrer"
-                               class="inline-flex items-center gap-1 font-label-sm text-[11px] font-semibold text-secondary hover:underline">
-                                <span>Buka Maps</span>
-                                <span class="material-symbols-outlined text-xs">open_in_new</span>
-                            </a>
+                            <span class="font-body-sm text-xs text-on-surface-variant">
+                                Ramysta Salon Probolinggo
+                            </span>
                         </div>
-                        <h3 class="font-headline-sm text-base text-primary mb-1">
-                            Ramysta Salon
+                        <h3 class="font-headline-sm text-base text-primary mb-0.5">
+                            Flawless &amp; Timeless Bridal Look
                         </h3>
-                        <p class="font-body-sm text-xs text-on-surface-variant">
-                            Jl. Hos Cokroaminoto No.221, Kebonsari Kulon, Kec. Kanigaran, Kota Probolinggo, Jawa Timur 67213
+                        <p class="font-body-sm text-xs text-on-surface-variant line-clamp-1">
+                            Sentuhan riasan lembut, bercahaya alami, dan menyatu sempurna
                         </p>
                     </div>
                 </div>

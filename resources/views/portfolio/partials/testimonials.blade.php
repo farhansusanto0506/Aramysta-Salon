@@ -25,7 +25,7 @@
                    rel="noopener noreferrer"
                    class="inline-flex items-center justify-center gap-2.5 px-7 py-4 rounded-xl bg-primary-container text-on-primary font-label-md uppercase text-xs tracking-widest hover:bg-secondary transition-colors shadow-md">
                     <span class="material-symbols-outlined text-lg leading-none">star</span>
-                    <span>Lihat &amp; Tulis Ulasan di Google</span>
+                    <span>Lihat &amp; Tulis Ulasan di GMaps</span>
                     <span class="material-symbols-outlined text-sm leading-none">open_in_new</span>
                 </a>
             </div>

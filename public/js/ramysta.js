@@ -34,6 +34,38 @@ document.addEventListener('DOMContentLoaded', function () {
     searchInput?.addEventListener('input', applyFilterAndSearch);
 
     // ==========================================
+    // 1B. KONTROL GESER CAROUSEL PORTOFOLIO
+    // ==========================================
+    const sliderTrack = document.getElementById('portfolioSliderTrack');
+    const prevBtn = document.getElementById('portfolioPrevBtn');
+    const nextBtn = document.getElementById('portfolioNextBtn');
+
+    if (sliderTrack) {
+        const getScrollStep = () => {
+            const firstVisible = Array.from(cards).find(c => !c.classList.contains('hidden'));
+            return firstVisible ? firstVisible.offsetWidth + 24 : 360;
+        };
+
+        prevBtn?.addEventListener('click', () => {
+            sliderTrack.scrollBy({ left: -getScrollStep(), behavior: 'smooth' });
+        });
+
+        nextBtn?.addEventListener('click', () => {
+            sliderTrack.scrollBy({ left: getScrollStep(), behavior: 'smooth' });
+        });
+
+        // Kembalikan posisi geser ke awal setiap kali filter/pencarian berubah
+        filterButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                sliderTrack.scrollTo({ left: 0, behavior: 'smooth' });
+            });
+        });
+        searchInput?.addEventListener('input', () => {
+            sliderTrack.scrollTo({ left: 0, behavior: 'smooth' });
+        });
+    }
+
+    // ==========================================
     // 2. SWITCHER TAMPILAN MASONRY VS GRID
     // ==========================================
     const viewMasonryBtn = document.getElementById('viewMasonryBtn');
@@ -182,7 +214,7 @@ document.addEventListener('DOMContentLoaded', function () {
         };
 
         const checkAvailability = () => {
-            const selectedDate = waDate.value;
+            const selectedDate = waDate?.value || '';
             isDateBooked = false;
 
             if (!selectedDate) {
@@ -235,20 +267,22 @@ document.addEventListener('DOMContentLoaded', function () {
         };
 
         const buildMessage = () => {
-            const nameVal = waName.value.trim() || '[Nama Klien]';
-            const serviceVal = waService.value;
-            const dateVal = formatIndoDate(waDate.value);
-            const timeVal = `${waHour.value}:${waMinute.value} WIB`;
-            const rawLocation = waLocation.value.trim();
+            const rawName = (waName?.value || '').trim();
+            const nameVal = rawName || '[Nama Klien]';
+            const serviceVal = waService?.value || 'Pengantin Couture';
+            const dateStr = waDate?.value || '';
+            const dateVal = formatIndoDate(dateStr);
+            const timeVal = `${waHour?.value || '08'}:${waMinute?.value || '00'} WIB`;
+            const rawLocation = (waLocation?.value || '').trim();
             const locationVal = rawLocation
                 ? `Kunjungan ke Alamat (${rawLocation})`
                 : 'Datang langsung ke Studio Ramysta Salon';
-            const notesVal = waNotes.value.trim();
+            const notesVal = (waNotes?.value || '').trim();
 
-            if (summaryName) summaryName.textContent = waName.value.trim() || '-';
+            if (summaryName) summaryName.textContent = rawName || '-';
             if (summaryService) summaryService.textContent = serviceVal;
             if (summarySchedule) {
-                summarySchedule.textContent = waDate.value
+                summarySchedule.textContent = dateStr
                     ? `${dateVal} • ${timeVal}`
                     : 'Pilih tanggal terlebih dahulu';
             }
@@ -293,12 +327,12 @@ document.addEventListener('DOMContentLoaded', function () {
                 return;
             }
 
-            if (!waName.value.trim() || !waDate.value) {
+            if (!(waName?.value || '').trim() || !(waDate?.value || '')) {
                 if (waErrorMsg) {
                     waErrorMsg.textContent = '* Mohon isi Nama Lengkap dan pilih Tanggal Booking terlebih dahulu.';
                     waErrorMsg.classList.remove('hidden');
                 }
-                if (!waName.value.trim()) waName?.focus();
+                if (!(waName?.value || '').trim()) waName?.focus();
                 else waDate?.focus();
                 return;
             }
@@ -307,6 +341,23 @@ document.addEventListener('DOMContentLoaded', function () {
             const waUrl = `https://wa.me/${waNumber}?text=${encodeURIComponent(finalMessage)}`;
             window.open(waUrl, '_blank', 'noopener,noreferrer');
         });
+
+        // Inisialisasi Kalender Flatpickr
+        const disabledDates = Object.keys(bookedSchedules);
+        if (typeof flatpickr !== 'undefined' && waDate) {
+            flatpickr(waDate, {
+                locale: 'id',
+                dateFormat: 'Y-m-d',
+                altInput: true,
+                altFormat: 'l, j F Y',
+                minDate: 'today',
+                disable: disabledDates,
+                onChange: function () {
+                    waErrorMsg?.classList.add('hidden');
+                    buildMessage();
+                }
+            });
+        }
 
         buildMessage();
     }

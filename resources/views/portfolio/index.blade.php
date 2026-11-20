@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Portofolio - Ramysta Salon')
+@section('title', 'Ramysta Salon')
 
 @section('content')
 <div class="flex flex-col w-full">

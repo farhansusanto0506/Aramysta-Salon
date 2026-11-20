@@ -43,7 +43,7 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                     <div class="flex flex-col gap-1.5">
                         <label for="waName" class="font-label-sm uppercase text-on-surface-variant">Nama Lengkap *</label>
-                        <input type="text" id="waName" placeholder="Contoh: Nabila Putri" 
+                        <input type="text" id="waName" placeholder="Isi nama Anda" 
                                class="rounded-lg bg-surface-container-low border-transparent focus:border-secondary focus:ring-secondary text-primary">
                     </div>
 
@@ -62,8 +62,8 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                     <div class="flex flex-col gap-1.5">
                         <label for="waDate" class="font-label-sm uppercase text-on-surface-variant">Tanggal Booking *</label>
-                        <input type="date" id="waDate" min="{{ date('Y-m-d') }}" 
-                               class="rounded-lg bg-surface-container-low border-transparent focus:border-secondary focus:ring-secondary text-primary">
+                        <input type="text" id="waDate" placeholder="Klik untuk pilih tanggal..." readonly
+                               class="rounded-lg bg-surface-container-low border-transparent focus:border-secondary focus:ring-secondary text-primary cursor-pointer">
                     </div>
 
                     <div class="flex flex-col gap-1.5">
@@ -89,13 +89,12 @@
                 <!-- Panel Status Ketersediaan Jadwal pada Tanggal Terpilih -->
                 <div id="scheduleStatusBox" class="hidden p-4 rounded-xl border text-xs"></div>
 
-                <!-- GANTI BAGIAN INI -->
                 <div class="flex flex-col gap-1.5">
                     <div class="flex flex-wrap items-center justify-between gap-1">
                         <label for="waLocation" class="font-label-sm uppercase text-on-surface-variant">Alamat Kunjungan Perias (Opsional)</label>
                         <span class="text-[11px] text-secondary font-medium">Kosongkan jika datang ke Studio Ramysta Salon</span>
                     </div>
-                    <input type="text" id="waLocation" placeholder="Isi alamat lengkap hanya jika perias datang ke tempatmu" 
+                    <input type="text" id="waLocation" placeholder="Isi alamat lengkap hanya jika perias datang ke lokasi Anda" 
                            class="rounded-lg bg-surface-container-low border-transparent focus:border-secondary focus:ring-secondary text-primary">
                 </div>
 
