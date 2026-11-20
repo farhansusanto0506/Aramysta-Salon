@@ -1,12 +1,12 @@
 @extends('layouts.app')
 
-@section('title', 'Kelola Karya Portofolio - Admin Ramysta Salon')
+@section('title', 'Kelola Karya Portofolio - Admin Aramysta Salon')
 
 @section('content')
 <div class="max-w-6xl mx-auto px-6 lg:px-12 py-10">
     <div class="flex flex-wrap items-center justify-between gap-4 mb-8 pb-6 border-b border-outline-variant/40">
         <div>
-            <span class="font-subhead-uppercase text-subhead-uppercase text-secondary tracking-widest block mb-1">CMS Ramysta Salon</span>
+            <span class="font-subhead-uppercase text-subhead-uppercase text-secondary tracking-widest block mb-1">CMS Aramysta Salon</span>
             <h1 class="font-headline-lg text-headline-lg text-primary">Kelola Karya Portofolio</h1>
         </div>
         <div class="flex items-center gap-3">

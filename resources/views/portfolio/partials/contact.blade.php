@@ -24,7 +24,7 @@
                 </h2>
             </div>
             <p class="font-body-md text-on-surface-variant max-w-md">
-                Pilih tanggal untuk mengecek ketersediaan slot perias, lalu susun pesan reservasi Anda secara otomatis ke WhatsApp Ramysta Salon.
+                Pilih tanggal untuk mengecek ketersediaan slot perias, lalu susun pesan reservasi Anda secara otomatis ke WhatsApp Aramysta Salon.
             </p>
         </div>
 
@@ -53,8 +53,6 @@
                             @foreach (\App\Models\Portfolio::CATEGORIES as $value => $label)
                                 <option value="{{ $label }}">{{ $label }}</option>
                             @endforeach
-                            <option value="Wisuda / Lamaran">Wisuda / Lamaran</option>
-                            <option value="Konsultasi & Trial Makeup">Konsultasi &amp; Trial Makeup</option>
                         </select>
                     </div>
                 </div>
@@ -92,7 +90,7 @@
                 <div class="flex flex-col gap-1.5">
                     <div class="flex flex-wrap items-center justify-between gap-1">
                         <label for="waLocation" class="font-label-sm uppercase text-on-surface-variant">Alamat Kunjungan Perias (Opsional)</label>
-                        <span class="text-[11px] text-secondary font-medium">Kosongkan jika datang ke Studio Ramysta Salon</span>
+                        <span class="text-[11px] text-secondary font-medium">Kosongkan jika datang ke Studio Aramysta Salon</span>
                     </div>
                     <input type="text" id="waLocation" placeholder="Isi alamat lengkap hanya jika perias datang ke lokasi Anda" 
                            class="rounded-lg bg-surface-container-low border-transparent focus:border-secondary focus:ring-secondary text-primary">
@@ -131,7 +129,7 @@
                     </div>
                     <div class="flex justify-between gap-2">
                         <span class="text-on-surface-variant">Lokasi:</span>
-                        <span id="summaryLocation" class="font-semibold text-primary text-right">Datang langsung ke Studio Ramysta Salon</span>
+                        <span id="summaryLocation" class="font-semibold text-primary text-right">Datang langsung ke Studio Aramysta Salon</span>
                     </div>
                 </div>
 

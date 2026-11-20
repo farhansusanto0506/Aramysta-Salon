@@ -1,40 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
     // ==========================================
-    // 1. FILTER KATEGORI & PENCARIAN PORTOFOLIO
-    // ==========================================
-    const filterButtons = document.querySelectorAll('.portfolio-filter-btn');
-    const cards = document.querySelectorAll('.portfolio-card');
-    const searchInput = document.getElementById('portfolioSearch');
-    let currentCategory = 'all';
-
-    function applyFilterAndSearch() {
-        const query = (searchInput?.value || '').toLowerCase().trim();
-        cards.forEach(card => {
-            const category = card.getAttribute('data-category');
-            const tags = card.getAttribute('data-tags') || '';
-            const matchesCategory = currentCategory === 'all' || category === currentCategory;
-            const matchesQuery = query === '' || tags.includes(query);
-            card.classList.toggle('hidden', !(matchesCategory && matchesQuery));
-        });
-    }
-
-    filterButtons.forEach(btn => {
-        btn.addEventListener('click', () => {
-            filterButtons.forEach(b => {
-                b.classList.remove('bg-primary-container', 'text-on-primary', 'shadow-md');
-                b.classList.add('bg-surface-container-lowest', 'text-on-surface');
-            });
-            btn.classList.add('bg-primary-container', 'text-on-primary', 'shadow-md');
-            btn.classList.remove('bg-surface-container-lowest', 'text-on-surface');
-            currentCategory = btn.getAttribute('data-category');
-            applyFilterAndSearch();
-        });
-    });
-
-    searchInput?.addEventListener('input', applyFilterAndSearch);
-
-    // ==========================================
-    // 1B. KONTROL GESER CAROUSEL PORTOFOLIO
+    // 1. KONTROL GESER CAROUSEL PORTOFOLIO
     // ==========================================
     const sliderTrack = document.getElementById('portfolioSliderTrack');
     const prevBtn = document.getElementById('portfolioPrevBtn');
@@ -42,8 +8,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
     if (sliderTrack) {
         const getScrollStep = () => {
-            const firstVisible = Array.from(cards).find(c => !c.classList.contains('hidden'));
-            return firstVisible ? firstVisible.offsetWidth + 24 : 320;
+            const firstCard = sliderTrack.querySelector('.portfolio-card');
+            return firstCard ? firstCard.offsetWidth + 24 : 340;
         };
 
         prevBtn?.addEventListener('click', () => {
@@ -53,43 +19,29 @@ document.addEventListener('DOMContentLoaded', function () {
         nextBtn?.addEventListener('click', () => {
             sliderTrack.scrollBy({ left: getScrollStep(), behavior: 'smooth' });
         });
-
-        filterButtons.forEach(btn => {
-            btn.addEventListener('click', () => {
-                sliderTrack.scrollTo({ left: 0, behavior: 'smooth' });
-            });
-        });
-
-        searchInput?.addEventListener('input', () => {
-            sliderTrack.scrollTo({ left: 0, behavior: 'smooth' });
-        });
     }
 
     // ==========================================
-    // 2. SWITCHER TAMPILAN MASONRY VS GRID
+    // 2. KONTROL GESER CAROUSEL LAYANAN
     // ==========================================
-    const viewMasonryBtn = document.getElementById('viewMasonryBtn');
-    const viewGridBtn = document.getElementById('viewGridBtn');
+    const serviceSliderTrack = document.getElementById('serviceSliderTrack');
+    const servicePrevBtn = document.getElementById('servicePrevBtn');
+    const serviceNextBtn = document.getElementById('serviceNextBtn');
 
-    viewGridBtn?.addEventListener('click', () => {
-        viewGridBtn.classList.add('bg-surface-container-lowest', 'text-primary', 'shadow-sm');
-        viewMasonryBtn?.classList.remove('bg-surface-container-lowest', 'text-primary', 'shadow-sm');
-        cards.forEach(card => {
-            card.classList.remove('lg:col-span-8');
-            card.classList.add('lg:col-span-4');
-        });
-    });
+    if (serviceSliderTrack) {
+        const getServiceScrollStep = () => {
+            const firstCard = serviceSliderTrack.querySelector('.service-card');
+            return firstCard ? firstCard.offsetWidth + 24 : 340;
+        };
 
-    viewMasonryBtn?.addEventListener('click', () => {
-        viewMasonryBtn.classList.add('bg-surface-container-lowest', 'text-primary', 'shadow-sm');
-        viewGridBtn?.classList.remove('bg-surface-container-lowest', 'text-primary', 'shadow-sm');
-        cards.forEach(card => {
-            if (card.getAttribute('data-featured') === '1') {
-                card.classList.remove('lg:col-span-4');
-                card.classList.add('lg:col-span-8');
-            }
+        servicePrevBtn?.addEventListener('click', () => {
+            serviceSliderTrack.scrollBy({ left: -getServiceScrollStep(), behavior: 'smooth' });
         });
-    });
+
+        serviceNextBtn?.addEventListener('click', () => {
+            serviceSliderTrack.scrollBy({ left: getServiceScrollStep(), behavior: 'smooth' });
+        });
+    }
 
     // ==========================================
     // 3. LIVE IMAGE PREVIEW DI HALAMAN ADMIN
@@ -136,12 +88,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 e.preventDefault();
                 targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
-                // Pastikan URL tetap bersih tanpa #hash
                 if (window.location.hash) {
                     history.replaceState(null, '', window.location.pathname);
                 }
             } else {
-                // Jika sedang di halaman admin, simpan tujuan lalu kembali ke beranda
                 e.preventDefault();
                 sessionStorage.setItem('scrollTarget', targetId);
                 window.location.href = '/';
@@ -149,7 +99,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    // Jalankan scroll otomatis jika baru pindah dari halaman admin
     const pendingTarget = sessionStorage.getItem('scrollTarget');
     if (pendingTarget) {
         sessionStorage.removeItem('scrollTarget');
@@ -177,7 +126,6 @@ document.addEventListener('DOMContentLoaded', function () {
             });
 
             navLinks.forEach(link => {
-                // Abaikan tombol CTA Reservasi agar stylenya tidak berubah
                 if (link.classList.contains('bg-primary-container')) return;
 
                 const isActive = link.dataset.target === currentId;
@@ -192,6 +140,7 @@ document.addEventListener('DOMContentLoaded', function () {
         window.addEventListener('scroll', updateActiveNav, { passive: true });
         updateActiveNav();
     }
+
     // ==========================================
     // 5. RESERVASI KONTAK, CEK TANGGAL PENUH & PREVIEW WHATSAPP
     // ==========================================
@@ -298,7 +247,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const rawLocation = (waLocation?.value || '').trim();
             const locationVal = rawLocation
                 ? `Kunjungan ke Alamat (${rawLocation})`
-                : 'Datang langsung ke Studio Ramysta Salon';
+                : 'Datang langsung ke Studio Aramysta Salon';
             const notesVal = (waNotes?.value || '').trim();
 
             if (summaryName) summaryName.textContent = rawName || '-';
@@ -310,7 +259,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }
             if (summaryLocation) summaryLocation.textContent = locationVal;
 
-            let message = `Halo *Ramysta Salon*, saya ingin melakukan reservasi jadwal tata rias dengan rincian berikut:\n\n` +
+            let message = `Halo *Aramysta Salon*, saya ingin melakukan reservasi jadwal tata rias dengan rincian berikut:\n\n` +
                 `• *Nama:* ${nameVal}\n` +
                 `• *Layanan:* ${serviceVal}\n` +
                 `• *Tanggal:* ${dateVal}\n` +
@@ -364,7 +313,6 @@ document.addEventListener('DOMContentLoaded', function () {
             window.open(waUrl, '_blank', 'noopener,noreferrer');
         });
 
-        // Inisialisasi Kalender Flatpickr
         const disabledDates = Object.keys(bookedSchedules);
         if (typeof flatpickr !== 'undefined' && waDate) {
             flatpickr(waDate, {
@@ -383,4 +331,43 @@ document.addEventListener('DOMContentLoaded', function () {
 
         buildMessage();
     }
+
+    // ==========================================
+    // 6. HAPUS KARYA TANPA RELOAD (POSISI SCROLL TETAP)
+    // ==========================================
+    document.querySelectorAll('.ajax-delete-portfolio').forEach(form => {
+        form.addEventListener('submit', async function (e) {
+            e.preventDefault();
+            if (!confirm('Hapus karya ini?')) return;
+
+            const card = form.closest('.portfolio-card') || form.closest('tr') || form.closest('[data-portfolio-item]');
+            const token = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content')
+                || form.querySelector('input[name="_token"]')?.value;
+
+            try {
+                const response = await fetch(form.action, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': token,
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'Accept': 'application/json'
+                    },
+                    body: new FormData(form)
+                });
+
+                if (response.ok) {
+                    if (card) {
+                        card.style.transition = 'opacity 0.25s ease, transform 0.25s ease';
+                        card.style.opacity = '0';
+                        card.style.transform = 'scale(0.95)';
+                        setTimeout(() => card.remove(), 250);
+                    }
+                } else {
+                    form.submit();
+                }
+            } catch (err) {
+                form.submit();
+            }
+        });
+    });
 });

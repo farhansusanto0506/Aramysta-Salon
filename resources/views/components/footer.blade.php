@@ -14,7 +14,7 @@
                     </div>
                     <div class="flex flex-col">
                         <span class="font-headline-sm text-base tracking-[0.14em] text-primary uppercase leading-none">
-                            Ramysta Salon
+                            Aramysta Salon
                         </span>
                         <span class="font-label-sm text-[9px] tracking-[0.25em] text-secondary uppercase mt-1">
                             Haute Beauté
@@ -62,7 +62,7 @@
 
                     <div class="flex flex-col gap-2.5">
                         <!-- Instagram -->
-                        <a href="https://www.instagram.com/aramysta/"
+                        <a href="https://www.instagram.com/Aramysta/"
                            target="_blank"
                            rel="noopener noreferrer"
                            class="p-3.5 rounded-xl bg-surface-container-lowest border border-outline-variant/25 hover:border-secondary shadow-2xs hover:shadow-sm flex items-center justify-between gap-3 transition-all group">
@@ -74,7 +74,7 @@
                                 </div>
                                 <div class="flex flex-col min-w-0">
                                     <span class="font-body-sm text-xs font-semibold text-primary group-hover:text-secondary transition-colors truncate">
-                                        @aramysta
+                                        @Aramysta
                                     </span>
                                     <span class="text-[11px] text-on-surface-variant">
                                         Instagram
@@ -87,7 +87,7 @@
                         </a>
 
                         <!-- Facebook -->
-                        <a href="https://www.facebook.com/aramystariaspengantinprobolinggo"
+                        <a href="https://www.facebook.com/Aramystariaspengantinprobolinggo"
                            target="_blank"
                            rel="noopener noreferrer"
                            class="p-3.5 rounded-xl bg-surface-container-lowest border border-outline-variant/25 hover:border-secondary shadow-2xs hover:shadow-sm flex items-center justify-between gap-3 transition-all group">
@@ -119,7 +119,7 @@
 
         <!-- Baris Hak Cipta -->
         <div class="pt-6 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-on-surface-variant">
-            <p>&copy; {{ date('Y') }} Ramysta Salon Probolinggo. Seluruh hak cipta dilindungi.</p>
+            <p>&copy; {{ date('Y') }} Aramysta Salon Probolinggo. Seluruh hak cipta dilindungi.</p>
             <p class="text-[11px] tracking-wider uppercase text-secondary/80 font-medium">Bridal &amp; Event Makeup Artist</p>
         </div>
     </div>

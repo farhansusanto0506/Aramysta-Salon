@@ -11,11 +11,11 @@
                 </div>
 
                 <h2 class="font-headline-lg text-headline-lg text-primary leading-tight mb-4">
-                    Cerita Keindahan Bersama Ramysta
+                    Cerita Keindahan Bersama Aramysta
                 </h2>
 
                 <p class="font-body-md text-on-surface-variant leading-relaxed">
-                    Lihat pengalaman autentik dari para pengantin dan klien yang telah mempercayakan momen istimewa mereka kepada Ramysta Salon, atau bagikan ulasan Anda secara langsung melalui Google.
+                    Lihat pengalaman autentik dari para pengantin dan klien yang telah mempercayakan momen istimewa mereka kepada Aramysta Salon, atau bagikan ulasan Anda secara langsung melalui Google.
                 </p>
             </div>
 

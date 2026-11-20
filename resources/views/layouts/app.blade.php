@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>@yield('title', 'Ramysta Salon - Haute Beauté & Atelier')</title>
+    <title>@yield('title', 'Aramysta Salon - Haute Beauté & Atelier')</title>
 
     <link href="https://fonts.googleapis.com" rel="preconnect" />
     <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
@@ -156,8 +156,8 @@
         }
     </script>
 
-    <!-- Custom CSS Ramysta Salon -->
-    <link rel="stylesheet" href="{{ asset('css/ramysta.css') }}">
+    <!-- Custom CSS Aramysta Salon -->
+    <link rel="stylesheet" href="{{ asset('css/Aramysta.css') }}">
     @stack('styles')
 </head>
 
@@ -176,8 +176,8 @@
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/id.js"></script>
 
-    <!-- Custom JS Ramysta Salon -->
-    <script src="{{ asset('js/ramysta.js') }}?v={{ filemtime(public_path('js/ramysta.js')) }}"></script>
+    <!-- Custom JS Aramysta Salon -->
+    <script src="{{ asset('js/Aramysta.js') }}?v={{ filemtime(public_path('js/Aramysta.js')) }}"></script>
     @stack('scripts')
 
 </body>

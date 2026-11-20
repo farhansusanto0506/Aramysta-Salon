@@ -8,7 +8,7 @@
             </div>
             <div class="flex flex-col">
                 <span class="font-headline-sm text-base tracking-[0.14em] text-primary uppercase leading-none">
-                    Ramysta Salon
+                    Aramysta Salon
                 </span>
                 <span class="font-label-sm text-[9px] tracking-[0.25em] text-secondary uppercase mt-1">
                     Haute Beauté

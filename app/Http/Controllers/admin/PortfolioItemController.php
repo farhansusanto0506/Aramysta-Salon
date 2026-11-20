@@ -66,7 +66,7 @@ class PortfolioItemController extends Controller
 
     private function prepare(Request $request, array $data): array
     {
-        $data['category_label'] = Portfolio::CATEGORIES[$data['category']] ?? 'Koleksi Ramysta';
+        $data['category_label'] = Portfolio::CATEGORIES[$data['category']] ?? 'Koleksi Aramysta';
         $data['is_featured'] = $request->has('is_featured');
 
         return $data;

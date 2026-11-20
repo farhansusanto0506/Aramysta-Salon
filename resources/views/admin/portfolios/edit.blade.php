@@ -1,12 +1,12 @@
 @extends('layouts.app')
 
-@section('title', 'Edit Karya - Admin Ramysta Salon')
+@section('title', 'Edit Karya - Admin Aramysta Salon')
 
 @section('content')
 <div class="max-w-4xl mx-auto px-6 lg:px-12 py-10">
     <div class="flex flex-wrap items-center justify-between gap-4 mb-8 pb-6 border-b border-outline-variant/40">
         <div>
-            <span class="font-subhead-uppercase text-subhead-uppercase text-secondary tracking-widest block mb-1">CMS Ramysta Salon</span>
+            <span class="font-subhead-uppercase text-subhead-uppercase text-secondary tracking-widest block mb-1">CMS Aramysta Salon</span>
             <h1 class="font-headline-lg text-headline-lg text-primary">Edit Karya: {{ $portfolio->title }}</h1>
         </div>
         <a href="{{ route('admin.portfolios.index') }}" class="px-4 py-2.5 rounded-lg bg-surface-container text-primary font-label-md text-xs uppercase tracking-wider hover:bg-surface-container-high">

@@ -1,12 +1,12 @@
 @extends('layouts.app')
 
-@section('title', 'Kelola Jadwal Terisi - Admin Ramysta Salon')
+@section('title', 'Kelola Jadwal Terisi - Admin Aramysta Salon')
 
 @section('content')
 <div class="max-w-5xl mx-auto px-6 lg:px-12 py-10">
     <div class="flex flex-wrap items-center justify-between gap-4 mb-8 pb-6 border-b border-outline-variant/40">
         <div>
-            <span class="font-subhead-uppercase text-subhead-uppercase text-secondary tracking-widest block mb-1">CMS Ramysta Salon</span>
+            <span class="font-subhead-uppercase text-subhead-uppercase text-secondary tracking-widest block mb-1">CMS Aramysta Salon</span>
             <h1 class="font-headline-lg text-headline-lg text-primary">Kelola Jadwal Terisi</h1>
         </div>
         <a href="{{ route('portfolio.index') }}" class="px-4 py-2.5 rounded-lg bg-primary-container text-on-primary font-label-md text-xs uppercase tracking-wider hover:bg-secondary transition-colors">
