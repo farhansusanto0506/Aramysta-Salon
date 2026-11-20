@@ -49,10 +49,6 @@
                 <label class="font-label-sm uppercase text-on-surface-variant">Deskripsi Singkat</label>
                 <input type="text" name="description" placeholder="Sentuhan riasan natural glowing..." class="rounded-lg bg-surface-container-low border-transparent focus:border-secondary focus:ring-secondary">
             </div>
-            <div class="flex flex-col gap-1.5">
-                <label class="font-label-sm uppercase text-on-surface-variant">Tag / Kata Kunci (Pisahkan Koma)</label>
-                <input type="text" name="tags" placeholder="Kilau Alami, Alis Serat, Pengantin" class="rounded-lg bg-surface-container-low border-transparent focus:border-secondary focus:ring-secondary">
-            </div>
         </div>
 
         <div class="flex flex-wrap items-center justify-between gap-4 pt-2">

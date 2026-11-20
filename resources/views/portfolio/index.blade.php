@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="flex flex-col w-full">
-    {{-- Sesi 1: Portofolio (Hero) --}}
+    {{-- Sesi 1: Portofolio (Hero + Maps) --}}
     @include('portfolio.partials.hero')
 
     {{-- Sesi 2: Koleksi (Filter + Grid Karya) --}}
@@ -13,7 +13,10 @@
         @include('portfolio.partials.grid')
     </div>
 
-    {{-- Sesi 3: Testimoni --}}
+    {{-- Sesi 3: Testimoni (Google Review) --}}
     @include('portfolio.partials.testimonials')
+
+    {{-- Sesi 4: Kontak & Reservasi WhatsApp --}}
+    @include('portfolio.partials.contact')
 </div>
 @endsection

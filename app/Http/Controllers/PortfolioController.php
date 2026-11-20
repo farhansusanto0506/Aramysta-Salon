@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Portfolio;
+use App\Models\Schedule;
 use App\Models\SiteContent;
 use Illuminate\Support\Facades\Schema;
 
@@ -18,6 +19,13 @@ class PortfolioController extends Controller
             ? Portfolio::latest()->get()
             : collect();
 
-        return view('portfolio.index', compact('content', 'portfolios'));
+        $bookedSchedules = Schema::hasTable('schedules')
+            ? Schedule::whereDate('booking_date', '>=', now()->toDateString())
+                ->orderBy('start_time')
+                ->get()
+                ->groupBy('booking_date')
+            : collect();
+
+        return view('portfolio.index', compact('content', 'portfolios', 'bookedSchedules'));
     }
 }

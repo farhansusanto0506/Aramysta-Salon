@@ -34,12 +34,8 @@
                 class="nav-scroll-link font-label-md uppercase tracking-wider text-xs py-1 transition-colors text-on-surface-variant hover:text-primary">
                 Testimoni
             </a>
-            <a href="#"
-                class="font-label-md uppercase tracking-wider text-xs py-1 text-on-surface-variant hover:text-primary transition-colors">
-                Layanan
-            </a>
-            <a href="#"
-                class="font-label-md uppercase tracking-wider text-xs py-1 text-on-surface-variant hover:text-primary transition-colors">
+            <a href="{{ $isHome ? '#kontak-section' : route('portfolio.index') }}" data-target="kontak-section"
+                class="nav-scroll-link font-label-md uppercase tracking-wider text-xs py-1 transition-colors text-on-surface-variant hover:text-primary">
                 Kontak
             </a>
         </nav>

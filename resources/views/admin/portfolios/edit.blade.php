@@ -52,11 +52,6 @@
                 <label class="font-label-sm uppercase text-on-surface-variant">Deskripsi Singkat</label>
                 <textarea name="description" rows="2" class="rounded-lg bg-surface-container-low border-transparent focus:border-secondary focus:ring-secondary text-primary">{{ old('description', $portfolio->description) }}</textarea>
             </div>
-
-            <div class="flex flex-col gap-1.5">
-                <label class="font-label-sm uppercase text-on-surface-variant">Tag / Kata Kunci (Pisahkan Koma)</label>
-                <textarea name="tags" rows="2" class="rounded-lg bg-surface-container-low border-transparent focus:border-secondary focus:ring-secondary text-primary">{{ old('tags', $portfolio->tags) }}</textarea>
-            </div>
         </div>
 
         <div class="flex flex-col sm:flex-row items-start sm:items-center gap-6 p-4 rounded-xl bg-surface-container-low">
