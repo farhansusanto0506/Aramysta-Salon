@@ -93,7 +93,7 @@
                                 {{ \Carbon\Carbon::parse($sch->booking_date)->translatedFormat('l, d M Y') }}
                             </span>
                             <span class="text-sm font-semibold text-secondary">
-                                Mulai {{ $sch->start_time }} WIB (Full Day)
+                                Mulai {{ $sch->start_time }} WIB
                             </span>
                             @if ($displayNote !== '')
                                 <span
@@ -116,7 +116,19 @@
                             @endif
                         </div>
 
-                        <div class="flex items-center gap-3">
+                        <div class="flex items-center gap-2.5 sm:gap-3">
+                            <button type="button"
+                                data-id="{{ $sch->id }}"
+                                data-booking-date="{{ \Carbon\Carbon::parse($sch->booking_date)->format('Y-m-d') }}"
+                                data-start-time="{{ substr((string) $sch->start_time, 0, 5) }}"
+                                data-note="{{ $displayNote }}"
+                                data-is-completed="{{ $isCompleted ? '1' : '0' }}"
+                                onclick="openEditScheduleModalFromBtn(this)"
+                                class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-surface-container-low hover:bg-surface-container border border-outline-variant/40 text-xs font-medium text-primary transition-colors cursor-pointer whitespace-nowrap">
+                                <span class="material-symbols-outlined text-sm leading-none">edit</span>
+                                <span>Edit</span>
+                            </button>
+
                             <form action="{{ route('admin.schedules.toggle-complete', $sch) }}" method="POST">
                                 @csrf
                                 @method('PATCH')
@@ -148,4 +160,95 @@
             </div>
         </div>
     </div>
+
+    <!-- Modal Edit Jadwal Terisi -->
+    <div id="editScheduleModal"
+        class="fixed inset-0 z-50 hidden items-center justify-center bg-primary/20 backdrop-blur-xs p-4"
+        onclick="if (event.target === this) closeEditScheduleModal()">
+        <div
+            class="w-full max-w-lg rounded-3xl bg-[#FAF7F2]/95 backdrop-blur-2xl backdrop-saturate-150 border border-white/90 ring-1 ring-primary/10 shadow-[0_20px_48px_rgba(44,34,30,0.14),inset_0_1px_0_rgba(255,255,255,0.96)] p-6 md:p-7">
+            <div class="flex items-center justify-between border-b border-outline-variant/30 pb-3.5 mb-5">
+                <div>
+                    <span class="font-subhead-uppercase text-[10px] text-secondary tracking-widest block">Perbarui Data</span>
+                    <h3 class="font-headline-sm text-headline-sm text-primary">Edit Jadwal Terisi</h3>
+                </div>
+                <button type="button" onclick="closeEditScheduleModal()"
+                    class="w-9 h-9 rounded-[9999px] bg-white/85 hover:bg-white border border-white shadow-2xs flex items-center justify-center text-on-surface-variant hover:text-primary transition-all cursor-pointer">
+                    <span class="material-symbols-outlined text-lg leading-none">close</span>
+                </button>
+            </div>
+
+            <form id="editScheduleForm" method="POST" class="flex flex-col gap-4">
+                @csrf
+                @method('PUT')
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="flex flex-col gap-1.5">
+                        <label for="editBookingDate" class="font-label-sm uppercase text-on-surface-variant">Tanggal *</label>
+                        <input type="date" id="editBookingDate" name="booking_date" required
+                            class="rounded-xl bg-white/95 border border-outline-variant/45 shadow-2xs focus:bg-white focus:border-secondary focus:ring-2 focus:ring-secondary/20 text-primary transition-all">
+                    </div>
+
+                    <div class="flex flex-col gap-1.5">
+                        <label for="editStartTime" class="font-label-sm uppercase text-on-surface-variant">Jam Mulai (24 Jam) *</label>
+                        <select id="editStartTime" name="start_time"
+                            class="rounded-xl bg-white/95 border border-outline-variant/45 shadow-2xs focus:bg-white focus:border-secondary focus:ring-2 focus:ring-secondary/20 text-primary transition-all">
+                            @for ($h = 0; $h < 24; $h++)
+                                @php $t = str_pad($h, 2, '0', STR_PAD_LEFT) . ':00'; @endphp
+                                <option value="{{ $t }}">{{ $t }} WIB</option>
+                            @endfor
+                        </select>
+                    </div>
+                </div>
+
+                <div class="flex flex-col gap-1.5">
+                    <label for="editNote" class="font-label-sm uppercase text-on-surface-variant">Keterangan (Opsional)</label>
+                    <input type="text" id="editNote" name="note" placeholder="Contoh: Pengantin / Full"
+                        class="rounded-xl bg-white/95 border border-outline-variant/45 shadow-2xs focus:bg-white focus:border-secondary focus:ring-2 focus:ring-secondary/20 text-primary transition-all">
+                </div>
+
+                <label
+                    class="inline-flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl bg-white/80 border border-white shadow-2xs text-xs text-primary cursor-pointer pt-1 transition-colors hover:bg-white">
+                    <input type="checkbox" id="editIsCompleted" name="is_completed" value="1"
+                        class="rounded border-outline-variant text-secondary focus:ring-secondary">
+                    <span>Tandai jadwal ini sebagai Selesai</span>
+                </label>
+
+                <div class="flex items-center justify-end gap-2.5 pt-3 border-t border-outline-variant/30">
+                    <button type="button" onclick="closeEditScheduleModal()"
+                        class="px-4 py-2.5 rounded-[9999px] bg-white/85 hover:bg-white border border-white shadow-2xs text-xs font-medium text-on-surface-variant hover:text-primary transition-all cursor-pointer">
+                        Batal
+                    </button>
+                    <button type="submit"
+                        class="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-[9999px] bg-primary-container hover:bg-secondary text-on-primary font-label-md uppercase text-xs tracking-wider transition-all cursor-pointer shadow-md hover:-translate-y-0.5">
+                        <span class="material-symbols-outlined text-sm leading-none">save</span>
+                        <span>Simpan Perubahan</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function openEditScheduleModalFromBtn(btn) {
+            const modal = document.getElementById('editScheduleModal');
+            const form = document.getElementById('editScheduleForm');
+
+            const id = btn.dataset.id;
+            form.action = `{{ url('/admin/schedules') }}/${id}`;
+            document.getElementById('editBookingDate').value = btn.dataset.bookingDate ?? '';
+            document.getElementById('editStartTime').value = btn.dataset.startTime ?? '06:00';
+            document.getElementById('editNote').value = btn.dataset.note ?? '';
+            document.getElementById('editIsCompleted').checked = btn.dataset.isCompleted === '1';
+
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeEditScheduleModal() {
+            const modal = document.getElementById('editScheduleModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+    </script>
 @endsection

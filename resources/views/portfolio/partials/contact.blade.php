@@ -29,11 +29,11 @@
         </div>
 
         <!-- Form & Live Preview Grid -->
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start" 
-             id="waBookingWrapper" 
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start"
+             id="waBookingWrapper"
              data-wa-number="6285158773837"
              data-booked-schedules='@json($bookedSchedules ?? [])'>
-            
+
             <!-- Kolom Kiri: Form Input Booking -->
             <div class="lg:col-span-7 bg-surface-container-lowest rounded-2xl p-6 md:p-8 shadow-sm border border-outline-variant/20 flex flex-col gap-5">
                 <h3 class="font-headline-sm text-headline-sm text-primary border-b border-surface-container pb-3">
@@ -43,7 +43,7 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                     <div class="flex flex-col gap-1.5">
                         <label for="waName" class="font-label-sm uppercase text-on-surface-variant">Nama Lengkap *</label>
-                        <input type="text" id="waName" placeholder="Isi nama Anda" 
+                        <input type="text" id="waName" placeholder="Isi nama Anda"
                                class="rounded-lg bg-surface-container-low border-transparent focus:border-secondary focus:ring-secondary text-primary">
                     </div>
 
@@ -55,6 +55,17 @@
                             @endforeach
                         </select>
                     </div>
+                </div>
+
+                <!-- Pilihan Jenis Paket (Muncul & Terisi Dinamis Sesuai Jenis Layanan) -->
+                <div id="waPackageContainer" class="hidden flex-col gap-1.5">
+                    <div class="flex flex-wrap items-center justify-between gap-1">
+                        <label for="waPackage" class="font-label-sm uppercase text-on-surface-variant">Jenis Paket Rias *</label>
+                        <span id="waPackageHint" class="text-[11px] text-secondary font-medium"></span>
+                    </div>
+                    <select id="waPackage"
+                            class="rounded-lg bg-surface-container-low border-transparent focus:border-secondary focus:ring-secondary text-primary">
+                    </select>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
@@ -92,13 +103,13 @@
                         <label for="waLocation" class="font-label-sm uppercase text-on-surface-variant">Alamat Kunjungan Perias (Opsional)</label>
                         <span class="text-[11px] text-secondary font-medium">Kosongkan jika datang ke Studio Aramysta Salon</span>
                     </div>
-                    <input type="text" id="waLocation" placeholder="Isi alamat lengkap hanya jika perias datang ke lokasi Anda" 
+                    <input type="text" id="waLocation" placeholder="Isi alamat lengkap hanya jika perias datang ke lokasi Anda"
                            class="rounded-lg bg-surface-container-low border-transparent focus:border-secondary focus:ring-secondary text-primary">
                 </div>
 
                 <div class="flex flex-col gap-1.5">
                     <label for="waNotes" class="font-label-sm uppercase text-on-surface-variant">Catatan Tambahan (Opsional)</label>
-                    <textarea id="waNotes" rows="2" placeholder="Contoh: Hijab styling, jumlah orang yang dirias, atau nuansa makeup..." 
+                    <textarea id="waNotes" rows="2" placeholder="Contoh: Hijab styling, jumlah orang yang dirias, atau nuansa makeup..."
                               class="rounded-lg bg-surface-container-low border-transparent focus:border-secondary focus:ring-secondary text-primary"></textarea>
                 </div>
             </div>
@@ -123,6 +134,10 @@
                         <span class="text-on-surface-variant">Layanan:</span>
                         <span id="summaryService" class="font-semibold text-primary text-right">-</span>
                     </div>
+                    <div id="summaryPackageRow" class="hidden justify-between gap-2">
+                        <span class="text-on-surface-variant">Paket:</span>
+                        <span id="summaryPackage" class="font-semibold text-secondary text-right">-</span>
+                    </div>
                     <div class="flex justify-between gap-2">
                         <span class="text-on-surface-variant">Jadwal:</span>
                         <span id="summarySchedule" class="font-semibold text-secondary text-right">Pilih tanggal terlebih dahulu</span>
@@ -141,11 +156,11 @@
 
                 <!-- Peringatan Validasi Ringan -->
                 <p id="waErrorMsg" class="hidden text-xs text-error font-medium">
-                    * Mohon isi Nama Lengkap dan pilih Tanggal Booking terlebih dahulu.
+- Mohon isi Nama Lengkap dan pilih Tanggal Booking terlebih dahulu.
                 </p>
 
                 <!-- Tombol Kirim ke WhatsApp -->
-                <button type="button" id="sendWaBtn" 
+                <button type="button" id="sendWaBtn"
                         class="w-full inline-flex items-center justify-center gap-2.5 px-6 py-4 rounded-xl bg-primary-container text-on-primary font-label-md uppercase text-xs tracking-widest hover:bg-secondary transition-colors shadow-md cursor-pointer">
                     <span class="material-symbols-outlined text-lg leading-none">chat</span>
                     <span>Kirim Reservasi via WhatsApp</span>

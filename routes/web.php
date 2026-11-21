@@ -30,15 +30,14 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     // Kelola Jadwal Terisi
     Route::get('/schedules', [ScheduleController::class, 'index'])->name('schedules.index');
     Route::post('/schedules', [ScheduleController::class, 'store'])->name('schedules.store');
+    Route::put('/schedules/{schedule}', [ScheduleController::class, 'update'])->name('schedules.update');
     Route::delete('/schedules/{schedule}', [ScheduleController::class, 'destroy'])->name('schedules.destroy');
+    Route::patch('/schedules/{schedule}/toggle-complete', [ScheduleController::class, 'toggleComplete'])
+        ->name('schedules.toggle-complete');
 
     Route::get('/services', [ServiceController::class, 'index'])->name('services.index');
     Route::post('/services', [ServiceController::class, 'store'])->name('services.store');
     Route::get('/services/{service}/edit', [ServiceController::class, 'edit'])->name('services.edit');
     Route::put('/services/{service}', [ServiceController::class, 'update'])->name('services.update');
     Route::delete('/services/{service}', [ServiceController::class, 'destroy'])->name('services.destroy');
-    
-    // Jadwal Selesai (toggle complete)
-    Route::patch('/schedules/{schedule}/toggle-complete', [ScheduleController::class, 'toggleComplete'])
-        ->name('schedules.toggle-complete');
 });

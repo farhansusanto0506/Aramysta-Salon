@@ -1,5 +1,14 @@
 @php
     $rawWa = $content['whatsapp_number'] ?? '0812-3456-7890';
+    $digitsWa = preg_replace('/\D+/', '', (string) $rawWa);
+    if (str_starts_with($digitsWa, '0')) {
+        $waInternational = '62' . substr($digitsWa, 1);
+    } elseif (str_starts_with($digitsWa, '62')) {
+        $waInternational = $digitsWa;
+    } else {
+        $waInternational = '62' . $digitsWa;
+    }
+    $waDefaultText = rawurlencode('Halo Aramysta Salon, saya ingin reservasi dan cek jadwal booking.');
 @endphp
 
 <footer class="w-full bg-surface-container-low border-t border-outline-variant/25 mt-16">
@@ -33,25 +42,33 @@
             <!-- Kolom Kanan: Kartu Kontak & Media Sosial -->
             <div class="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-6">
                 
-                <!-- Grup 1: WhatsApp Reservasi (Statis / Tidak Bisa Diklik) -->
+                <!-- Grup 1: WhatsApp Reservasi (Dapat Diklik) -->
                 <div class="flex flex-col gap-3">
                     <span class="font-label-sm text-[11px] uppercase tracking-[0.18em] text-secondary font-semibold">
                         WhatsApp Reservasi
                     </span>
 
-                    <div class="p-4 rounded-xl bg-surface-container-lowest border border-outline-variant/25 shadow-2xs flex items-center gap-3.5">
-                        <div class="w-10 h-10 rounded-xl bg-secondary-fixed/50 text-secondary flex items-center justify-center shrink-0">
-                            <span class="material-symbols-outlined text-lg">call</span>
+                    <a href="https://wa.me/{{ $waInternational }}?text={{ $waDefaultText }}"
+                       target="_blank"
+                       rel="noopener noreferrer"
+                       class="p-4 rounded-xl bg-surface-container-lowest border border-outline-variant/25 hover:border-secondary shadow-2xs hover:shadow-sm flex items-center justify-between gap-3.5 transition-all group cursor-pointer">
+                        <div class="flex items-center gap-3.5 min-w-0">
+                            <div class="w-10 h-10 rounded-xl bg-secondary-fixed/50 group-hover:bg-secondary text-secondary group-hover:text-on-secondary flex items-center justify-center shrink-0 transition-colors">
+                                <span class="material-symbols-outlined text-lg">call</span>
+                            </div>
+                            <div class="flex flex-col min-w-0">
+                                <span class="font-body-sm text-sm font-semibold text-primary group-hover:text-secondary tracking-wide transition-colors truncate">
+                                    {{ $rawWa }}
+                                </span>
+                                <span class="text-[11px] text-on-surface-variant">
+                                    Admin &amp; Jadwal Booking
+                                </span>
+                            </div>
                         </div>
-                        <div class="flex flex-col min-w-0">
-                            <span class="font-body-sm text-sm font-semibold text-primary tracking-wide select-all">
-                                {{ $rawWa }}
-                            </span>
-                            <span class="text-[11px] text-on-surface-variant">
-                                Admin &amp; Jadwal Booking
-                            </span>
-                        </div>
-                    </div>
+                        <span class="material-symbols-outlined text-base text-on-surface-variant group-hover:text-secondary group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform shrink-0">
+                            north_east
+                        </span>
+                    </a>
                 </div>
 
                 <!-- Grup 2: Media Sosial (Dapat Diklik) -->

@@ -142,7 +142,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // ==========================================
-    // 5. RESERVASI KONTAK, CEK TANGGAL PENUH & PREVIEW WHATSAPP
+    // 5. RESERVASI KONTAK, PAKET DINAMIS, CEK TANGGAL PENUH & PREVIEW WHATSAPP
     // ==========================================
     const waWrapper = document.getElementById('waBookingWrapper');
     if (waWrapper) {
@@ -154,8 +154,44 @@ document.addEventListener('DOMContentLoaded', function () {
             bookedSchedules = {};
         }
 
+        const PACKAGES_BY_GROUP = {
+            wisuda: {
+                hint: 'Paket Wisuda Aramysta MUA',
+                items: [
+                    'Simple Hairdo (Start 50k)',
+                    'Make-up Only (Start 150k)',
+                    'All in One Wisuda Package (Start 250k)',
+                    'Premium Wisuda Package (Start 600k)'
+                ]
+            },
+            pernikahan: {
+                hint: 'Paket Wedding & Pengantin',
+                items: [
+                    'Paket Wedding Violet (2,5 Jt Nett)'
+                ]
+            },
+            siraman: {
+                hint: 'Paket Rias & Busana Siraman',
+                items: [
+                    'Paket Basic (800k)',
+                    'Paket Lengkap (1,5jt)'
+                ]
+            }
+        };
+
+        const detectServiceGroup = (serviceLabel) => {
+            const lower = (serviceLabel || '').toLowerCase();
+            if (lower.includes('wisuda') || lower.includes('graduation')) return 'wisuda';
+            if (lower.includes('pernikahan') || lower.includes('wedding') || lower.includes('pengantin')) return 'pernikahan';
+            if (lower.includes('siraman')) return 'siraman';
+            return null;
+        };
+
         const waName = document.getElementById('waName');
         const waService = document.getElementById('waService');
+        const waPackageContainer = document.getElementById('waPackageContainer');
+        const waPackage = document.getElementById('waPackage');
+        const waPackageHint = document.getElementById('waPackageHint');
         const waDate = document.getElementById('waDate');
         const waHour = document.getElementById('waHour');
         const waMinute = document.getElementById('waMinute');
@@ -165,6 +201,8 @@ document.addEventListener('DOMContentLoaded', function () {
         const scheduleStatusBox = document.getElementById('scheduleStatusBox');
         const summaryName = document.getElementById('summaryName');
         const summaryService = document.getElementById('summaryService');
+        const summaryPackageRow = document.getElementById('summaryPackageRow');
+        const summaryPackage = document.getElementById('summaryPackage');
         const summarySchedule = document.getElementById('summarySchedule');
         const summaryLocation = document.getElementById('summaryLocation');
         const waMessagePreview = document.getElementById('waMessagePreview');
@@ -172,6 +210,40 @@ document.addEventListener('DOMContentLoaded', function () {
         const sendWaBtn = document.getElementById('sendWaBtn');
 
         let isDateBooked = false;
+
+        const renderPackageOptions = () => {
+            if (!waPackageContainer || !waPackage) return;
+
+            const groupKey = detectServiceGroup(waService?.value || '');
+            const groupData = groupKey ? PACKAGES_BY_GROUP[groupKey] : null;
+
+            waPackage.innerHTML = '';
+
+            if (!groupData || !groupData.items.length) {
+                waPackageContainer.classList.add('hidden');
+                waPackageContainer.classList.remove('flex');
+                if (summaryPackageRow) {
+                    summaryPackageRow.classList.add('hidden');
+                    summaryPackageRow.classList.remove('flex');
+                }
+                return;
+            }
+
+            groupData.items.forEach((pkg) => {
+                const option = document.createElement('option');
+                option.value = pkg;
+                option.textContent = pkg;
+                waPackage.appendChild(option);
+            });
+
+            if (waPackageHint) waPackageHint.textContent = groupData.hint || '';
+            waPackageContainer.classList.remove('hidden');
+            waPackageContainer.classList.add('flex');
+            if (summaryPackageRow) {
+                summaryPackageRow.classList.remove('hidden');
+                summaryPackageRow.classList.add('flex');
+            }
+        };
 
         const formatIndoDate = (dateStr) => {
             if (!dateStr) return '[Belum dipilih]';
@@ -241,6 +313,9 @@ document.addEventListener('DOMContentLoaded', function () {
             const rawName = (waName?.value || '').trim();
             const nameVal = rawName || '[Nama Klien]';
             const serviceVal = waService?.value || 'Pengantin Couture';
+            const groupKey = detectServiceGroup(serviceVal);
+            const hasPackage = Boolean(groupKey && PACKAGES_BY_GROUP[groupKey]);
+            const packageVal = hasPackage ? (waPackage?.value || '') : '';
             const dateStr = waDate?.value || '';
             const dateVal = formatIndoDate(dateStr);
             const timeVal = `${waHour?.value || '08'}:${waMinute?.value || '00'} WIB`;
@@ -252,6 +327,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             if (summaryName) summaryName.textContent = rawName || '-';
             if (summaryService) summaryService.textContent = serviceVal;
+            if (summaryPackage) summaryPackage.textContent = packageVal || '-';
             if (summarySchedule) {
                 summarySchedule.textContent = dateStr
                     ? `${dateVal} • ${timeVal}`
@@ -261,8 +337,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
             let message = `Halo *Aramysta Salon*, saya ingin melakukan reservasi jadwal tata rias dengan rincian berikut:\n\n` +
                 `• *Nama:* ${nameVal}\n` +
-                `• *Layanan:* ${serviceVal}\n` +
-                `• *Tanggal:* ${dateVal}\n` +
+                `• *Layanan:* ${serviceVal}`;
+
+            if (hasPackage && packageVal) {
+                message += `\n• *Paket:* ${packageVal}`;
+            }
+
+            message += `\n• *Tanggal:* ${dateVal}\n` +
                 `• *Jam:* ${timeVal}\n` +
                 `• *Lokasi:* ${locationVal}`;
 
@@ -277,7 +358,13 @@ document.addEventListener('DOMContentLoaded', function () {
             return message;
         };
 
-        [waName, waService, waDate, waHour, waMinute, waLocation, waNotes].forEach(el => {
+        waService?.addEventListener('change', () => {
+            renderPackageOptions();
+            waErrorMsg?.classList.add('hidden');
+            buildMessage();
+        });
+
+        [waName, waPackage, waDate, waHour, waMinute, waLocation, waNotes].forEach(el => {
             el?.addEventListener('input', () => {
                 waErrorMsg?.classList.add('hidden');
                 buildMessage();
@@ -329,6 +416,7 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         }
 
+        renderPackageOptions();
         buildMessage();
     }
 

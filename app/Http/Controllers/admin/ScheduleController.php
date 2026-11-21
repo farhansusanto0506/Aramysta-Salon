@@ -35,6 +35,32 @@ class ScheduleController extends Controller
         return back()->with('success', $pesan);
     }
 
+    public function update(Request $request, Schedule $schedule)
+    {
+        $validated = $request->validate([
+            'booking_date' => ['required', 'date'],
+            'start_time'   => ['required', 'string', 'max:10'],
+            'note'         => ['nullable', 'string', 'max:255'],
+            'is_completed' => ['nullable', 'boolean'],
+        ]);
+
+        $cleanNote = trim(preg_replace('/^\[SELESAI\]\s*/', '', (string) ($validated['note'] ?? '')));
+        $isCompleted = $request->boolean('is_completed');
+        $finalNote = $isCompleted
+            ? ($cleanNote !== '' ? '[SELESAI] ' . $cleanNote : '[SELESAI]')
+            : ($cleanNote !== '' ? $cleanNote : null);
+
+        $schedule->update([
+            'booking_date' => $validated['booking_date'],
+            'start_time'   => $validated['start_time'],
+            'note'         => $finalNote,
+        ]);
+
+        return redirect()
+            ->route('admin.schedules.index')
+            ->with('success', 'Jadwal berhasil diperbarui.');
+    }
+
     public function store(Request $request)
     {
         $data = $request->validate([
