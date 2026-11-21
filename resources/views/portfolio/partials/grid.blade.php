@@ -54,8 +54,13 @@
 
             </article>
         @empty
-            <div class="w-full py-16 text-center text-on-surface-variant bg-surface-container-lowest rounded-2xl border border-outline-variant/20">
+            <div class="w-full py-14 text-center bg-surface-container-lowest rounded-2xl border border-outline-variant/20 text-on-surface-variant text-sm">
                 Belum ada karya portofolio yang dipublikasikan.
+                @auth
+                    <a href="{{ route('admin.portfolios.index') }}" class="text-secondary font-semibold underline hover:text-primary transition-colors ml-1">
+                        Tambahkan karya Anda sekarang
+                    </a>
+                @endauth
             </div>
         @endforelse
 

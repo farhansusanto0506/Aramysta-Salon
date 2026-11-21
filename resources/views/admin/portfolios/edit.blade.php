@@ -61,12 +61,6 @@
             </div>
         </div>
 
-        <div class="flex flex-wrap items-center justify-between gap-4 pt-2 border-t border-surface-container">
-            <label class="inline-flex items-center gap-2 text-sm text-primary cursor-pointer">
-                <input type="checkbox" name="is_featured" {{ old('is_featured', $portfolio->is_featured) ? 'checked' : '' }} class="rounded text-secondary focus:ring-secondary">
-                <span>Jadikan Kartu Lebar (Unggulan)</span>
-            </label>
-
             <button type="submit" class="px-8 py-3 rounded-lg bg-primary-container text-on-primary font-label-md uppercase text-xs tracking-widest hover:bg-secondary transition-colors shadow-md">
                 Simpan Perubahan
             </button>

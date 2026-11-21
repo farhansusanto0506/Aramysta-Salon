@@ -1,4 +1,5 @@
 <?php
+
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PortfolioController;
@@ -36,4 +37,8 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     Route::get('/services/{service}/edit', [ServiceController::class, 'edit'])->name('services.edit');
     Route::put('/services/{service}', [ServiceController::class, 'update'])->name('services.update');
     Route::delete('/services/{service}', [ServiceController::class, 'destroy'])->name('services.destroy');
+    
+    // Jadwal Selesai (toggle complete)
+    Route::patch('/schedules/{schedule}/toggle-complete', [ScheduleController::class, 'toggleComplete'])
+        ->name('schedules.toggle-complete');
 });

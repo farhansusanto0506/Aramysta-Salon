@@ -59,11 +59,6 @@
                 </div>
 
                 <input type="file" name="image" required accept="image/*" class="text-xs text-on-surface-variant file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-primary-container file:text-on-primary cursor-pointer">
-
-                <label class="inline-flex items-center gap-2 text-sm text-primary cursor-pointer">
-                    <input type="checkbox" name="is_featured" class="rounded text-secondary focus:ring-secondary">
-                    <span>Jadikan Kartu Lebar (Unggulan)</span>
-                </label>
             </div>
             <button type="submit" class="px-6 py-2.5 rounded-lg bg-primary-container text-on-primary font-label-md uppercase text-xs tracking-widest hover:bg-secondary transition-colors">
                 Simpan Karya

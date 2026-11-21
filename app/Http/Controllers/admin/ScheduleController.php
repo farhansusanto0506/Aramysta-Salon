@@ -10,12 +10,29 @@ class ScheduleController extends Controller
 {
     public function index()
     {
-        $schedules = Schedule::whereDate('booking_date', '>=', now()->toDateString())
-            ->orderBy('booking_date')
-            ->orderBy('start_time')
+        $schedules = Schedule::orderByRaw("CASE WHEN note LIKE '[SELESAI]%' THEN 1 ELSE 0 END ASC")
+            ->orderBy('booking_date', 'asc')
             ->get();
 
         return view('admin.schedules.index', compact('schedules'));
+    }
+
+    public function toggleComplete(Schedule $schedule)
+    {
+        $currentNote = (string) $schedule->note;
+        $isCompleted = str_starts_with($currentNote, '[SELESAI]');
+
+        if ($isCompleted) {
+            $cleanNote = trim(preg_replace('/^\[SELESAI\]\s*/', '', $currentNote));
+            $schedule->update(['note' => $cleanNote !== '' ? $cleanNote : null]);
+            $pesan = 'Status selesai jadwal dibatalkan.';
+        } else {
+            $newNote = $currentNote !== '' ? '[SELESAI] ' . $currentNote : '[SELESAI]';
+            $schedule->update(['note' => $newNote]);
+            $pesan = 'Jadwal ditandai selesai.';
+        }
+
+        return back()->with('success', $pesan);
     }
 
     public function store(Request $request)
