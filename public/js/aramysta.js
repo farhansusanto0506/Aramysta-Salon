@@ -468,8 +468,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const revealSelectors = [
         '#portofolio-section > *',
         '#koleksi-section > *',
-        '#koleksi-section + section > *',
-        '#layanan-section > *',
+        // Track kartu karya & layanan dianimasikan per kartu (lihat di bawah)
+        '#layanan-section > :not(#serviceSliderTrack)',
         '#testimoni-section > div > *',
         '#kontak-section > div > *',
         'footer > div > *',
@@ -493,5 +493,46 @@ document.addEventListener('DOMContentLoaded', function () {
         }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
 
         revealTargets.forEach((el) => revealObserver.observe(el));
+    }
+
+    // ==========================================
+    // ANIMASI KARTU KOLEKSI KARYA & PAKET LAYANAN
+    // Kartu muncul bergantian saat masuk layar, termasuk saat carousel digeser.
+    // ==========================================
+    const cards = document.querySelectorAll('#portfolioSliderTrack .portfolio-card, #serviceSliderTrack .service-card');
+
+    if ('IntersectionObserver' in window && cards.length) {
+        const STAGGER_MS = 110;
+
+        cards.forEach((card) => {
+            card.classList.add('card-reveal');
+            // Hapus delay setelah muncul agar efek hover tetap responsif
+            card.addEventListener('transitionend', (e) => {
+                if (e.propertyName === 'opacity') card.style.transitionDelay = '';
+            });
+        });
+
+        const cardObserver = new IntersectionObserver((entries) => {
+            const entering = entries
+                .filter((entry) => entry.isIntersecting && !entry.target.classList.contains('is-visible'))
+                .sort((a, b) => a.boundingClientRect.left - b.boundingClientRect.left);
+
+            entering.forEach((entry, i) => {
+                entry.target.style.transitionDelay = `${i * STAGGER_MS}ms`;
+                entry.target.classList.add('is-visible');
+            });
+
+            entries.forEach((entry) => {
+                // Sembunyikan lagi hanya jika keluar lewat bawah layar (scroll ke atas),
+                // bukan saat digeser ke samping di carousel.
+                const viewportBottom = entry.rootBounds ? entry.rootBounds.bottom : window.innerHeight;
+                if (!entry.isIntersecting && entry.boundingClientRect.bottom > viewportBottom) {
+                    entry.target.style.transitionDelay = '';
+                    entry.target.classList.remove('is-visible');
+                }
+            });
+        }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+
+        cards.forEach((card) => cardObserver.observe(card));
     }
 });

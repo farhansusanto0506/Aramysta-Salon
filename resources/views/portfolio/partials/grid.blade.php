@@ -4,7 +4,7 @@
          class="flex gap-6 overflow-x-auto scroll-smooth snap-x snap-mandatory pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         
         @forelse ($portfolios as $item)
-            <article class="portfolio-card shrink-0 snap-start w-[84%] sm:w-[calc((100%-1.5rem)/2)] lg:w-[calc((100%-3rem)/3)] bg-surface-container-lowest rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-outline-variant/20 flex flex-col"
+            <article class="portfolio-card shrink-0 snap-start w-[84%] sm:w-[calc((100%-1.5rem)/2)] lg:w-[calc((100%-3rem)/3)] bg-surface-container-lowest rounded-2xl overflow-hidden shadow-sm hover:shadow-xl border border-outline-variant/20 flex flex-col"
                      data-category="{{ $item->category }}"
                      data-tags="{{ strtolower($item->title . ' ' . $item->category_label . ' ' . $item->description . ' ' . ($item->location ?? '')) }}"
                      data-featured="{{ $item->is_featured ? '1' : '0' }}">
@@ -39,7 +39,7 @@
                     @endauth
 
                     <!-- Info Judul & Deskripsi di Atas Gambar -->
-                    <div class="absolute bottom-4 left-4 right-4 text-white">
+                    <div class="card-caption absolute bottom-4 left-4 right-4 text-white">
                         <span class="inline-block px-2.5 py-0.5 rounded-full bg-white/15 backdrop-blur-xs font-label-sm text-[10px] uppercase tracking-wider text-secondary-fixed mb-2">
                             {{ $item->category_label }}
                         </span>

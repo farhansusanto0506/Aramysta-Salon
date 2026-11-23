@@ -46,10 +46,10 @@
          class="flex gap-6 overflow-x-auto scroll-smooth snap-x snap-mandatory pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         
         @forelse ($services as $service)
-            <div class="service-card shrink-0 snap-start w-[85%] sm:w-[calc((100%-1.5rem)/2)] lg:w-[calc((100%-3rem)/3)] relative rounded-2xl overflow-hidden bg-surface-container-lowest border {{ $service->is_featured ? 'border-secondary shadow-md' : 'border-outline-variant/25 shadow-xs' }} flex flex-col justify-between transition-all duration-300 hover:shadow-lg">
+            <div class="service-card shrink-0 snap-start w-[85%] sm:w-[calc((100%-1.5rem)/2)] lg:w-[calc((100%-3rem)/3)] relative rounded-2xl overflow-hidden bg-surface-container-lowest border {{ $service->is_featured ? 'border-secondary shadow-md' : 'border-outline-variant/25 shadow-xs' }} flex flex-col justify-between hover:shadow-lg">
                 
                 @if ($service->is_featured)
-                    <span class="absolute top-3.5 right-3.5 z-10 px-3 py-1 rounded-full bg-secondary text-on-secondary font-label-sm text-[10px] uppercase tracking-widest shadow-md">
+                    <span class="featured-badge absolute top-3.5 right-3.5 z-10 px-3 py-1 rounded-full bg-secondary text-on-secondary font-label-sm text-[10px] uppercase tracking-widest shadow-md">
                         Paling Diminati
                     </span>
                 @endif
@@ -60,7 +60,7 @@
                         <div class="w-full bg-surface-container-low overflow-hidden border-b border-outline-variant/15">
                             <img src="{{ asset('storage/' . $service->image) }}"
                                  alt="{{ $service->title }}"
-                                 class="w-full h-auto block">
+                                 class="service-image w-full h-auto block">
                         </div>
                     @endif
 
@@ -95,9 +95,9 @@
                 <div class="px-6 pb-6 pt-2 flex items-center gap-2">
                     <button type="button"
                             onclick="selectBookingService(@js($service->title)); document.getElementById('kontak-section')?.scrollIntoView({ behavior: 'smooth' });"
-                            class="flex-1 inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl {{ $service->is_featured ? 'bg-primary-container text-on-primary hover:bg-secondary' : 'bg-surface-container-low text-primary hover:bg-primary-container hover:text-on-primary' }} font-label-sm uppercase tracking-wider text-xs transition-colors cursor-pointer">
+                            class="cta-btn flex-1 inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl {{ $service->is_featured ? 'bg-primary-container text-on-primary hover:bg-secondary' : 'bg-surface-container-low text-primary hover:bg-primary-container hover:text-on-primary' }} font-label-sm uppercase tracking-wider text-xs transition-colors cursor-pointer">
                         <span>Reservasi Paket</span>
-                        <span class="material-symbols-outlined text-sm">arrow_forward</span>
+                        <span class="cta-arrow material-symbols-outlined text-sm">arrow_forward</span>
                     </button>
 
                     @auth

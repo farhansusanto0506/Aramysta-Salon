@@ -7,8 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class Schedule extends Model
 {
     public const TYPES = [
-        'full'    => 'Penuh',
-        'blocked' => 'Diblokir (Kosong)',
+        'full'    => 'Terisi',
+        'blocked' => 'Tidak tersedia',
     ];
 
     protected $guarded = [];

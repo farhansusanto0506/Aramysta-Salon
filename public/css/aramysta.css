@@ -40,3 +40,63 @@ main > :last-child {
 @media (prefers-reduced-motion: reduce) {
     .reveal { opacity: 1; transform: none; transition: none; }
 }
+
+/* ==========================================
+   Animasi Kartu Koleksi Karya & Paket Layanan
+   - Muncul bergantian (stagger) saat masuk layar / digeser
+   - Efek hover: kartu terangkat, gambar zoom halus
+   ========================================== */
+.card-reveal {
+    opacity: 0;
+    transform: translateY(40px) scale(0.96);
+    transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+                box-shadow 0.3s ease;
+}
+.card-reveal.is-visible {
+    opacity: 1;
+    transform: none;
+}
+.card-reveal.is-visible:hover {
+    transform: translateY(-6px);
+}
+
+/* Koleksi Karya: keterangan naik sedikit saat hover */
+.portfolio-card .card-caption {
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.portfolio-card:hover .card-caption {
+    transform: translateY(-6px);
+}
+
+/* Paket Layanan: zoom gambar & panah tombol bergerak */
+.service-card .service-image {
+    transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.service-card:hover .service-image {
+    transform: scale(1.05);
+}
+.service-card .cta-arrow {
+    transition: transform 0.3s ease;
+}
+.service-card .cta-btn:hover .cta-arrow {
+    transform: translateX(4px);
+}
+
+/* Badge "Paling Diminati" berpendar lembut */
+@keyframes badge-glow {
+    0%, 100% { box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12); }
+    50%      { box-shadow: 0 0 0 6px rgba(255, 218, 218, 0.45), 0 4px 16px rgba(0, 0, 0, 0.16); }
+}
+.featured-badge {
+    animation: badge-glow 2.8s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .card-reveal { opacity: 1; transform: none; transition: none; }
+    .card-reveal.is-visible:hover,
+    .portfolio-card:hover .card-caption,
+    .service-card:hover .service-image,
+    .service-card .cta-btn:hover .cta-arrow { transform: none; }
+    .featured-badge { animation: none; }
+}
