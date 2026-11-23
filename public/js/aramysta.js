@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // ==========================================
-    // 3. LIVE IMAGE PREVIEW DI HALAMAN ADMIN
+    // 3. PREVIEW GAMBAR ADMIN
     // ==========================================
     const adminImageInputs = document.querySelectorAll('input[type="file"][name="image"]');
     adminImageInputs.forEach(input => {
@@ -67,7 +67,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // ==========================================
-    // 4. SMOOTH SCROLL TANPA HASH URL & SCROLLSPY
+    // 4. SMOOTH SCROLL & SCROLLSPY
     // ==========================================
     const navLinks = document.querySelectorAll('.nav-scroll-link');
     const sectionIds = [
@@ -142,7 +142,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // ==========================================
-    // 5. RESERVASI KONTAK, PAKET DINAMIS, CEK TANGGAL PENUH & PREVIEW WHATSAPP
+    // 5. FORM RESERVASI WHATSAPP
     // ==========================================
     const waWrapper = document.getElementById('waBookingWrapper');
     if (waWrapper) {
@@ -424,7 +424,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // ==========================================
-    // 6. HAPUS KARYA TANPA RELOAD (POSISI SCROLL TETAP)
+    // 6. HAPUS KARYA
     // ==========================================
     document.querySelectorAll('.ajax-delete-portfolio').forEach(form => {
         form.addEventListener('submit', async function (e) {
@@ -463,12 +463,11 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // ==========================================
-    // SCROLL REVEAL (fade in saat turun, fade out bagian bawah saat naik)
+    // 7. ANIMASI SCROLL
     // ==========================================
     const revealSelectors = [
         '#portofolio-section > *',
         '#koleksi-section > *',
-        // Track kartu karya & layanan dianimasikan per kartu (lihat di bawah)
         '#layanan-section > :not(#serviceSliderTrack)',
         '#testimoni-section > div > *',
         '#kontak-section > div > *',
@@ -482,13 +481,10 @@ document.addEventListener('DOMContentLoaded', function () {
         const revealObserver = new IntersectionObserver((entries) => {
             entries.forEach((entry) => {
                 if (entry.isIntersecting) {
-                    // Masuk layar -> fade in
                     entry.target.classList.add('is-visible');
                 } else if (entry.boundingClientRect.top > 0) {
-                    // Keluar lewat bawah layar (saat scroll ke atas) -> fade out
                     entry.target.classList.remove('is-visible');
                 }
-                // Keluar lewat atas layar -> dibiarkan tetap terlihat
             });
         }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
 
@@ -496,8 +492,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // ==========================================
-    // ANIMASI KARTU KOLEKSI KARYA & PAKET LAYANAN
-    // Kartu muncul bergantian saat masuk layar, termasuk saat carousel digeser.
+    // 8. ANIMASI KARTU KARYA & LAYANAN
     // ==========================================
     const cards = document.querySelectorAll('#portfolioSliderTrack .portfolio-card, #serviceSliderTrack .service-card');
 
@@ -506,7 +501,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
         cards.forEach((card) => {
             card.classList.add('card-reveal');
-            // Hapus delay setelah muncul agar efek hover tetap responsif
             card.addEventListener('transitionend', (e) => {
                 if (e.propertyName === 'opacity') card.style.transitionDelay = '';
             });
@@ -523,8 +517,6 @@ document.addEventListener('DOMContentLoaded', function () {
             });
 
             entries.forEach((entry) => {
-                // Sembunyikan lagi hanya jika keluar lewat bawah layar (scroll ke atas),
-                // bukan saat digeser ke samping di carousel.
                 const viewportBottom = entry.rootBounds ? entry.rootBounds.bottom : window.innerHeight;
                 if (!entry.isIntersecting && entry.boundingClientRect.bottom > viewportBottom) {
                     entry.target.style.transitionDelay = '';

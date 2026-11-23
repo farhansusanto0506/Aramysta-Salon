@@ -53,7 +53,7 @@
 
         <div class="flex flex-wrap items-center justify-between gap-4 pt-2">
             <div class="flex flex-wrap items-center gap-5">
-                <!-- Kotak Preview Gambar (Muncul otomatis saat file dipilih) -->
+                <!-- Preview Gambar -->
                 <div id="createImagePreviewWrap" class="hidden items-center gap-3 p-2 rounded-xl bg-surface-container-low border border-outline-variant/30">
                     <img id="createImagePreview" src="" alt="Preview Karya" class="w-16 h-20 object-cover rounded-lg shadow-sm">
                 </div>

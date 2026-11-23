@@ -9,11 +9,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('schedules', function (Blueprint $table) {
-            // 'full' = tanggal sudah penuh, 'blocked' = sengaja dikosongkan
+            // Jenis: full | blocked
             $table->string('type', 20)->default('full')->after('booking_date');
             $table->string('start_time', 5)->nullable()->change();
 
-            // Data pelanggan sederhana untuk jadwal yang terisi
+            // Data pelanggan
             $table->string('customer_name', 100)->nullable()->after('note');
             $table->string('customer_phone', 20)->nullable()->after('customer_name');
         });

@@ -28,13 +28,13 @@
             </p>
         </div>
 
-        <!-- Form & Live Preview Grid -->
+        <!-- Form & Preview -->
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start"
              id="waBookingWrapper"
              data-wa-number="6285158773837"
              data-booked-schedules='@json($bookedSchedules ?? [])'>
 
-            <!-- Kolom Kiri: Form Input Booking -->
+            <!-- Form Reservasi -->
             <div class="lg:col-span-7 bg-surface-container-lowest rounded-2xl p-6 md:p-8 shadow-sm border border-outline-variant/20 flex flex-col gap-5">
                 <h3 class="font-headline-sm text-headline-sm text-primary border-b border-surface-container pb-3">
                     Detail Reservasi Klien
@@ -57,7 +57,7 @@
                     </div>
                 </div>
 
-                <!-- Pilihan Jenis Paket (Muncul & Terisi Dinamis Sesuai Jenis Layanan) -->
+                <!-- Pilihan Paket -->
                 <div id="waPackageContainer" class="hidden flex-col gap-1.5">
                     <div class="flex flex-wrap items-center justify-between gap-1">
                         <label for="waPackage" class="font-label-sm uppercase text-on-surface-variant">Jenis Paket Rias *</label>
@@ -95,7 +95,7 @@
                     </div>
                 </div>
 
-                <!-- Panel Status Ketersediaan Jadwal pada Tanggal Terpilih -->
+                <!-- Status Ketersediaan -->
                 <div id="scheduleStatusBox" class="hidden p-4 rounded-xl border text-xs"></div>
 
                 <div class="flex flex-col gap-1.5">
@@ -114,7 +114,7 @@
                 </div>
             </div>
 
-            <!-- Kolom Kanan: Ringkasan & Live Preview Pesan WhatsApp -->
+            <!-- Preview WhatsApp -->
             <div class="lg:col-span-5 bg-surface-container-lowest rounded-2xl p-6 md:p-8 shadow-md border border-outline-variant/30 flex flex-col gap-5">
                 <div class="flex items-center justify-between border-b border-surface-container pb-3">
                     <h3 class="font-headline-sm text-headline-sm text-primary">Preview Pesan WhatsApp</h3>
@@ -124,7 +124,7 @@
                     </span>
                 </div>
 
-                <!-- Ringkasan Jadwal Terpilih -->
+                <!-- Ringkasan -->
                 <div class="p-4 rounded-xl bg-surface-container-low/80 border border-outline-variant/20 space-y-2 text-xs">
                     <div class="flex justify-between gap-2">
                         <span class="text-on-surface-variant">Klien:</span>
@@ -148,18 +148,18 @@
                     </div>
                 </div>
 
-                <!-- Teks Preview Pesan WA -->
+                <!-- Isi Pesan -->
                 <div class="flex flex-col gap-1.5">
                     <span class="font-label-sm text-[10px] uppercase tracking-wider text-on-surface-variant">Isi Pesan yang Akan Dikirim:</span>
                     <div class="p-4 rounded-xl bg-[#F3EFEA] border border-outline-variant/30 text-xs text-primary font-mono whitespace-pre-line leading-relaxed" id="waMessagePreview"></div>
                 </div>
 
-                <!-- Peringatan Validasi Ringan -->
+                <!-- Pesan Error -->
                 <p id="waErrorMsg" class="hidden text-xs text-error font-medium">
 - Mohon isi Nama Lengkap dan pilih Tanggal Booking terlebih dahulu.
                 </p>
 
-                <!-- Tombol Kirim ke WhatsApp -->
+                <!-- Tombol Kirim -->
                 <button type="button" id="sendWaBtn"
                         class="w-full inline-flex items-center justify-center gap-2.5 px-6 py-4 rounded-xl bg-primary-container text-on-primary font-label-md uppercase text-xs tracking-widest hover:bg-secondary transition-colors shadow-md cursor-pointer">
                     <span class="material-symbols-outlined text-lg leading-none">chat</span>

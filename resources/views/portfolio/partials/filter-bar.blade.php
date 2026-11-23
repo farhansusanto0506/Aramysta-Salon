@@ -26,7 +26,7 @@
                 Dokumentasi hasil riasan pengantin, wisuda, lamaran, dan acara spesial dari Aramysta Salon.
             </p>
 
-            <!-- Tombol Navigasi Geser Kiri/Kanan -->
+            <!-- Navigasi Geser -->
             <div class="flex items-center gap-2 shrink-0 self-end sm:self-auto">
                 <button type="button" id="portfolioPrevBtn" aria-label="Geser karya ke kiri"
                         class="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-surface-container-lowest border border-outline-variant/30 text-primary hover:bg-primary-container hover:text-on-primary active:scale-95 flex items-center justify-center shadow-xs transition-all cursor-pointer">

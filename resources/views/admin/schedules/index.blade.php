@@ -29,7 +29,7 @@
             </div>
         @endif
 
-        <!-- Form Tambah Jadwal Terisi -->
+        <!-- Form Tambah Jadwal -->
         <form action="{{ route('admin.schedules.store') }}" method="POST"
             class="p-6 md:p-8 rounded-xl bg-surface-container-lowest shadow-sm mb-10 flex flex-col gap-5">
             @csrf
@@ -74,7 +74,7 @@
                 </div>
             </div>
 
-            <!-- Data Pelanggan (hanya untuk tanggal penuh) -->
+            <!-- Data Pelanggan -->
             <div id="createCustomerFields" class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div class="flex flex-col gap-1.5">
                     <label class="font-label-sm uppercase text-on-surface-variant">Nama Pelanggan (Opsional)</label>
@@ -98,7 +98,7 @@
             </div>
         </form>
 
-        <!-- Daftar Jadwal Mendatang -->
+        <!-- Daftar Jadwal -->
         <div class="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/20 overflow-hidden">
             <div class="px-6 py-4 border-b border-surface-container flex items-center justify-between">
                 <h3 class="font-headline-sm text-base text-primary">Daftar Tanggal Sudah Terisi</h3>
@@ -212,7 +212,7 @@
         </div>
     </div>
 
-    <!-- Modal Edit Jadwal Terisi -->
+    <!-- Modal Edit Jadwal -->
     <div id="editScheduleModal"
         class="fixed inset-0 z-50 hidden items-center justify-center bg-primary/20 backdrop-blur-xs p-4"
         onclick="if (event.target === this) closeEditScheduleModal()">
@@ -348,7 +348,7 @@
     </div>
 
     <script>
-        // Tanggal "Diblokir" tidak butuh jam mulai & data pelanggan.
+        // Field sesuai jenis jadwal
         function syncTypeFields(prefix) {
             const isBlocked = document.getElementById(prefix + 'Type').value === 'blocked';
             document.getElementById(prefix + 'StartTime').disabled = isBlocked;

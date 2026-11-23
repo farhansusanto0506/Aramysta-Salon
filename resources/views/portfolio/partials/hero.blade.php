@@ -13,7 +13,7 @@
         class="absolute top-80 -left-20 w-80 h-80 bg-secondary-fixed/20 rounded-full blur-3xl pointer-events-none -z-10">
     </div>
 
-    <!-- Editorial Hero Section -->
+    <!-- Hero -->
     <section id="portofolio-section" class="scroll-mt-24 max-w-7xl mx-auto px-6 lg:px-12 pt-10 lg:pt-16 pb-16">
 
         @if (session('success'))
@@ -32,7 +32,7 @@
 
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-10 items-center">
 
-            <!-- Left Text Column -->
+            <!-- Teks Hero -->
             <div class="lg:col-span-7 flex flex-col items-start pr-0 lg:pr-8">
 
                 <h1
@@ -46,7 +46,7 @@
                     memancarkan pesona alami Anda.
                 </p>
 
-                <!-- Metrics Strip -->
+                <!-- Statistik -->
                 <div
                     class="grid grid-cols-2 sm:grid-cols-3 gap-y-4 sm:gap-y-0 py-4 px-5 rounded-xl bg-surface-container-low shadow-sm mb-10 w-full max-w-xl sm:divide-x sm:divide-on-surface-variant/20">
                     <div class="flex flex-col pr-4 border-r border-on-surface-variant/20 sm:border-r-0">
@@ -73,7 +73,7 @@
                     </div>
                 </div>
 
-                <!-- CTA Buttons -->
+                <!-- Tombol CTA -->
                 <div class="flex flex-wrap items-center gap-4">
                     <button type="button" data-target="koleksi-section"
                         class="nav-scroll-link inline-flex items-center gap-2 bg-primary-container text-on-primary font-label-md text-label-md uppercase tracking-[0.12em] px-7 py-3.5 rounded-lg transition-all duration-300 hover:bg-secondary shadow-md cursor-pointer">
@@ -87,16 +87,16 @@
                 </div>
             </div>
 
-            <!-- Right Asymmetric Hero Visual Showcase -->
+            <!-- Foto Hero -->
             <div class="lg:col-span-5 relative mt-4 lg:mt-0">
                 <div class="w-full rounded-xl overflow-hidden shadow-2xl bg-surface-container-lowest border border-outline-variant/20 flex flex-col group">
                     
-                    <!-- Area Foto Utuh Tanpa Tertutup Kartu Teks -->
+                    <!-- Foto -->
                     <div class="relative w-full aspect-[4/5] bg-surface-container overflow-hidden">
                         <img id="heroShowcaseImg" src="{{ $heroImage }}" alt="Karya Tata Rias Aramysta Salon"
                             class="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105" />
 
-                        <!-- Tombol Edit Gambar Khusus Admin -->
+                        <!-- Edit Foto (Admin) -->
                         @auth
                             <form action="{{ route('admin.hero.image') }}" method="POST" enctype="multipart/form-data"
                                 class="absolute top-4 left-4 z-20">
@@ -113,7 +113,7 @@
                         @endauth
                     </div>
 
-                    <!-- Metadata Card di Bawah Gambar (Tidak Menutupi Foto & Logo Watermark) -->
+                    <!-- Info Foto -->
                     <div class="p-5 bg-surface-container-lowest border-t border-outline-variant/15 text-primary">
                         <div class="flex items-center justify-between gap-2 mb-1.5">
                             <span class="inline-flex items-center gap-1.5 font-label-sm text-label-sm uppercase tracking-[0.15em] text-secondary">
@@ -130,7 +130,7 @@
                     </div>
                 </div>
 
-                <!-- Decorative offset card frame accent -->
+                <!-- Dekorasi -->
                 <div class="absolute -bottom-6 -left-6 w-36 h-36 bg-tertiary-fixed/40 rounded-xl -z-10 blur-xl">
                 </div>
             </div>

@@ -8,7 +8,7 @@ use App\Http\Controllers\Admin\PortfolioItemController;
 use App\Http\Controllers\admin\ServiceController;
 use App\Http\Controllers\Admin\ScheduleController;
 
-// Halaman Pengunjung (Publik)
+// Halaman Publik
 Route::get('/', [PortfolioController::class, 'index'])->name('portfolio.index');
 
 // Login & Logout Admin
@@ -16,7 +16,7 @@ Route::get('/login', [AuthController::class, 'showLogin'])->middleware('guest')-
 Route::post('/login', [AuthController::class, 'login'])->middleware('guest')->name('login.post');
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth')->name('logout');
 
-// Halaman Admin (Terkunci dengan middleware 'auth')
+// Halaman Admin
 Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     Route::post('/hero-image', [PageContentController::class, 'updateHeroImage'])->name('hero.image');
 
@@ -27,7 +27,7 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     Route::put('/portfolios/{portfolio}', [PortfolioItemController::class, 'update'])->name('portfolios.update');
     Route::delete('/portfolios/{portfolio}', [PortfolioItemController::class, 'destroy'])->name('portfolios.destroy');
 
-    // Kelola Jadwal Terisi
+    // Kelola Jadwal
     Route::get('/schedules', [ScheduleController::class, 'index'])->name('schedules.index');
     Route::post('/schedules', [ScheduleController::class, 'store'])->name('schedules.store');
     Route::put('/schedules/{schedule}', [ScheduleController::class, 'update'])->name('schedules.update');

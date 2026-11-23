@@ -1,5 +1,5 @@
 <section id="layanan-section" class="scroll-mt-24 max-w-7xl mx-auto px-6 lg:px-12 py-20 border-t border-outline-variant/20">
-    <!-- Header Section + Tombol Navigasi Geser -->
+    <!-- Header -->
     <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
         <div>
             <div class="flex flex-wrap items-center gap-3 mb-3">
@@ -27,7 +27,7 @@
                 Pilihan paket tata rias Aramysta Salon untuk berbagai kebutuhan acara spesial Anda.
             </p>
 
-            <!-- Tombol Navigasi Geser Kiri/Kanan -->
+            <!-- Navigasi Geser -->
             <div class="flex items-center gap-2 shrink-0 self-end sm:self-auto">
                 <button type="button" id="servicePrevBtn" aria-label="Geser layanan ke kiri"
                         class="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-surface-container-lowest border border-outline-variant/30 text-primary hover:bg-primary-container hover:text-on-primary active:scale-95 flex items-center justify-center shadow-xs transition-all cursor-pointer">
@@ -41,7 +41,7 @@
         </div>
     </div>
 
-    <!-- Track Carousel Horizontal (Presisi 3 Kartu di Desktop, 2 di Tablet, 1.15 di HP) -->
+    <!-- Carousel Layanan -->
     <div id="serviceSliderTrack"
          class="flex gap-6 overflow-x-auto scroll-smooth snap-x snap-mandatory pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         
@@ -55,7 +55,7 @@
                 @endif
 
                 <div>
-                    <!-- Gambar Paket Layanan (Utuh Tanpa Terpotong) -->
+                    <!-- Gambar Paket -->
                     @if ($service->image)
                         <div class="w-full bg-surface-container-low overflow-hidden border-b border-outline-variant/15">
                             <img src="{{ asset('storage/' . $service->image) }}"
@@ -70,7 +70,7 @@
                             {{ $service->title }}
                         </h3>
 
-                        <!-- Daftar Harga (Per Baris) -->
+                        <!-- Daftar Harga -->
                         <div class="p-3.5 rounded-xl bg-surface-container-low/80 border border-outline-variant/15 mb-4 space-y-1">
                             @foreach ($service->prices_list as $priceLine)
                                 <p class="font-body-sm text-sm font-semibold text-secondary">
@@ -91,7 +91,7 @@
                     </div>
                 </div>
 
-                <!-- Tombol Aksi Bawah -->
+                <!-- Tombol Aksi -->
                 <div class="px-6 pb-6 pt-2 flex items-center gap-2">
                     <button type="button"
                             onclick="selectBookingService(@js($service->title)); document.getElementById('kontak-section')?.scrollIntoView({ behavior: 'smooth' });"

@@ -17,15 +17,11 @@ main > :last-child {
     display: none;
 }
 
-/* Transisi Halus Kartu Portofolio */
+/* Kartu Portofolio */
 .portfolio-card {
     transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
 }
-/* ==========================================
-   Animasi Scroll Reveal
-   - Scroll ke bawah: elemen fade in saat masuk layar
-   - Scroll ke atas: elemen di bawah layar fade out
-   ========================================== */
+/* Animasi Scroll */
 .reveal {
     opacity: 0;
     transform: translateY(32px);
@@ -41,11 +37,7 @@ main > :last-child {
     .reveal { opacity: 1; transform: none; transition: none; }
 }
 
-/* ==========================================
-   Animasi Kartu Koleksi Karya & Paket Layanan
-   - Muncul bergantian (stagger) saat masuk layar / digeser
-   - Efek hover: kartu terangkat, gambar zoom halus
-   ========================================== */
+/* Animasi Kartu Karya & Layanan */
 .card-reveal {
     opacity: 0;
     transform: translateY(40px) scale(0.96);
@@ -61,7 +53,7 @@ main > :last-child {
     transform: translateY(-6px);
 }
 
-/* Koleksi Karya: keterangan naik sedikit saat hover */
+/* Hover Kartu Karya */
 .portfolio-card .card-caption {
     transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -69,7 +61,7 @@ main > :last-child {
     transform: translateY(-6px);
 }
 
-/* Paket Layanan: zoom gambar & panah tombol bergerak */
+/* Hover Kartu Layanan */
 .service-card .service-image {
     transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -83,7 +75,7 @@ main > :last-child {
     transform: translateX(4px);
 }
 
-/* Badge "Paling Diminati" berpendar lembut */
+/* Badge Paling Diminati */
 @keyframes badge-glow {
     0%, 100% { box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12); }
     50%      { box-shadow: 0 0 0 6px rgba(255, 218, 218, 0.45), 0 4px 16px rgba(0, 0, 0, 0.16); }

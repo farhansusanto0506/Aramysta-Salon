@@ -1,10 +1,10 @@
 <header class="sticky top-0 z-40 w-full px-3 sm:px-6 lg:px-10 pt-3 sm:pt-4 pointer-events-none">
     <div class="max-w-7xl mx-auto flex flex-col gap-2">
 
-        <!-- Baris Utama: Pill Kiri (Brand + Navigasi Sejajar) & Pill Kanan (Aksi / Admin) -->
+        <!-- Baris Utama -->
         <div class="flex flex-wrap md:flex-nowrap items-center justify-between gap-2.5 sm:gap-3">
 
-            <!-- PILL 1: Brand + Navigasi Utama (Rata Tengah & Seragam) -->
+            <!-- Brand & Navigasi -->
             <div class="pointer-events-auto flex-1 min-w-0 rounded-2xl md:rounded-[9999px] bg-[#FAF7F2]/40 backdrop-blur-2xl backdrop-saturate-150 border border-white/65 ring-1 ring-primary/5 shadow-[0_8px_32px_rgba(44,34,30,0.07),inset_0_1px_0_rgba(255,255,255,0.88)] px-4 sm:px-6 py-2.5 flex items-center justify-between gap-4 lg:gap-8 transition-all duration-300">
 
                 <!-- Brand / Logo -->
@@ -22,7 +22,7 @@
                     </div>
                 </button>
 
-                <!-- Menu Navigasi Desktop (Satu Baris Rata Tengah) -->
+                <!-- Navigasi Desktop -->
                 <nav class="hidden md:flex items-center gap-6 lg:gap-8">
                     <button type="button" data-target="portofolio-section"
                             class="nav-scroll-link inline-flex items-center h-8 font-label-sm uppercase tracking-[0.16em] text-xs text-primary font-semibold border-b-2 border-secondary transition-colors cursor-pointer whitespace-nowrap">
@@ -51,7 +51,7 @@
                 </nav>
             </div>
 
-            <!-- PILL 2: Status Admin / Tombol Reservasi & Login -->
+            <!-- Reservasi & Login -->
             <div class="pointer-events-auto rounded-2xl md:rounded-[9999px] bg-[#FAF7F2]/40 backdrop-blur-2xl backdrop-saturate-150 border border-white/65 ring-1 ring-primary/5 shadow-[0_8px_32px_rgba(44,34,30,0.07),inset_0_1px_0_rgba(255,255,255,0.88)] px-3 sm:px-4 py-2 flex items-center justify-end gap-1.5 sm:gap-2 shrink-0 transition-all duration-300">
                 @auth
                     <span class="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-[9999px] bg-secondary-fixed/55 border border-white/60 text-on-secondary-fixed font-label-sm text-[9px] sm:text-[10px] uppercase tracking-wider font-semibold whitespace-nowrap backdrop-blur-md">
@@ -84,7 +84,7 @@
 
         </div>
 
-        <!-- PILL ADMIN SWITCHER (Muncul Rapi di Bawah Saat Mode Admin) -->
+        <!-- Menu Admin -->
         @auth
             <div class="pointer-events-auto self-center md:self-end rounded-2xl md:rounded-[9999px] bg-[#FAF7F2]/45 backdrop-blur-2xl backdrop-saturate-150 border border-white/65 ring-1 ring-primary/5 shadow-[0_6px_24px_rgba(44,34,30,0.06),inset_0_1px_0_rgba(255,255,255,0.85)] px-2 py-1.5 flex items-center gap-1.5 overflow-x-auto max-w-full [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
                 <a href="{{ route('admin.portfolios.index') }}"
@@ -107,7 +107,7 @@
             </div>
         @endauth
 
-        <!-- PILL MOBILE (Sub-Navbar Khusus Mobile) -->
+        <!-- Navigasi Mobile -->
         <nav class="pointer-events-auto flex md:hidden items-center gap-4 px-4 py-2 rounded-2xl bg-[#FAF7F2]/40 backdrop-blur-2xl backdrop-saturate-150 border border-white/65 ring-1 ring-primary/5 shadow-[0_8px_32px_rgba(44,34,30,0.06),inset_0_1px_0_rgba(255,255,255,0.85)] overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
             <button type="button" data-target="portofolio-section"
                     class="nav-scroll-link shrink-0 h-7 inline-flex items-center font-label-sm uppercase tracking-[0.14em] text-[11px] text-primary font-semibold border-b-2 border-secondary transition-colors cursor-pointer">

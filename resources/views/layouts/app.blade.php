@@ -156,7 +156,7 @@
         }
     </script>
 
-    <!-- Custom CSS Aramysta Salon -->
+    <!-- CSS Aramysta -->
     <link rel="stylesheet" href="{{ asset('css/aramysta.css') }}">
     @stack('styles')
 </head>
@@ -172,11 +172,11 @@
 
     @include('components.footer')
 
-    <!-- Flatpickr Calendar JS & Locale Indonesia -->
+    <!-- Flatpickr -->
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/id.js"></script>
 
-    <!-- Custom JS Aramysta Salon -->
+    <!-- JS Aramysta -->
     <script src="{{ asset('js/aramysta.js') }}?v={{ filemtime(public_path('js/aramysta.js')) }}"></script>
     @stack('scripts')
 

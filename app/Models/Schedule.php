@@ -13,9 +13,7 @@ class Schedule extends Model
 
     protected $guarded = [];
 
-    /**
-     * Samakan format nomor WA: hanya angka, awalan 0 / 8 menjadi 62.
-     */
+    // Format nomor WA
     public static function normalizePhone(?string $phone): ?string
     {
         $digits = preg_replace('/\D+/', '', (string) $phone);

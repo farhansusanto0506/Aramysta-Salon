@@ -8,7 +8,7 @@ class Portfolio extends Model
 {
     protected $guarded = [];
 
-    // Sumber tunggal kategori: dipakai validasi, form admin, dan filter publik
+    // Daftar kategori
     public const CATEGORIES = [
         'pernikahan'     => 'Pernikahan',
         'wisuda'     => 'Wisuda',

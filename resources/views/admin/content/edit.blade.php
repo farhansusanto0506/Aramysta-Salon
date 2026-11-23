@@ -29,7 +29,7 @@
         @csrf
         @method('PUT')
 
-        <!-- Card 1: Teks Utama Hero (Kiri) -->
+        <!-- Teks Hero -->
         <section class="p-6 md:p-8 rounded-xl bg-surface-container-lowest shadow-sm flex flex-col gap-5">
             <h2 class="font-headline-sm text-headline-sm text-primary border-b border-surface-container pb-3">1. Teks Utama & Tombol (Kolom Kiri)</h2>
             
@@ -61,7 +61,7 @@
             </div>
         </section>
 
-        <!-- Card 2: Angka Statistik -->
+        <!-- Statistik -->
         <section class="p-6 md:p-8 rounded-xl bg-surface-container-lowest shadow-sm flex flex-col gap-5">
             <h2 class="font-headline-sm text-headline-sm text-primary border-b border-surface-container pb-3">2. Strip Statistik (3 Kolom)</h2>
             
@@ -87,7 +87,7 @@
             </div>
         </section>
 
-        <!-- Card 3: Karya Unggulan & Foto Hero (Kanan) -->
+        <!-- Foto Hero -->
         <section class="p-6 md:p-8 rounded-xl bg-surface-container-lowest shadow-sm flex flex-col gap-5">
             <h2 class="font-headline-sm text-headline-sm text-primary border-b border-surface-container pb-3">3. Kartu Karya Unggulan (Kolom Kanan)</h2>
 

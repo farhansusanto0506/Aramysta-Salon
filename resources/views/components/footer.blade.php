@@ -15,7 +15,7 @@
     <div class="max-w-7xl mx-auto px-6 lg:px-12 py-14">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start pb-12 border-b border-outline-variant/20">
             
-            <!-- Kolom Kiri: Identitas Brand -->
+            <!-- Identitas Brand -->
             <div class="lg:col-span-5 flex flex-col items-start">
                 <div class="flex items-center gap-3.5 mb-4">
                     <div class="w-10 h-10 rounded-xl bg-primary-container text-on-primary flex items-center justify-center font-headline-sm text-base tracking-wider shadow-xs">
@@ -39,10 +39,10 @@
                 </div>
             </div>
 
-            <!-- Kolom Kanan: Kartu Kontak & Media Sosial -->
+            <!-- Kontak & Media Sosial -->
             <div class="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-6">
                 
-                <!-- Grup 1: WhatsApp Reservasi (Dapat Diklik) -->
+                <!-- WhatsApp -->
                 <div class="flex flex-col gap-3">
                     <span class="font-label-sm text-[11px] uppercase tracking-[0.18em] text-secondary font-semibold">
                         WhatsApp Reservasi
@@ -71,7 +71,7 @@
                     </a>
                 </div>
 
-                <!-- Grup 2: Media Sosial (Dapat Diklik) -->
+                <!-- Media Sosial -->
                 <div class="flex flex-col gap-3">
                     <span class="font-label-sm text-[11px] uppercase tracking-[0.18em] text-secondary font-semibold">
                         Media Sosial

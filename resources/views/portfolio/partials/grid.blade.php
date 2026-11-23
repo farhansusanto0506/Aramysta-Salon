@@ -1,5 +1,5 @@
 <section class="max-w-7xl mx-auto px-6 lg:px-12 pb-16">
-    <!-- Track Carousel Horizontal -->
+    <!-- Carousel Karya -->
     <div id="portfolioSliderTrack"
          class="flex gap-6 overflow-x-auto scroll-smooth snap-x snap-mandatory pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         
@@ -15,10 +15,10 @@
                          alt="{{ $item->title }}" 
                          class="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105" />
 
-                    <!-- Gradient Overlay Bawah -->
+                    <!-- Overlay -->
                     <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent"></div>
 
-                    <!-- Tombol Edit/Hapus Admin di Kartu -->
+                    <!-- Aksi Admin -->
                     @auth
                         <div class="absolute top-3.5 right-3.5 flex items-center gap-1.5 z-10">
                             <a href="{{ route('admin.portfolios.edit', $item) }}" 
@@ -38,7 +38,7 @@
                         </div>
                     @endauth
 
-                    <!-- Info Judul & Deskripsi di Atas Gambar -->
+                    <!-- Judul & Deskripsi -->
                     <div class="card-caption absolute bottom-4 left-4 right-4 text-white">
                         <span class="inline-block px-2.5 py-0.5 rounded-full bg-white/15 backdrop-blur-xs font-label-sm text-[10px] uppercase tracking-wider text-secondary-fixed mb-2">
                             {{ $item->category_label }}
