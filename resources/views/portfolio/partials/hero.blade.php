@@ -34,13 +34,6 @@
 
             <!-- Left Text Column -->
             <div class="lg:col-span-7 flex flex-col items-start pr-0 lg:pr-8">
-                <div
-                    class="inline-flex items-center gap-2.5 px-3.5 py-1 rounded-full bg-surface-container-high/60 text-secondary mb-6 shadow-sm">
-                    <span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
-                    <span class="font-subhead-uppercase text-subhead-uppercase tracking-[0.2em]">
-                        Aramysta Salon
-                    </span>
-                </div>
 
                 <h1
                     class="font-display-lg text-4xl sm:text-5xl lg:text-display-lg text-primary tracking-tight leading-[1.08] mb-6">

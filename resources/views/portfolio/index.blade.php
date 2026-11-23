@@ -1,21 +1,22 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="w-full">
-    {{-- Sesi 1: Hero --}}
     @include('portfolio.partials.hero')
 
-    {{-- Sesi 2: Koleksi Karya --}}
-    @include('portfolio.partials.filter-bar')
-    @include('portfolio.partials.grid')
+    <div data-scroll-motion="intro">
+        @include('portfolio.partials.filter-bar')
+        @include('portfolio.partials.grid')
+    </div>
 
-    {{-- Sesi 3: Layanan --}}
-    @include('portfolio.partials.services')
+    <div data-scroll-motion="intro">
+        @include('portfolio.partials.services')
+    </div>
 
-    {{-- Sesi 4: Testimoni (Google Review) --}}
-    @include('portfolio.partials.testimonials')
+    <div data-scroll-motion="intro">
+        @include('portfolio.partials.testimonials')
+    </div>
 
-    {{-- Sesi 5: Kontak & Reservasi WhatsApp --}}
-    @include('portfolio.partials.contact')
-</div>
+    <div data-scroll-motion="outro">
+        @include('portfolio.partials.contact')
+    </div>
 @endsection

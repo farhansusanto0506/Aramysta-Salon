@@ -458,4 +458,37 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     });
+
+    // ==========================================
+    // SCROLL REVEAL (fade in saat turun, fade out bagian bawah saat naik)
+    // ==========================================
+    const revealSelectors = [
+        '#portofolio-section > *',
+        '#koleksi-section > *',
+        '#koleksi-section + section > *',
+        '#layanan-section > *',
+        '#testimoni-section > div > *',
+        '#kontak-section > div > *',
+        'footer > div > *',
+    ];
+    const revealTargets = document.querySelectorAll(revealSelectors.join(','));
+
+    if ('IntersectionObserver' in window && revealTargets.length) {
+        revealTargets.forEach((el) => el.classList.add('reveal'));
+
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    // Masuk layar -> fade in
+                    entry.target.classList.add('is-visible');
+                } else if (entry.boundingClientRect.top > 0) {
+                    // Keluar lewat bawah layar (saat scroll ke atas) -> fade out
+                    entry.target.classList.remove('is-visible');
+                }
+                // Keluar lewat atas layar -> dibiarkan tetap terlihat
+            });
+        }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+        revealTargets.forEach((el) => revealObserver.observe(el));
+    }
 });

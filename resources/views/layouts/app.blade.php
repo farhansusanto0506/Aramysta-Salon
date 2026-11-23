@@ -157,7 +157,7 @@
     </script>
 
     <!-- Custom CSS Aramysta Salon -->
-    <link rel="stylesheet" href="{{ asset('css/Aramysta.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/aramysta.css') }}">
     @stack('styles')
 </head>
 
@@ -177,7 +177,7 @@
     <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/id.js"></script>
 
     <!-- Custom JS Aramysta Salon -->
-    <script src="{{ asset('js/Aramysta.js') }}?v={{ filemtime(public_path('js/Aramysta.js')) }}"></script>
+    <script src="{{ asset('js/aramysta.js') }}?v={{ filemtime(public_path('js/aramysta.js')) }}"></script>
     @stack('scripts')
 
 </body>
