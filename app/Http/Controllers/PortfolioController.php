@@ -25,7 +25,9 @@ class PortfolioController extends Controller
             : collect();
 
         $bookedSchedules = Schema::hasTable('schedules')
-            ? Schedule::whereDate('booking_date', '>=', now()->toDateString())
+            // Hanya kolom yang aman untuk publik (data pelanggan tidak ikut dikirim)
+            ? Schedule::select('booking_date', 'type', 'start_time', 'note')
+                ->whereDate('booking_date', '>=', now()->toDateString())
                 ->orderBy('start_time')
                 ->get()
                 ->groupBy('booking_date')

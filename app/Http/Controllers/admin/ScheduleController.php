@@ -37,12 +37,22 @@ class ScheduleController extends Controller
 
     public function update(Request $request, Schedule $schedule)
     {
+        $this->normalizeCustomerPhone($request);
+
         $validated = $request->validate([
-            'booking_date' => ['required', 'date'],
-            'start_time'   => ['required', 'string', 'max:10'],
-            'note'         => ['nullable', 'string', 'max:255'],
-            'is_completed' => ['nullable', 'boolean'],
+            'booking_date'   => ['required', 'date', 'unique:schedules,booking_date,' . $schedule->id],
+            'type'           => ['required', 'in:' . implode(',', array_keys(Schedule::TYPES))],
+            'start_time'     => ['required_if:type,full', 'nullable', 'string', 'max:10'],
+            'note'           => ['nullable', 'string', 'max:255'],
+            'is_completed'   => ['nullable', 'boolean'],
+            ...self::CUSTOMER_RULES,
+        ], [
+            'booking_date.unique'    => 'Tanggal tersebut sudah ada di daftar.',
+            'start_time.required_if' => 'Jam mulai wajib diisi untuk tanggal penuh.',
+            ...self::CUSTOMER_MESSAGES,
         ]);
+
+        $isBlocked = $validated['type'] === 'blocked';
 
         $cleanNote = trim(preg_replace('/^\[SELESAI\]\s*/', '', (string) ($validated['note'] ?? '')));
         $isCompleted = $request->boolean('is_completed');
@@ -52,8 +62,11 @@ class ScheduleController extends Controller
 
         $schedule->update([
             'booking_date' => $validated['booking_date'],
-            'start_time'   => $validated['start_time'],
-            'note'         => $finalNote,
+            'type'         => $validated['type'],
+            'start_time'     => $isBlocked ? null : $validated['start_time'],
+            'note'           => $finalNote,
+            'customer_name'  => $isBlocked ? null : ($validated['customer_name'] ?? null),
+            'customer_phone' => $isBlocked ? null : ($validated['customer_phone'] ?? null),
         ]);
 
         return redirect()
@@ -63,17 +76,31 @@ class ScheduleController extends Controller
 
     public function store(Request $request)
     {
+        $this->normalizeCustomerPhone($request);
+
         $data = $request->validate([
             'booking_date' => 'required|date|unique:schedules,booking_date',
-            'start_time'   => 'required|string|size:5',
+            'type'         => 'required|in:' . implode(',', array_keys(Schedule::TYPES)),
+            'start_time'   => 'required_if:type,full|nullable|string|size:5',
             'note'         => 'nullable|string|max:100',
+            ...self::CUSTOMER_RULES,
         ], [
-            'booking_date.unique' => 'Tanggal tersebut sudah ditandai penuh.',
+            'booking_date.unique'    => 'Tanggal tersebut sudah ditandai penuh / diblokir.',
+            'start_time.required_if' => 'Jam mulai wajib diisi untuk tanggal penuh.',
+            ...self::CUSTOMER_MESSAGES,
         ]);
+
+        if ($data['type'] === 'blocked') {
+            $data['start_time'] = null;
+            $data['customer_name'] = null;
+            $data['customer_phone'] = null;
+        }
 
         Schedule::create($data);
 
-        return back()->with('success', 'Jadwal tanggal penuh berhasil disimpan!');
+        return back()->with('success', $data['type'] === 'blocked'
+            ? 'Tanggal berhasil diblokir.'
+            : 'Jadwal tanggal penuh berhasil disimpan!');
     }
 
     public function destroy(Schedule $schedule)
@@ -81,5 +108,21 @@ class ScheduleController extends Controller
         $schedule->delete();
 
         return back()->with('success', 'Jadwal berhasil dihapus.');
+    }
+
+    private const CUSTOMER_RULES = [
+        'customer_name'  => ['nullable', 'string', 'max:100'],
+        'customer_phone' => ['nullable', 'string', 'min:9', 'max:20'],
+    ];
+
+    private const CUSTOMER_MESSAGES = [
+        'customer_phone.min' => 'Nomor WA pelanggan terlalu pendek.',
+    ];
+
+    private function normalizeCustomerPhone(Request $request): void
+    {
+        $request->merge([
+            'customer_phone' => Schedule::normalizePhone($request->input('customer_phone')),
+        ]);
     }
 }

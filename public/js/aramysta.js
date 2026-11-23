@@ -276,13 +276,16 @@ document.addEventListener('DOMContentLoaded', function () {
                 isDateBooked = true;
                 const slot = slots[0];
                 const noteText = slot.note ? ` (${slot.note})` : '';
+                const statusText = slot.type === 'blocked' || !slot.start_time
+                    ? 'Tanggal ini tidak tersedia untuk reservasi. Silakan pilih tanggal lain.'
+                    : `Tanggal ini sudah penuh / terisi (jadwal mulai pukul ${slot.start_time} WIB${noteText}) dan tidak dapat dipesan lagi. Silakan pilih tanggal lain.`;
 
                 if (scheduleStatusBox) {
                     scheduleStatusBox.className = 'p-4 rounded-xl border border-error/40 bg-error-container/40 text-on-error-container text-xs';
                     scheduleStatusBox.innerHTML = `
                         <div class="flex items-start gap-2 font-semibold">
                             <span class="material-symbols-outlined text-base text-error shrink-0">event_busy</span>
-                            <span>Tanggal ini sudah penuh / terisi (jadwal mulai pukul ${slot.start_time} WIB${noteText}) dan tidak dapat dipesan lagi. Silakan pilih tanggal lain.</span>
+                            <span>${statusText}</span>
                         </div>
                     `;
                 }
