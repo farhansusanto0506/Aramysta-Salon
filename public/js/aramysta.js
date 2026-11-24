@@ -1,7 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
-    // ==========================================
     // 1. KONTROL GESER CAROUSEL PORTOFOLIO
-    // ==========================================
     const sliderTrack = document.getElementById('portfolioSliderTrack');
     const prevBtn = document.getElementById('portfolioPrevBtn');
     const nextBtn = document.getElementById('portfolioNextBtn');
@@ -21,9 +19,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // ==========================================
     // 2. KONTROL GESER CAROUSEL LAYANAN
-    // ==========================================
     const serviceSliderTrack = document.getElementById('serviceSliderTrack');
     const servicePrevBtn = document.getElementById('servicePrevBtn');
     const serviceNextBtn = document.getElementById('serviceNextBtn');
@@ -43,9 +39,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // ==========================================
     // 3. PREVIEW GAMBAR ADMIN
-    // ==========================================
     const adminImageInputs = document.querySelectorAll('input[type="file"][name="image"]');
     adminImageInputs.forEach(input => {
         input.addEventListener('change', function (e) {
@@ -66,9 +60,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    // ==========================================
     // 4. SMOOTH SCROLL & SCROLLSPY
-    // ==========================================
     const navLinks = document.querySelectorAll('.nav-scroll-link');
     const sectionIds = [
         'portofolio-section',
@@ -141,9 +133,7 @@ document.addEventListener('DOMContentLoaded', function () {
         updateActiveNav();
     }
 
-    // ==========================================
     // 5. FORM RESERVASI WHATSAPP
-    // ==========================================
     const waWrapper = document.getElementById('waBookingWrapper');
     if (waWrapper) {
         const waNumber = waWrapper.dataset.waNumber;
@@ -423,9 +413,7 @@ document.addEventListener('DOMContentLoaded', function () {
         buildMessage();
     }
 
-    // ==========================================
     // 6. HAPUS KARYA
-    // ==========================================
     document.querySelectorAll('.ajax-delete-portfolio').forEach(form => {
         form.addEventListener('submit', async function (e) {
             e.preventDefault();
@@ -462,9 +450,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    // ==========================================
     // 7. ANIMASI SCROLL
-    // ==========================================
     const revealSelectors = [
         '#portofolio-section > *',
         '#koleksi-section > *',
@@ -491,9 +477,7 @@ document.addEventListener('DOMContentLoaded', function () {
         revealTargets.forEach((el) => revealObserver.observe(el));
     }
 
-    // ==========================================
     // 8. ANIMASI KARTU KARYA & LAYANAN
-    // ==========================================
     const cards = document.querySelectorAll('#portfolioSliderTrack .portfolio-card, #serviceSliderTrack .service-card');
 
     if ('IntersectionObserver' in window && cards.length) {

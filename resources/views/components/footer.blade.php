@@ -1,5 +1,5 @@
 @php
-    $rawWa = $content['whatsapp_number'] ?? '0812-3456-7890';
+    $rawWa = $content['whatsapp_number'] ?? '0853-3147-1243';
     $digitsWa = preg_replace('/\D+/', '', (string) $rawWa);
     if (str_starts_with($digitsWa, '0')) {
         $waInternational = '62' . substr($digitsWa, 1);

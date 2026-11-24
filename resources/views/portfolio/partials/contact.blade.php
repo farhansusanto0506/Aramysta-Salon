@@ -31,7 +31,7 @@
         <!-- Form & Preview -->
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start"
              id="waBookingWrapper"
-             data-wa-number="6285158773837"
+             data-wa-number="6285331471243"
              data-booked-schedules='@json($bookedSchedules ?? [])'>
 
             <!-- Form Reservasi -->
