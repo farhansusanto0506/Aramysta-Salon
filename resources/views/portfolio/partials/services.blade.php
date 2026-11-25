@@ -41,7 +41,7 @@
             class="flex items-stretch gap-5 sm:gap-6 overflow-x-auto scroll-smooth snap-x snap-mandatory pt-6 pb-10 -mx-5 px-5 sm:mx-0 sm:px-0 scroll-px-5 sm:scroll-px-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
 
             @forelse ($services as $service)
-                <div
+                <div data-card-reveal
                     class="service-card group relative isolate shrink-0 snap-start w-[85%] sm:w-[calc((100%-1.5rem)/2)] lg:w-[calc((100%-3rem)/3)] flex flex-col rounded-[1.5rem] border {{ $service->is_featured ? 'border-secondary/60 bg-linear-to-b from-secondary-fixed/40 to-surface-container-lowest ring-1 ring-secondary/20' : 'border-outline-variant/40 bg-surface-container-lowest' }} shadow-[var(--shadow-soft)]">
 
                     <span class="card-shadow absolute inset-0 -z-10 rounded-[1.5rem] shadow-[var(--shadow-lift)]"
