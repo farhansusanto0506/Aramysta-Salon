@@ -1,1 +1,1 @@
-//
+import './aramysta.js';

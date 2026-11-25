@@ -1,139 +1,121 @@
-<header class="sticky top-0 z-40 w-full px-3 sm:px-6 lg:px-10 pt-3 sm:pt-4 pointer-events-none">
-    <div class="max-w-7xl mx-auto flex flex-col gap-2">
+@php
+    $navItems = [
+        'portofolio-section' => 'Portofolio',
+        'koleksi-section' => 'Koleksi',
+        'layanan-section' => 'Layanan',
+        'testimoni-section' => 'Ulasan',
+        'kontak-section' => 'Kontak',
+    ];
+@endphp
 
-        <!-- Baris Utama -->
-        <div class="flex flex-wrap md:flex-nowrap items-center justify-between gap-2.5 sm:gap-3">
+<header id="siteHeader" class="site-header fixed inset-x-0 top-0 z-40">
+    <div class="site-header__bar">
+        <div class="container-luxe h-20 flex items-center justify-between gap-4">
 
-            <!-- Brand & Navigasi -->
-            <div class="pointer-events-auto flex-1 min-w-0 rounded-2xl md:rounded-[9999px] bg-[#FAF7F2]/40 backdrop-blur-2xl backdrop-saturate-150 border border-white/65 ring-1 ring-primary/5 shadow-[0_8px_32px_rgba(44,34,30,0.07),inset_0_1px_0_rgba(255,255,255,0.88)] px-4 sm:px-6 py-2.5 flex items-center justify-between gap-4 lg:gap-8 transition-all duration-300">
-
-                <!-- Brand / Logo -->
-                <button type="button" data-target="portofolio-section" class="nav-scroll-link flex items-center gap-2.5 sm:gap-3 group shrink-0 text-left cursor-pointer">
-                    <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-[9999px] bg-primary-container/95 text-on-primary flex items-center justify-center font-headline-sm text-sm tracking-wider shadow-sm group-hover:bg-secondary transition-colors shrink-0">
-                        AS
-                    </div>
-                    <div class="flex flex-col">
-                        <span class="font-headline-sm text-xs sm:text-sm lg:text-base tracking-[0.14em] text-primary uppercase leading-none whitespace-nowrap">
-                            Aramysta Salon
-                        </span>
-                        <span class="font-label-sm text-[8px] sm:text-[9px] tracking-[0.24em] text-secondary uppercase mt-1 whitespace-nowrap">
-                            Haute Beauté
-                        </span>
-                    </div>
-                </button>
-
-                <!-- Navigasi Desktop -->
-                <nav class="hidden md:flex items-center gap-6 lg:gap-8">
-                    <button type="button" data-target="portofolio-section"
-                            class="nav-scroll-link inline-flex items-center h-8 font-label-sm uppercase tracking-[0.16em] text-xs text-primary font-semibold border-b-2 border-secondary transition-colors cursor-pointer whitespace-nowrap">
-                        Portofolio
-                    </button>
-
-                    <button type="button" data-target="koleksi-section"
-                            class="nav-scroll-link inline-flex items-center h-8 font-label-sm uppercase tracking-[0.16em] text-xs text-on-surface-variant hover:text-primary border-b-2 border-transparent transition-colors cursor-pointer whitespace-nowrap">
-                        Koleksi
-                    </button>
-
-                    <button type="button" data-target="layanan-section"
-                            class="nav-scroll-link inline-flex items-center h-8 font-label-sm uppercase tracking-[0.16em] text-xs text-on-surface-variant hover:text-primary border-b-2 border-transparent transition-colors cursor-pointer whitespace-nowrap">
-                        Layanan
-                    </button>
-
-                    <button type="button" data-target="testimoni-section"
-                            class="nav-scroll-link inline-flex items-center h-8 font-label-sm uppercase tracking-[0.16em] text-xs text-on-surface-variant hover:text-primary border-b-2 border-transparent transition-colors cursor-pointer whitespace-nowrap">
-                        Ulasan
-                    </button>
-
-                    <button type="button" data-target="kontak-section"
-                            class="nav-scroll-link inline-flex items-center h-8 font-label-sm uppercase tracking-[0.16em] text-xs text-on-surface-variant hover:text-primary border-b-2 border-transparent transition-colors cursor-pointer whitespace-nowrap">
-                        Kontak
-                    </button>
-                </nav>
-            </div>
-
-            <!-- Reservasi & Login -->
-            <div class="pointer-events-auto rounded-2xl md:rounded-[9999px] bg-[#FAF7F2]/40 backdrop-blur-2xl backdrop-saturate-150 border border-white/65 ring-1 ring-primary/5 shadow-[0_8px_32px_rgba(44,34,30,0.07),inset_0_1px_0_rgba(255,255,255,0.88)] px-3 sm:px-4 py-2 flex items-center justify-end gap-1.5 sm:gap-2 shrink-0 transition-all duration-300">
-                @auth
-                    <span class="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-[9999px] bg-secondary-fixed/55 border border-white/60 text-on-secondary-fixed font-label-sm text-[9px] sm:text-[10px] uppercase tracking-wider font-semibold whitespace-nowrap backdrop-blur-md">
-                        <span class="w-1.5 h-1.5 rounded-[9999px] bg-secondary animate-pulse"></span>
-                        <span>Mode Admin</span>
+            <!-- Brand -->
+            <button type="button" data-target="portofolio-section"
+                class="nav-scroll-link flex items-center gap-3 group shrink-0 text-left">
+                <span
+                    class="w-10 h-10 rounded-full bg-primary-container text-on-primary flex items-center justify-center font-headline-sm text-sm tracking-wider ring-1 ring-secondary-fixed-dim/40 ring-offset-2 ring-offset-surface transition-colors duration-300 group-hover:bg-secondary shrink-0">
+                    AS
+                </span>
+                <span class="flex flex-col">
+                    <span
+                        class="font-headline-sm text-sm sm:text-base tracking-[0.16em] text-primary uppercase leading-none whitespace-nowrap">
+                        Aramysta Salon
                     </span>
+                    <span
+                        class="font-label-sm text-[9px] tracking-[0.28em] text-secondary uppercase mt-1.5 whitespace-nowrap">
+                        Haute Beauté
+                    </span>
+                </span>
+            </button>
 
-                    <form action="{{ route('logout') }}" method="POST" class="inline">
+            <!-- Navigasi Desktop -->
+            <nav class="hidden lg:flex items-center gap-8" aria-label="Navigasi utama">
+                @foreach ($navItems as $target => $label)
+                    <button type="button" data-target="{{ $target }}"
+                        class="nav-scroll-link nav-link {{ $loop->first ? 'is-active' : '' }}">
+                        {{ $label }}
+                    </button>
+                @endforeach
+            </nav>
+
+            <!-- Aksi -->
+            <div class="flex items-center gap-2 shrink-0">
+                @auth
+                    <a href="{{ route('admin.portfolios.index') }}" class="btn btn-ghost btn-sm hidden sm:inline-flex">
+                        <span class="material-symbols-outlined text-sm leading-none">dashboard</span>
+                        <span>Panel Admin</span>
+                    </a>
+                    <form action="{{ route('logout') }}" method="POST" class="hidden sm:block">
                         @csrf
-                        <button type="submit"
-                                class="inline-flex items-center gap-1.5 px-3 sm:px-3.5 py-2 rounded-[9999px] bg-white/45 hover:bg-error-container/70 border border-white/65 text-primary hover:text-on-error-container font-label-sm uppercase tracking-wider text-[10px] sm:text-[11px] transition-all cursor-pointer whitespace-nowrap shadow-2xs">
+                        <button type="submit" class="btn btn-primary btn-sm">
                             <span class="material-symbols-outlined text-sm leading-none">logout</span>
                             <span>Keluar</span>
                         </button>
                     </form>
                 @else
                     <button type="button" data-target="kontak-section"
-                            class="nav-scroll-link cta-reservasi-btn inline-flex items-center gap-1.5 px-3.5 sm:px-4 py-2 rounded-[9999px] bg-primary-container text-white hover:bg-secondary font-label-sm uppercase tracking-wider text-[10px] sm:text-[11px] transition-all shadow-sm cursor-pointer whitespace-nowrap">
+                        class="nav-scroll-link cta-reservasi-btn btn btn-primary btn-sm hidden sm:inline-flex">
                         <span class="material-symbols-outlined text-sm leading-none">calendar_month</span>
                         <span>Reservasi</span>
                     </button>
+                    <a href="{{ route('login') }}" class="btn btn-ghost btn-sm hidden sm:inline-flex">
+                        <span class="material-symbols-outlined text-sm leading-none">login</span>
+                        <span>Login</span>
+                    </a>
+                @endauth
 
-                    <a href="{{ route('login') }}"
-                       class="inline-flex items-center gap-1.5 px-3 sm:px-3.5 py-2 rounded-[9999px] bg-white/45 hover:bg-white/80 text-primary border border-white/65 font-label-sm uppercase tracking-wider text-[10px] sm:text-[11px] transition-all whitespace-nowrap shadow-2xs">
+                <!-- Tombol Menu Mobile -->
+                <button type="button" id="mobileMenuToggle" aria-controls="mobileMenu" aria-expanded="false"
+                    aria-label="Buka menu"
+                    class="lg:hidden w-11 h-11 rounded-full bg-white/70 border border-outline-variant/60 text-primary flex flex-col items-center justify-center gap-1 transition-colors hover:border-secondary">
+                    <span class="menu-toggle__line"></span>
+                    <span class="menu-toggle__line"></span>
+                    <span class="menu-toggle__line"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Menu Mobile -->
+    <div id="mobileMenu" class="mobile-menu lg:hidden absolute inset-x-0 top-full px-4 pt-2">
+        <div class="panel mx-auto max-w-md p-5 shadow-[var(--shadow-lift)]">
+            <nav class="flex flex-col" aria-label="Navigasi mobile">
+                @foreach ($navItems as $target => $label)
+                    <button type="button" data-target="{{ $target }}"
+                        class="nav-scroll-link nav-link {{ $loop->first ? 'is-active' : '' }}">
+                        {{ $label }}
+                    </button>
+                @endforeach
+            </nav>
+
+            <div class="grid grid-cols-2 gap-2 mt-5">
+                @auth
+                    <a href="{{ route('admin.portfolios.index') }}" class="btn btn-ghost btn-sm">
+                        <span class="material-symbols-outlined text-sm leading-none">dashboard</span>
+                        <span>Panel Admin</span>
+                    </a>
+                    <form action="{{ route('logout') }}" method="POST">
+                        @csrf
+                        <button type="submit" class="btn btn-primary btn-sm w-full">
+                            <span class="material-symbols-outlined text-sm leading-none">logout</span>
+                            <span>Keluar</span>
+                        </button>
+                    </form>
+                @else
+                    <button type="button" data-target="kontak-section"
+                        class="nav-scroll-link cta-reservasi-btn btn btn-primary btn-sm">
+                        <span class="material-symbols-outlined text-sm leading-none">calendar_month</span>
+                        <span>Reservasi</span>
+                    </button>
+                    <a href="{{ route('login') }}" class="btn btn-ghost btn-sm">
                         <span class="material-symbols-outlined text-sm leading-none">login</span>
                         <span>Login</span>
                     </a>
                 @endauth
             </div>
-
         </div>
-
-        <!-- Menu Admin -->
-        @auth
-            <div class="pointer-events-auto self-center md:self-end rounded-2xl md:rounded-[9999px] bg-[#FAF7F2]/45 backdrop-blur-2xl backdrop-saturate-150 border border-white/65 ring-1 ring-primary/5 shadow-[0_6px_24px_rgba(44,34,30,0.06),inset_0_1px_0_rgba(255,255,255,0.85)] px-2 py-1.5 flex items-center gap-1.5 overflow-x-auto max-w-full [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                <a href="{{ route('admin.portfolios.index') }}"
-                   class="inline-flex items-center gap-1.5 px-3 py-1 rounded-[9999px] font-label-sm text-[10px] uppercase tracking-wider transition-colors whitespace-nowrap {{ request()->routeIs('admin.portfolios.*') ? 'bg-primary-container text-white shadow-2xs' : 'text-primary hover:bg-white/60' }}">
-                    <span class="material-symbols-outlined text-[13px] leading-none">photo_library</span>
-                    <span>Edit Karya</span>
-                </a>
-
-                <a href="{{ route('admin.services.index') }}"
-                   class="inline-flex items-center gap-1.5 px-3 py-1 rounded-[9999px] font-label-sm text-[10px] uppercase tracking-wider transition-colors whitespace-nowrap {{ request()->routeIs('admin.services.*') ? 'bg-primary-container text-white shadow-2xs' : 'text-primary hover:bg-white/60' }}">
-                    <span class="material-symbols-outlined text-[13px] leading-none">spa</span>
-                    <span>Edit Layanan</span>
-                </a>
-
-                <a href="{{ route('admin.schedules.index') }}"
-                   class="inline-flex items-center gap-1.5 px-3 py-1 rounded-[9999px] font-label-sm text-[10px] uppercase tracking-wider transition-colors whitespace-nowrap {{ request()->routeIs('admin.schedules.*') ? 'bg-primary-container text-white shadow-2xs' : 'text-primary hover:bg-white/60' }}">
-                    <span class="material-symbols-outlined text-[13px] leading-none">event_busy</span>
-                    <span>Atur Jadwal</span>
-                </a>
-            </div>
-        @endauth
-
-        <!-- Navigasi Mobile -->
-        <nav class="pointer-events-auto flex md:hidden items-center gap-4 px-4 py-2 rounded-2xl bg-[#FAF7F2]/40 backdrop-blur-2xl backdrop-saturate-150 border border-white/65 ring-1 ring-primary/5 shadow-[0_8px_32px_rgba(44,34,30,0.06),inset_0_1px_0_rgba(255,255,255,0.85)] overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-            <button type="button" data-target="portofolio-section"
-                    class="nav-scroll-link shrink-0 h-7 inline-flex items-center font-label-sm uppercase tracking-[0.14em] text-[11px] text-primary font-semibold border-b-2 border-secondary transition-colors cursor-pointer">
-                Portofolio
-            </button>
-
-            <button type="button" data-target="koleksi-section"
-                    class="nav-scroll-link shrink-0 h-7 inline-flex items-center font-label-sm uppercase tracking-[0.14em] text-[11px] text-on-surface-variant hover:text-primary border-b-2 border-transparent transition-colors cursor-pointer">
-                Koleksi
-            </button>
-
-            <button type="button" data-target="layanan-section"
-                    class="nav-scroll-link shrink-0 h-7 inline-flex items-center font-label-sm uppercase tracking-[0.14em] text-[11px] text-on-surface-variant hover:text-primary border-b-2 border-transparent transition-colors cursor-pointer">
-                Layanan
-            </button>
-
-            <button type="button" data-target="testimoni-section"
-                    class="nav-scroll-link shrink-0 h-7 inline-flex items-center font-label-sm uppercase tracking-[0.14em] text-[11px] text-on-surface-variant hover:text-primary border-b-2 border-transparent transition-colors cursor-pointer">
-                Ulasan
-            </button>
-
-            <button type="button" data-target="kontak-section"
-                    class="nav-scroll-link shrink-0 h-7 inline-flex items-center font-label-sm uppercase tracking-[0.14em] text-[11px] text-on-surface-variant hover:text-primary border-b-2 border-transparent transition-colors cursor-pointer">
-                Kontak
-            </button>
-        </nav>
-
     </div>
 </header>

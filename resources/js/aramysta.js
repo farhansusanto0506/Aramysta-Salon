@@ -1,4 +1,16 @@
-document.addEventListener('DOMContentLoaded', function () {
+import flatpickr from 'flatpickr';
+import { Indonesian } from 'flatpickr/dist/l10n/id.js';
+
+const onReady = (fn) => {
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', fn);
+    else fn();
+};
+
+window.AramystaReady = true;
+
+const prefersReducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+onReady(function () {
     // 1. KONTROL GESER CAROUSEL PORTOFOLIO
     const sliderTrack = document.getElementById('portfolioSliderTrack');
     const prevBtn = document.getElementById('portfolioPrevBtn');
@@ -60,7 +72,32 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    // 4. SMOOTH SCROLL & SCROLLSPY
+    // 4. NAVBAR, SMOOTH SCROLL & SCROLLSPY
+    const siteHeader = document.getElementById('siteHeader');
+    const menuToggle = document.getElementById('mobileMenuToggle');
+
+    if (siteHeader) {
+        const updateHeader = () => siteHeader.classList.toggle('is-scrolled', window.scrollY > 12);
+        window.addEventListener('scroll', updateHeader, { passive: true });
+        updateHeader();
+    }
+
+    if (siteHeader && menuToggle) {
+        const setMenu = (open) => {
+            siteHeader.classList.toggle('menu-open', open);
+            menuToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+            menuToggle.setAttribute('aria-label', open ? 'Tutup menu' : 'Buka menu');
+        };
+        menuToggle.addEventListener('click', () => setMenu(!siteHeader.classList.contains('menu-open')));
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') setMenu(false);
+        });
+        document.addEventListener('click', (e) => {
+            if (!siteHeader.contains(e.target)) setMenu(false);
+        });
+        window.matchMedia('(min-width: 1024px)').addEventListener('change', () => setMenu(false));
+    }
+
     const navLinks = document.querySelectorAll('.nav-scroll-link');
     const sectionIds = [
         'portofolio-section',
@@ -76,6 +113,8 @@ document.addEventListener('DOMContentLoaded', function () {
             if (!targetId) return;
 
             const targetEl = document.getElementById(targetId);
+            siteHeader?.classList.remove('menu-open');
+            menuToggle?.setAttribute('aria-expanded', 'false');
             if (targetEl) {
                 e.preventDefault();
                 targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -118,14 +157,12 @@ document.addEventListener('DOMContentLoaded', function () {
             });
 
             navLinks.forEach(link => {
-                if (link.classList.contains('cta-reservasi-btn') || link.classList.contains('bg-primary-container')) return;
+                if (!link.classList.contains('nav-link')) return;
 
                 const isActive = link.dataset.target === currentId;
-                link.classList.toggle('text-primary', isActive);
-                link.classList.toggle('font-semibold', isActive);
-                link.classList.toggle('border-secondary', isActive);
-                link.classList.toggle('text-on-surface-variant', !isActive);
-                link.classList.toggle('border-transparent', !isActive);
+                link.classList.toggle('is-active', isActive);
+                if (isActive) link.setAttribute('aria-current', 'true');
+                else link.removeAttribute('aria-current');
             });
         };
 
@@ -390,18 +427,31 @@ document.addEventListener('DOMContentLoaded', function () {
 
             const finalMessage = buildMessage();
             const waUrl = `https://wa.me/${waNumber}?text=${encodeURIComponent(finalMessage)}`;
+            sendWaBtn.classList.add('is-loading');
+            sendWaBtn.setAttribute('aria-busy', 'true');
             window.open(waUrl, '_blank', 'noopener,noreferrer');
+            setTimeout(() => {
+                sendWaBtn.classList.remove('is-loading');
+                sendWaBtn.removeAttribute('aria-busy');
+            }, 1200);
         });
 
         const disabledDates = Object.keys(bookedSchedules);
-        if (typeof flatpickr !== 'undefined' && waDate) {
+        if (waDate) {
             flatpickr(waDate, {
-                locale: 'id',
+                locale: Indonesian,
                 dateFormat: 'Y-m-d',
                 altInput: true,
                 altFormat: 'l, j F Y',
                 minDate: 'today',
                 disable: disabledDates,
+                onDayCreate: function (dObj, dStr, fp, dayElem) {
+                    const dayKey = fp.formatDate(dayElem.dateObj, 'Y-m-d');
+                    if (bookedSchedules[dayKey]) {
+                        dayElem.classList.add('booked-date');
+                        dayElem.title = 'Tanggal sudah terisi';
+                    }
+                },
                 onChange: function () {
                     waErrorMsg?.classList.add('hidden');
                     buildMessage();
@@ -451,26 +501,42 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // 7. ANIMASI SCROLL
-    const revealSelectors = [
-        '#portofolio-section > *',
-        '#koleksi-section > *',
-        '#layanan-section > :not(#serviceSliderTrack)',
-        '#testimoni-section > div > *',
-        '#kontak-section > div > *',
-        'footer > div > *',
-    ];
-    const revealTargets = document.querySelectorAll(revealSelectors.join(','));
+    const STAGGER_MS = 90;
+    const clearDelayOnEnd = (el) => {
+        el.addEventListener('transitionend', (e) => {
+            if (e.target === el && e.propertyName === 'opacity') el.style.transitionDelay = '';
+        });
+    };
+    const byPosition = (a, b) => {
+        const ra = a.getBoundingClientRect();
+        const rb = b.getBoundingClientRect();
+        return (ra.top - rb.top) || (ra.left - rb.left);
+    };
 
-    if ('IntersectionObserver' in window && revealTargets.length) {
-        revealTargets.forEach((el) => el.classList.add('reveal'));
+    const revealTargets = document.querySelectorAll('[data-reveal]');
 
-        const revealObserver = new IntersectionObserver((entries) => {
-            entries.forEach((entry) => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('is-visible');
-                } else if (entry.boundingClientRect.top > 0) {
-                    entry.target.classList.remove('is-visible');
-                }
+    if ('IntersectionObserver' in window && revealTargets.length && !prefersReducedMotion()) {
+        revealTargets.forEach((el) => {
+            el.classList.add('reveal');
+            clearDelayOnEnd(el);
+        });
+
+        const revealObserver = new IntersectionObserver((entries, observer) => {
+            const groups = new Map();
+            entries
+                .filter((entry) => entry.isIntersecting)
+                .forEach((entry) => {
+                    const parent = entry.target.parentElement;
+                    if (!groups.has(parent)) groups.set(parent, []);
+                    groups.get(parent).push(entry.target);
+                });
+
+            groups.forEach((items) => {
+                items.sort(byPosition).forEach((el, i) => {
+                    el.style.transitionDelay = `${i * STAGGER_MS}ms`;
+                    el.classList.add('is-visible');
+                    observer.unobserve(el);
+                });
             });
         }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
 
@@ -480,35 +546,209 @@ document.addEventListener('DOMContentLoaded', function () {
     // 8. ANIMASI KARTU KARYA & LAYANAN
     const cards = document.querySelectorAll('#portfolioSliderTrack .portfolio-card, #serviceSliderTrack .service-card');
 
-    if ('IntersectionObserver' in window && cards.length) {
-        const STAGGER_MS = 110;
+    if ('IntersectionObserver' in window && cards.length && !prefersReducedMotion()) {
+        const CARD_STAGGER_MS = 110;
 
         cards.forEach((card) => {
             card.classList.add('card-reveal');
-            card.addEventListener('transitionend', (e) => {
-                if (e.propertyName === 'opacity') card.style.transitionDelay = '';
-            });
+            clearDelayOnEnd(card);
         });
 
-        const cardObserver = new IntersectionObserver((entries) => {
-            const entering = entries
+        const cardObserver = new IntersectionObserver((entries, observer) => {
+            entries
                 .filter((entry) => entry.isIntersecting && !entry.target.classList.contains('is-visible'))
-                .sort((a, b) => a.boundingClientRect.left - b.boundingClientRect.left);
-
-            entering.forEach((entry, i) => {
-                entry.target.style.transitionDelay = `${i * STAGGER_MS}ms`;
-                entry.target.classList.add('is-visible');
-            });
-
-            entries.forEach((entry) => {
-                const viewportBottom = entry.rootBounds ? entry.rootBounds.bottom : window.innerHeight;
-                if (!entry.isIntersecting && entry.boundingClientRect.bottom > viewportBottom) {
-                    entry.target.style.transitionDelay = '';
-                    entry.target.classList.remove('is-visible');
-                }
-            });
+                .sort((a, b) => a.boundingClientRect.left - b.boundingClientRect.left)
+                .forEach((entry, i) => {
+                    entry.target.style.transitionDelay = `${i * CARD_STAGGER_MS}ms`;
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target);
+                });
         }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
 
         cards.forEach((card) => cardObserver.observe(card));
+    }
+
+    // 9. FILTER KATEGORI KARYA
+    const filterWrap = document.getElementById('portfolioFilter');
+
+    if (filterWrap && sliderTrack) {
+        const chips = filterWrap.querySelectorAll('[data-filter]');
+        const portfolioCards = sliderTrack.querySelectorAll('.portfolio-card');
+        const emptyState = document.getElementById('portfolioFilterEmpty');
+        let filterTimer = null;
+
+        chips.forEach((chip) => {
+            chip.addEventListener('click', () => {
+                const category = chip.dataset.filter;
+
+                chips.forEach((c) => {
+                    const active = c === chip;
+                    c.classList.toggle('is-active', active);
+                    c.setAttribute('aria-pressed', active ? 'true' : 'false');
+                });
+
+                const toHide = [];
+                const toShow = [];
+                portfolioCards.forEach((card) => {
+                    const match = category === 'all' || card.dataset.category === category;
+                    if (match && (card.hidden || card.classList.contains('is-filtered-out'))) toShow.push(card);
+                    else if (!match && !card.hidden) toHide.push(card);
+                });
+
+                toHide.forEach((card) => {
+                    card.style.transitionDelay = '';
+                    card.classList.add('is-filtered-out');
+                });
+
+                clearTimeout(filterTimer);
+                filterTimer = setTimeout(() => {
+                    toHide.forEach((card) => { card.hidden = true; });
+                    toShow.forEach((card) => {
+                        card.classList.add('is-filtered-out');
+                        card.hidden = false;
+                    });
+
+                    const visibleCount = [...portfolioCards].filter((card) => !card.hidden).length;
+                    if (emptyState) emptyState.hidden = visibleCount > 0;
+
+                    sliderTrack.scrollTo({ left: 0, behavior: 'auto' });
+                    void sliderTrack.offsetWidth;
+
+                    toShow.forEach((card, i) => {
+                        card.style.transitionDelay = `${i * 60}ms`;
+                        card.classList.remove('is-filtered-out');
+                    });
+                }, toHide.length && !prefersReducedMotion() ? 300 : 0);
+            });
+        });
+    }
+
+    // 10. COUNTER STATISTIK
+    const counters = document.querySelectorAll('[data-count-to]');
+
+    if ('IntersectionObserver' in window && counters.length && !prefersReducedMotion()) {
+        const runCounter = (el) => {
+            const target = parseInt(el.dataset.countTo, 10) || 0;
+            const duration = Math.min(1600, 900 + target * 10);
+            const ease = (t) => 1 - Math.pow(1 - t, 3);
+            let start = null;
+
+            const tick = (now) => {
+                if (start === null) start = now;
+                const progress = Math.min((now - start) / duration, 1);
+                el.textContent = Math.round(target * ease(progress));
+                if (progress < 1) requestAnimationFrame(tick);
+            };
+            el.textContent = '0';
+            setTimeout(() => requestAnimationFrame(tick), 350);
+        };
+
+        const counterObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach((entry) => {
+                if (!entry.isIntersecting) return;
+                runCounter(entry.target);
+                observer.unobserve(entry.target);
+            });
+        }, { threshold: 0.6 });
+
+        counters.forEach((el) => counterObserver.observe(el));
+    }
+
+    // 11. PARALLAX RINGAN
+    const parallaxEls = document.querySelectorAll('[data-parallax]');
+
+    if (parallaxEls.length) {
+        const parallaxQuery = window.matchMedia('(min-width: 1024px) and (prefers-reduced-motion: no-preference)');
+        let ticking = false;
+
+        const updateParallax = () => {
+            ticking = false;
+            const viewportMid = window.innerHeight / 2;
+
+            parallaxEls.forEach((el) => {
+                if (!parallaxQuery.matches) {
+                    el.style.translate = '';
+                    return;
+                }
+                const rect = el.parentElement.getBoundingClientRect();
+                if (rect.bottom < -200 || rect.top > window.innerHeight + 200) return;
+                const factor = parseFloat(el.dataset.parallax) || 0;
+                const offset = (rect.top + rect.height / 2 - viewportMid) * factor;
+                el.style.translate = `0 ${offset.toFixed(1)}px`;
+            });
+        };
+
+        const requestParallax = () => {
+            if (ticking) return;
+            ticking = true;
+            requestAnimationFrame(updateParallax);
+        };
+
+        window.addEventListener('scroll', requestParallax, { passive: true });
+        window.addEventListener('resize', requestParallax, { passive: true });
+        parallaxQuery.addEventListener('change', requestParallax);
+        updateParallax();
+    }
+
+    // 12. ALERT FLASH
+    const dismissAlert = (alertEl) => {
+        if (!alertEl || alertEl.classList.contains('is-leaving')) return;
+        alertEl.classList.add('is-leaving');
+        setTimeout(() => alertEl.remove(), prefersReducedMotion() ? 0 : 300);
+    };
+
+    document.querySelectorAll('[data-alert]').forEach((alertEl) => {
+        alertEl.querySelector('[data-alert-close]')?.addEventListener('click', () => dismissAlert(alertEl));
+
+        const autoMs = parseInt(alertEl.dataset.alertAutodismiss, 10);
+        if (autoMs > 0) {
+            let timer = setTimeout(() => dismissAlert(alertEl), autoMs);
+            alertEl.addEventListener('mouseenter', () => clearTimeout(timer));
+            alertEl.addEventListener('mouseleave', () => {
+                timer = setTimeout(() => dismissAlert(alertEl), 2000);
+            });
+        }
+    });
+
+    // 13. LOADING TOMBOL SUBMIT
+    document.addEventListener('submit', (e) => {
+        if (e.defaultPrevented) return;
+        const form = e.target;
+        if (!(form instanceof HTMLFormElement) || form.hasAttribute('data-no-loading')) return;
+
+        const submitBtn = e.submitter || form.querySelector('[type="submit"]');
+        if (!submitBtn) return;
+
+        requestAnimationFrame(() => {
+            submitBtn.classList.add('is-loading');
+            submitBtn.setAttribute('aria-busy', 'true');
+            submitBtn.disabled = true;
+        });
+    });
+
+    window.addEventListener('pageshow', (e) => {
+        if (!e.persisted) return;
+        document.querySelectorAll('.is-loading[aria-busy="true"]').forEach((btn) => {
+            btn.classList.remove('is-loading');
+            btn.removeAttribute('aria-busy');
+            btn.disabled = false;
+        });
+    });
+
+    // 14. SIDEBAR ADMIN
+    const sidebarToggle = document.getElementById('adminSidebarToggle');
+
+    if (sidebarToggle) {
+        const setSidebar = (open) => {
+            document.body.classList.toggle('sidebar-open', open);
+            sidebarToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+        };
+        sidebarToggle.addEventListener('click', () => setSidebar(!document.body.classList.contains('sidebar-open')));
+        document.querySelectorAll('[data-sidebar-close]').forEach((el) => {
+            el.addEventListener('click', () => setSidebar(false));
+        });
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') setSidebar(false);
+        });
     }
 });

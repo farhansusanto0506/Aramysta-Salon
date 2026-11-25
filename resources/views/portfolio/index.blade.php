@@ -3,20 +3,12 @@
 @section('content')
     @include('portfolio.partials.hero')
 
-    <div data-scroll-motion="intro">
-        @include('portfolio.partials.filter-bar')
-        @include('portfolio.partials.grid')
-    </div>
+    @include('portfolio.partials.filter-bar')
+    @include('portfolio.partials.grid')
 
-    <div data-scroll-motion="intro">
-        @include('portfolio.partials.services')
-    </div>
+    @include('portfolio.partials.services')
 
-    <div data-scroll-motion="intro">
-        @include('portfolio.partials.testimonials')
-    </div>
+    @include('portfolio.partials.testimonials')
 
-    <div data-scroll-motion="outro">
-        @include('portfolio.partials.contact')
-    </div>
+    @include('portfolio.partials.contact')
 @endsection

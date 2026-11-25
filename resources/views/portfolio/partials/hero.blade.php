@@ -2,137 +2,169 @@
     $heroImage = !empty($content['hero_image'])
         ? asset('storage/' . $content['hero_image'])
         : 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1000&q=85';
+    $portfolioCount = $portfolios->count();
 @endphp
 
 <div class="relative w-full overflow-hidden">
     <!-- Ambient Glow -->
-    <div
-        class="absolute -top-40 right-10 w-96 h-96 bg-tertiary-fixed/30 rounded-full blur-3xl pointer-events-none -z-10">
+    <div data-parallax="-0.12"
+        class="absolute -top-40 right-0 sm:right-10 w-80 h-80 sm:w-[28rem] sm:h-[28rem] bg-tertiary-fixed/40 rounded-full blur-3xl pointer-events-none -z-10">
     </div>
-    <div
-        class="absolute top-80 -left-20 w-80 h-80 bg-secondary-fixed/20 rounded-full blur-3xl pointer-events-none -z-10">
+    <div data-parallax="0.08"
+        class="absolute top-96 -left-24 w-80 h-80 bg-secondary-fixed/30 rounded-full blur-3xl pointer-events-none -z-10">
     </div>
 
     <!-- Hero -->
-    <section id="portofolio-section" class="scroll-mt-24 max-w-7xl mx-auto px-6 lg:px-12 pt-10 lg:pt-16 pb-16">
+    <section id="portofolio-section" class="scroll-mt-24 container-luxe pt-8 sm:pt-12 lg:pt-16 pb-20 lg:pb-24">
 
         @if (session('success'))
-            <div
-                class="mb-6 p-3.5 rounded-xl bg-secondary-fixed/50 border border-secondary/30 text-on-secondary-fixed text-xs font-medium">
-                {{ session('success') }}
+            <div class="alert alert-success mb-8" role="status" data-alert>
+                <span class="material-symbols-outlined text-lg leading-none text-secondary">check_circle</span>
+                <span>{{ session('success') }}</span>
+                <button type="button" class="alert-close" data-alert-close aria-label="Tutup">
+                    <span class="material-symbols-outlined text-base leading-none">close</span>
+                </button>
             </div>
         @endif
 
         @error('hero_image')
-            <div
-                class="mb-6 p-3.5 rounded-xl bg-error-container/50 border border-error/30 text-on-error-container text-xs font-medium">
-                {{ $message }}
+            <div class="alert alert-error mb-8" role="alert" data-alert>
+                <span class="material-symbols-outlined text-lg leading-none">error</span>
+                <span>{{ $message }}</span>
+                <button type="button" class="alert-close" data-alert-close aria-label="Tutup">
+                    <span class="material-symbols-outlined text-base leading-none">close</span>
+                </button>
             </div>
         @enderror
 
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-10 items-center">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-14 lg:gap-12 items-center">
 
             <!-- Teks Hero -->
-            <div class="lg:col-span-7 flex flex-col items-start pr-0 lg:pr-8">
+            <div class="lg:col-span-7 flex flex-col items-start lg:pr-6">
 
-                <h1
-                    class="font-display-lg text-4xl sm:text-5xl lg:text-display-lg text-primary tracking-tight leading-[1.08] mb-6">
-                    Keanggunan Rias di Setiap Momen Istimewa
+                <span class="eyebrow hero-enter mb-6" style="--d: 0">Haute Beauté &amp; Atelier · Probolinggo</span>
+
+                <h1 class="hero-enter font-display-lg text-[2.5rem] leading-[1.08] sm:text-6xl lg:text-[4.25rem] lg:leading-[1.04] text-primary tracking-tight mb-7"
+                    style="--d: 1">
+                    Keanggunan Rias di Setiap
+                    <em class="relative inline-block font-normal italic text-secondary">
+                        Momen
+                        <svg class="absolute left-0 -bottom-1.5 w-full h-2.5 text-secondary-fixed-dim" viewBox="0 0 120 10"
+                            preserveAspectRatio="none" aria-hidden="true">
+                            <path d="M2 7 C 30 2, 60 2, 118 6" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" />
+                        </svg>
+                    </em>
+                    Istimewa
                 </h1>
 
-                <p class="font-body-lg text-body-lg text-on-surface-variant max-w-xl leading-relaxed text-justify mb-8">
+                <p class="hero-enter font-body-lg text-base sm:text-body-lg text-on-surface-variant max-w-xl leading-relaxed mb-10"
+                    style="--d: 2">
                     Koleksi karya tata rias dan sanggul dari Aramysta Salon untuk pernikahan, lamaran, wisuda, hingga
                     acara spesial. Dirancang menyesuaikan karakter wajah dengan hasil riasan yang halus, tahan lama, dan
                     memancarkan pesona alami Anda.
                 </p>
 
                 <!-- Statistik -->
-                <div
-                    class="grid grid-cols-2 sm:grid-cols-3 gap-y-4 sm:gap-y-0 py-4 px-5 rounded-xl bg-surface-container-low shadow-sm mb-10 w-full max-w-xl sm:divide-x sm:divide-on-surface-variant/20">
-                    <div class="flex flex-col pr-4 border-r border-on-surface-variant/20 sm:border-r-0">
-                        <span
-                            class="font-headline-sm text-headline-sm text-primary font-medium">{{ $portfolios->count() ?: '20+' }}</span>
-                        <span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant">Karya
-                            Portofolio</span>
+                <div class="hero-enter w-full max-w-xl grid grid-cols-3 border-y border-outline-variant/50 mb-10"
+                    style="--d: 3">
+                    <div class="flex flex-col gap-1.5 py-5 pr-3 sm:pr-6">
+                        <span class="font-headline-md text-2xl sm:text-[2rem] leading-none text-primary tabular-nums">
+                            @if ($portfolioCount > 0)
+                                <span data-count-to="{{ $portfolioCount }}">{{ $portfolioCount }}</span>
+                            @else
+                                20+
+                            @endif
+                        </span>
+                        <span class="font-label-sm text-[10px] sm:text-label-sm uppercase tracking-[0.14em] text-on-surface-variant">
+                            Karya Portofolio
+                        </span>
                     </div>
 
-                    <div class="flex flex-col pl-4 sm:px-5">
-                        <span
-                            class="font-headline-sm text-lg sm:text-headline-sm text-primary font-medium whitespace-nowrap">Studio
-                            &amp; Home</span>
-                        <span
-                            class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant">Layanan
-                            Rias</span>
+                    <div class="flex flex-col gap-1.5 py-5 px-3 sm:px-6 border-l border-outline-variant/50">
+                        <span class="font-headline-md text-base sm:text-xl xl:text-2xl leading-tight sm:whitespace-nowrap text-primary">
+                            Studio <span class="italic text-secondary">&amp;</span> Home
+                        </span>
+                        <span class="font-label-sm text-[10px] sm:text-label-sm uppercase tracking-[0.14em] text-on-surface-variant">
+                            Layanan Rias
+                        </span>
                     </div>
 
-                    <div
-                        class="col-span-2 sm:col-span-1 flex flex-col pt-3.5 sm:pt-0 border-t border-on-surface-variant/20 sm:border-t-0 sm:pl-5">
-                        <span class="font-headline-sm text-headline-sm text-primary font-medium">Probolinggo</span>
-                        <span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant">Jawa
-                            Timur</span>
+                    <div class="flex flex-col gap-1.5 py-5 pl-3 sm:pl-6 border-l border-outline-variant/50">
+                        <span class="font-headline-md text-base sm:text-xl xl:text-2xl leading-tight sm:whitespace-nowrap text-primary">Probolinggo</span>
+                        <span class="font-label-sm text-[10px] sm:text-label-sm uppercase tracking-[0.14em] text-on-surface-variant">
+                            Jawa Timur
+                        </span>
                     </div>
                 </div>
 
                 <!-- Tombol CTA -->
-                <div class="flex flex-wrap items-center gap-4">
-                    <button type="button" data-target="koleksi-section"
-                        class="nav-scroll-link inline-flex items-center gap-2 bg-primary-container text-on-primary font-label-md text-label-md uppercase tracking-[0.12em] px-7 py-3.5 rounded-lg transition-all duration-300 hover:bg-secondary shadow-md cursor-pointer">
+                <div class="hero-enter flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-3 w-full sm:w-auto"
+                    style="--d: 4">
+                    <button type="button" data-target="koleksi-section" class="nav-scroll-link btn btn-primary">
                         <span>Lihat Koleksi Rias</span>
-                        <span class="material-symbols-outlined text-sm">arrow_downward</span>
+                        <span class="material-symbols-outlined text-base leading-none">arrow_downward</span>
                     </button>
-                    <button type="button" data-target="kontak-section"
-                        class="nav-scroll-link inline-flex items-center gap-2 text-primary font-label-md text-label-md uppercase tracking-wider px-5 py-3.5 rounded-lg bg-surface-container-high/40 hover:bg-surface-container-high transition-colors cursor-pointer">
+                    <button type="button" data-target="kontak-section" class="nav-scroll-link btn btn-ghost">
+                        <span class="material-symbols-outlined text-base leading-none">calendar_month</span>
                         <span>Reservasi Jadwal</span>
                     </button>
                 </div>
             </div>
 
             <!-- Foto Hero -->
-            <div class="lg:col-span-5 relative mt-4 lg:mt-0">
-                <div class="w-full rounded-xl overflow-hidden shadow-2xl bg-surface-container-lowest border border-outline-variant/20 flex flex-col group">
-                    
-                    <!-- Foto -->
-                    <div class="relative w-full aspect-[4/5] bg-surface-container overflow-hidden">
-                        <img id="heroShowcaseImg" src="{{ $heroImage }}" alt="Karya Tata Rias Aramysta Salon"
-                            class="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105" />
+            <div class="lg:col-span-5 relative mx-auto w-full max-w-md lg:max-w-none">
+                <div data-parallax="0.05" class="hero-enter-photo relative">
+                    <!-- Bingkai Ornamen -->
+                    <div class="absolute -inset-3 sm:-inset-4 translate-x-3 translate-y-3 sm:translate-x-5 sm:translate-y-5 rounded-[2rem] border border-secondary/30 -z-10"
+                        aria-hidden="true"></div>
 
-                        <!-- Edit Foto (Admin) -->
-                        @auth
-                            <form action="{{ route('admin.hero.image') }}" method="POST" enctype="multipart/form-data"
-                                class="absolute top-4 left-4 z-20">
-                                @csrf
-                                <label
-                                    class="inline-flex items-center gap-1.5 bg-primary-container/90 hover:bg-secondary text-on-primary backdrop-blur-md px-3.5 py-2 rounded-full shadow-lg cursor-pointer transition-colors">
-                                    <span class="material-symbols-outlined text-sm leading-none">photo_camera</span>
-                                    <span class="font-label-sm uppercase tracking-widest text-[0.65rem] font-semibold">Edit
-                                        Gambar</span>
-                                    <input type="file" name="hero_image" accept="image/jpeg,image/png,image/webp"
-                                        class="hidden" onchange="this.form.submit()">
-                                </label>
-                            </form>
-                        @endauth
-                    </div>
+                    <div
+                        class="group w-full rounded-[1.75rem] overflow-hidden shadow-[var(--shadow-lift)] bg-surface-container-lowest border border-outline-variant/30 flex flex-col">
 
-                    <!-- Info Foto -->
-                    <div class="p-5 bg-surface-container-lowest border-t border-outline-variant/15 text-primary">
-                        <div class="flex items-center justify-between gap-2 mb-1.5">
-                            <span class="inline-flex items-center gap-1.5 font-label-sm text-label-sm uppercase tracking-[0.15em] text-secondary">
+                        <!-- Foto -->
+                        <div class="relative w-full aspect-[4/5] bg-surface-container overflow-hidden">
+                            <img id="heroShowcaseImg" src="{{ $heroImage }}" alt="Karya Tata Rias Aramysta Salon"
+                                fetchpriority="high"
+                                class="w-full h-full object-cover object-top transition-transform duration-700 ease-luxe group-hover:scale-105" />
+
+                            <!-- Edit Foto (Admin) -->
+                            @auth
+                                <form action="{{ route('admin.hero.image') }}" method="POST" enctype="multipart/form-data"
+                                    class="absolute top-4 left-4 z-20">
+                                    @csrf
+                                    <label
+                                        class="inline-flex items-center gap-1.5 bg-primary-container/90 hover:bg-secondary text-on-primary backdrop-blur-md px-3.5 py-2 rounded-full shadow-lg cursor-pointer transition-colors">
+                                        <span class="material-symbols-outlined text-sm leading-none">photo_camera</span>
+                                        <span class="font-label-sm uppercase tracking-widest text-[0.65rem] font-semibold">Edit
+                                            Gambar</span>
+                                        <input type="file" name="hero_image" accept="image/jpeg,image/png,image/webp"
+                                            class="hidden" onchange="this.form.submit()">
+                                    </label>
+                                </form>
+                            @endauth
+                        </div>
+
+                        <!-- Info Foto -->
+                        <div class="px-6 py-5 bg-surface-container-lowest text-primary">
+                            <span
+                                class="inline-flex items-center gap-1.5 font-label-sm text-label-sm uppercase tracking-[0.15em] text-secondary mb-2">
                                 <span class="material-symbols-outlined text-secondary text-sm">verified</span>
                                 <span>Karya Pilihan • Signature Makeup</span>
                             </span>
+                            <h3 class="font-headline-sm text-lg text-primary mb-1">
+                                Flawless &amp; Timeless Bridal Look
+                            </h3>
+                            <p class="font-body-sm text-xs text-on-surface-variant">
+                                Sentuhan riasan lembut, bercahaya alami, dan menyatu sempurna
+                            </p>
                         </div>
-                        <h3 class="font-headline-sm text-base text-primary mb-0.5">
-                            Flawless &amp; Timeless Bridal Look
-                        </h3>
-                        <p class="font-body-sm text-xs text-on-surface-variant">
-                            Sentuhan riasan lembut, bercahaya alami, dan menyatu sempurna
-                        </p>
                     </div>
                 </div>
 
                 <!-- Dekorasi -->
-                <div class="absolute -bottom-6 -left-6 w-36 h-36 bg-tertiary-fixed/40 rounded-xl -z-10 blur-xl">
-                </div>
+                <div class="absolute -bottom-8 -left-8 w-40 h-40 bg-tertiary-fixed/50 rounded-full -z-20 blur-2xl"
+                    aria-hidden="true"></div>
             </div>
 
         </div>
