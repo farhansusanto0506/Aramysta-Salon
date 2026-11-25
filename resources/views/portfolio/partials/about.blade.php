@@ -33,17 +33,6 @@
                     &ldquo;Cantik yang tetap menjadi diri Anda.&rdquo;
                 </span>
             </div>
-
-            <div data-reveal="right"
-                class="absolute -bottom-8 -right-2 sm:-right-8 panel px-5 py-4 flex items-center gap-4 border-gold-soft/70">
-                <span class="w-11 h-11 rounded-full bg-gold-soft/60 text-gold flex items-center justify-center shrink-0">
-                    <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1">location_on</span>
-                </span>
-                <span class="flex flex-col">
-                    <span class="font-headline-sm text-base text-primary leading-tight">Probolinggo</span>
-                    <span class="text-[10px] uppercase tracking-[0.18em] text-on-surface-variant">Jawa Timur</span>
-                </span>
-            </div>
         </div>
 
         <!-- Profil -->

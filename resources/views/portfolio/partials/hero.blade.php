@@ -123,23 +123,6 @@
                         <circle cx="50" cy="50" r="36" fill="none" stroke="currentColor" stroke-width="0.4" />
                     </svg>
 
-                    <!-- Badge Mengambang -->
-                    <div class="float-soft absolute -left-3 sm:-left-8 top-10 z-10 hidden sm:flex items-center gap-2.5 rounded-2xl bg-ivory/85 backdrop-blur-md border border-gold-soft/70 px-4 py-3 shadow-[var(--shadow-lift)]"
-                        aria-hidden="true">
-                        <span class="w-9 h-9 rounded-full bg-gold-soft/70 text-gold flex items-center justify-center">
-                            <span class="material-symbols-outlined text-lg" style="font-variation-settings: 'FILL' 1">auto_awesome</span>
-                        </span>
-                        <span class="flex flex-col">
-                            <span class="font-headline-sm text-sm text-primary leading-tight">Bridal Specialist</span>
-                            <span class="text-[10px] uppercase tracking-[0.16em] text-on-surface-variant">Wedding &amp; Event</span>
-                        </span>
-                    </div>
-                    <div class="float-soft float-soft--delay absolute -right-3 sm:-right-6 bottom-36 z-10 hidden sm:flex items-center gap-2 rounded-full bg-primary-container/90 backdrop-blur-md px-4 py-2.5 shadow-[var(--shadow-lift)] text-gold-soft"
-                        aria-hidden="true">
-                        <span class="material-symbols-outlined text-base">home_pin</span>
-                        <span class="text-[10px] font-semibold uppercase tracking-[0.18em]">Studio &amp; Home Service</span>
-                    </div>
-
                     <!-- Bingkai Ornamen -->
                     <div class="absolute -inset-3 sm:-inset-4 translate-x-3 translate-y-3 sm:translate-x-5 sm:translate-y-5 rounded-[2rem] border border-gold/40 -z-10"
                         aria-hidden="true"></div>

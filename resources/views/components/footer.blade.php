@@ -45,10 +45,8 @@
             <!-- Identitas Brand -->
             <div data-reveal class="md:col-span-2 lg:col-span-5 flex flex-col items-start">
                 <div class="flex items-center gap-3.5 mb-5">
-                    <div
-                        class="w-11 h-11 rounded-full bg-primary-container text-gold-soft flex items-center justify-center font-headline-sm text-base tracking-wider ring-1 ring-gold/50 ring-offset-2 ring-offset-surface-container-low">
-                        AS
-                    </div>
+                    <img src="{{ asset('images/logo-mark.png') }}" alt="Logo Aramysta" width="44" height="44"
+                        class="w-11 h-11 rounded-full object-cover ring-1 ring-gold/50 ring-offset-2 ring-offset-surface-container-low">
                     <div class="flex flex-col">
                         <span class="font-headline-sm text-base tracking-[0.16em] text-primary uppercase leading-none">
                             Aramysta Salon

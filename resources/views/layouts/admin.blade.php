@@ -9,6 +9,7 @@
 <html lang="id">
 
 <head>
+    <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}">
     @include('layouts.partials.head')
 </head>
 
@@ -18,10 +19,8 @@
     <aside id="adminSidebar"
         class="admin-sidebar fixed inset-y-0 left-0 z-50 w-64 bg-primary-container text-white flex flex-col">
         <div class="h-20 px-6 flex items-center gap-3 border-b border-white/10">
-            <span
-                class="w-10 h-10 rounded-full bg-white/10 text-white flex items-center justify-center font-headline-sm text-sm tracking-wider ring-1 ring-white/20 shrink-0">
-                AS
-            </span>
+            <img src="{{ asset('images/logo-mark.png') }}" alt="Logo Aramysta" width="40" height="40"
+                class="w-10 h-10 rounded-full object-cover ring-1 ring-white/20 shrink-0">
             <span class="flex flex-col">
                 <span class="font-headline-sm text-sm tracking-[0.16em] uppercase leading-none">Aramysta Salon</span>
                 <span class="font-label-sm text-[9px] tracking-[0.28em] text-secondary-fixed-dim uppercase mt-1.5">Panel Admin</span>

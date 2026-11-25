@@ -16,10 +16,8 @@
             <!-- Brand -->
             <button type="button" data-target="portofolio-section"
                 class="nav-scroll-link flex items-center gap-3 group shrink-0 text-left">
-                <span
-                    class="brand-mark w-10 h-10 rounded-full bg-primary-container text-gold-soft flex items-center justify-center font-headline-sm text-sm tracking-wider ring-1 ring-gold/50 ring-offset-2 ring-offset-surface group-hover:bg-secondary shrink-0">
-                    AS
-                </span>
+                <img src="{{ asset('images/logo-mark.png') }}" alt="Logo Aramysta" width="40" height="40"
+                    class="brand-mark w-10 h-10 rounded-full object-cover ring-1 ring-gold/50 ring-offset-2 ring-offset-surface shrink-0">
                 <span class="flex flex-col">
                     <span
                         class="font-headline-sm text-sm sm:text-base tracking-[0.16em] text-primary uppercase leading-none whitespace-nowrap">

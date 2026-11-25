@@ -2,6 +2,7 @@
 <html lang="id">
 
 <head>
+    <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}">
     @include('layouts.partials.head')
 </head>
 
@@ -16,10 +17,8 @@
         <div class="w-full max-w-md">
             <!-- Brand -->
             <a href="{{ route('portfolio.index') }}" class="hero-enter flex flex-col items-center gap-3 mb-8 group" style="--d: 0">
-                <span
-                    class="w-14 h-14 rounded-full bg-primary-container text-on-primary flex items-center justify-center font-headline-sm text-lg tracking-wider ring-1 ring-secondary-fixed-dim/50 ring-offset-4 ring-offset-surface transition-colors duration-300 group-hover:bg-secondary">
-                    AS
-                </span>
+                <img src="{{ asset('images/logo-full.png') }}" alt="Logo Aramysta" width="112" height="112"
+                    class="w-28 h-28 rounded-2xl object-cover shadow-md ring-1 ring-secondary-fixed-dim/50">
                 <span class="flex flex-col items-center">
                     <span class="font-headline-sm text-lg tracking-[0.18em] text-primary uppercase leading-none">Aramysta Salon</span>
                     <span class="font-label-sm text-[9px] tracking-[0.3em] text-secondary uppercase mt-2">Haute Beauté</span>
