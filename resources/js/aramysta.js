@@ -10,6 +10,27 @@ window.AramystaReady = true;
 
 const prefersReducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+// Safari/iOS < 14 belum punya MediaQueryList.addEventListener
+const onMediaChange = (query, handler) => {
+    if (typeof query.addEventListener === 'function') query.addEventListener('change', handler);
+    else if (typeof query.addListener === 'function') query.addListener(handler);
+};
+
+// sessionStorage bisa diblokir (mode privat / cookie dimatikan)
+const safeSession = {
+    get(key) {
+        try { return window.sessionStorage.getItem(key); } catch (err) { return null; }
+    },
+    set(key, value) {
+        try { window.sessionStorage.setItem(key, value); return true; } catch (err) { return false; }
+    },
+    remove(key) {
+        try { window.sessionStorage.removeItem(key); } catch (err) { /* abaikan */ }
+    }
+};
+
+const canAnimateOnScroll = () => 'IntersectionObserver' in window && !prefersReducedMotion();
+
 onReady(function () {
     // 1. KONTROL GESER CAROUSEL PORTOFOLIO
     const sliderTrack = document.getElementById('portfolioSliderTrack');
@@ -77,8 +98,21 @@ onReady(function () {
     const menuToggle = document.getElementById('mobileMenuToggle');
 
     if (siteHeader) {
-        const updateHeader = () => siteHeader.classList.toggle('is-scrolled', window.scrollY > 12);
-        window.addEventListener('scroll', updateHeader, { passive: true });
+        let headerTicking = false;
+        const updateHeader = () => {
+            headerTicking = false;
+            const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+            const progress = scrollable > 0 ? Math.min(window.scrollY / scrollable, 1) : 0;
+            siteHeader.classList.toggle('is-scrolled', window.scrollY > 12);
+            siteHeader.style.setProperty('--scroll-progress', progress.toFixed(4));
+        };
+        const requestHeader = () => {
+            if (headerTicking) return;
+            headerTicking = true;
+            requestAnimationFrame(updateHeader);
+        };
+        window.addEventListener('scroll', requestHeader, { passive: true });
+        window.addEventListener('resize', requestHeader, { passive: true });
         updateHeader();
     }
 
@@ -95,12 +129,13 @@ onReady(function () {
         document.addEventListener('click', (e) => {
             if (!siteHeader.contains(e.target)) setMenu(false);
         });
-        window.matchMedia('(min-width: 1024px)').addEventListener('change', () => setMenu(false));
+        onMediaChange(window.matchMedia('(min-width: 1024px)'), () => setMenu(false));
     }
 
     const navLinks = document.querySelectorAll('.nav-scroll-link');
     const sectionIds = [
         'portofolio-section',
+        'tentang-section',
         'koleksi-section',
         'layanan-section',
         'testimoni-section',
@@ -124,15 +159,18 @@ onReady(function () {
                 }
             } else {
                 e.preventDefault();
-                sessionStorage.setItem('scrollTarget', targetId);
+                if (!safeSession.set('scrollTarget', targetId)) {
+                    window.location.href = '/#' + targetId;
+                    return;
+                }
                 window.location.href = '/';
             }
         });
     });
 
-    const pendingTarget = sessionStorage.getItem('scrollTarget');
+    const pendingTarget = safeSession.get('scrollTarget');
     if (pendingTarget) {
-        sessionStorage.removeItem('scrollTarget');
+        safeSession.remove('scrollTarget');
         const targetEl = document.getElementById(pendingTarget);
         if (targetEl) {
             setTimeout(() => {
@@ -146,7 +184,9 @@ onReady(function () {
         .filter(Boolean);
 
     if (navLinks.length > 0 && sections.length > 0) {
+        let navTicking = false;
         const updateActiveNav = () => {
+            navTicking = false;
             const scrollPos = window.scrollY + 140;
             let currentId = sections[0].id;
 
@@ -166,7 +206,14 @@ onReady(function () {
             });
         };
 
-        window.addEventListener('scroll', updateActiveNav, { passive: true });
+        const requestActiveNav = () => {
+            if (navTicking) return;
+            navTicking = true;
+            requestAnimationFrame(updateActiveNav);
+        };
+
+        window.addEventListener('scroll', requestActiveNav, { passive: true });
+        window.addEventListener('resize', requestActiveNav, { passive: true });
         updateActiveNav();
     }
 
@@ -463,112 +510,120 @@ onReady(function () {
         buildMessage();
     }
 
-    // 6. HAPUS KARYA
-    document.querySelectorAll('.ajax-delete-portfolio').forEach(form => {
-        form.addEventListener('submit', async function (e) {
-            e.preventDefault();
-            if (!confirm('Hapus karya ini?')) return;
-
-            const card = form.closest('.portfolio-card') || form.closest('tr') || form.closest('[data-portfolio-item]');
-            const token = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content')
-                || form.querySelector('input[name="_token"]')?.value;
-
-            try {
-                const response = await fetch(form.action, {
-                    method: 'POST',
-                    headers: {
-                        'X-CSRF-TOKEN': token,
-                        'X-Requested-With': 'XMLHttpRequest',
-                        'Accept': 'application/json'
-                    },
-                    body: new FormData(form)
-                });
-
-                if (response.ok) {
-                    if (card) {
-                        card.style.transition = 'opacity 0.25s ease, transform 0.25s ease';
-                        card.style.opacity = '0';
-                        card.style.transform = 'scale(0.95)';
-                        setTimeout(() => card.remove(), 250);
-                    }
-                } else {
-                    form.submit();
-                }
-            } catch (err) {
-                form.submit();
-            }
-        });
-    });
-
-    // 7. ANIMASI SCROLL
+    // 6. ANIMASI SCROLL (berulang)
+    // Elemen dianimasikan setiap kali masuk layar, dan direset setelah benar-benar
+    // keluar layar, sehingga animasi muncul lagi saat scroll ke bawah maupun ke atas.
+    // - Masuk: threshold 0 + rootMargin bawah -8% agar elemen tinggi (HP) / kartu
+    //   yang baru terlihat sebagian di carousel tetap terpicu.
+    // - Keluar: rootMargin 0 agar reset hanya terjadi saat elemen sudah tak terlihat
+    //   (tidak berkedip di tepi layar).
     const STAGGER_MS = 90;
+    const CARD_STAGGER_MS = 110;
+    const ENTER_OPTIONS = { threshold: 0, rootMargin: '0px 0px -8% 0px' };
+    const EXIT_OPTIONS = { threshold: 0, rootMargin: '0px' };
+
     const clearDelayOnEnd = (el) => {
         el.addEventListener('transitionend', (e) => {
             if (e.target === el && e.propertyName === 'opacity') el.style.transitionDelay = '';
         });
     };
+    const showImmediately = (els) => els.forEach((el) => el.classList.add('is-visible'));
     const byPosition = (a, b) => {
         const ra = a.getBoundingClientRect();
         const rb = b.getBoundingClientRect();
         return (ra.top - rb.top) || (ra.left - rb.left);
     };
 
+    const observeRepeating = (targets, { onEnter, onExit }) => {
+        const enterObserver = new IntersectionObserver((entries) => {
+            const entering = entries.filter((entry) => entry.isIntersecting).map((entry) => entry.target);
+            if (entering.length) onEnter(entering);
+        }, ENTER_OPTIONS);
+
+        const exitObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (!entry.isIntersecting) onExit(entry.target);
+            });
+        }, EXIT_OPTIONS);
+
+        targets.forEach((el) => {
+            enterObserver.observe(el);
+            exitObserver.observe(el);
+        });
+    };
+
+    const hideForReplay = (el) => {
+        if (!el.classList.contains('is-visible')) return;
+        el.style.transitionDelay = '';
+        el.classList.remove('is-visible');
+    };
+
     const revealTargets = document.querySelectorAll('[data-reveal]');
 
-    if ('IntersectionObserver' in window && revealTargets.length && !prefersReducedMotion()) {
-        revealTargets.forEach((el) => {
-            el.classList.add('reveal');
-            clearDelayOnEnd(el);
+    if (revealTargets.length && canAnimateOnScroll()) {
+        revealTargets.forEach(clearDelayOnEnd);
+
+        observeRepeating(revealTargets, {
+            onEnter(entering) {
+                const groups = new Map();
+                entering
+                    .filter((el) => !el.classList.contains('is-visible'))
+                    .forEach((el) => {
+                        const parent = el.parentElement;
+                        if (!groups.has(parent)) groups.set(parent, []);
+                        groups.get(parent).push(el);
+                    });
+
+                groups.forEach((items) => {
+                    items.sort(byPosition).forEach((el, i) => {
+                        el.style.transitionDelay = `${i * STAGGER_MS}ms`;
+                        el.classList.add('is-visible');
+                    });
+                });
+            },
+            onExit: hideForReplay
         });
-
-        const revealObserver = new IntersectionObserver((entries, observer) => {
-            const groups = new Map();
-            entries
-                .filter((entry) => entry.isIntersecting)
-                .forEach((entry) => {
-                    const parent = entry.target.parentElement;
-                    if (!groups.has(parent)) groups.set(parent, []);
-                    groups.get(parent).push(entry.target);
-                });
-
-            groups.forEach((items) => {
-                items.sort(byPosition).forEach((el, i) => {
-                    el.style.transitionDelay = `${i * STAGGER_MS}ms`;
-                    el.classList.add('is-visible');
-                    observer.unobserve(el);
-                });
-            });
-        }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
-
-        revealTargets.forEach((el) => revealObserver.observe(el));
+    } else {
+        showImmediately(revealTargets);
     }
 
-    // 8. ANIMASI KARTU KARYA & LAYANAN
-    const cards = document.querySelectorAll('#portfolioSliderTrack .portfolio-card, #serviceSliderTrack .service-card');
+    // 7. ANIMASI KARTU KARYA & LAYANAN (berulang)
+    const cards = document.querySelectorAll('[data-card-reveal]');
 
-    if ('IntersectionObserver' in window && cards.length && !prefersReducedMotion()) {
-        const CARD_STAGGER_MS = 110;
+    if (cards.length && canAnimateOnScroll()) {
+        cards.forEach(clearDelayOnEnd);
 
-        cards.forEach((card) => {
-            card.classList.add('card-reveal');
-            clearDelayOnEnd(card);
+        observeRepeating(cards, {
+            onEnter(entering) {
+                entering
+                    .filter((el) => !el.classList.contains('is-visible'))
+                    .sort((a, b) => a.getBoundingClientRect().left - b.getBoundingClientRect().left)
+                    .forEach((el, i) => {
+                        el.style.transitionDelay = `${i * CARD_STAGGER_MS}ms`;
+                        el.classList.add('is-visible');
+                    });
+            },
+            onExit: hideForReplay
         });
-
-        const cardObserver = new IntersectionObserver((entries, observer) => {
-            entries
-                .filter((entry) => entry.isIntersecting && !entry.target.classList.contains('is-visible'))
-                .sort((a, b) => a.boundingClientRect.left - b.boundingClientRect.left)
-                .forEach((entry, i) => {
-                    entry.target.style.transitionDelay = `${i * CARD_STAGGER_MS}ms`;
-                    entry.target.classList.add('is-visible');
-                    observer.unobserve(entry.target);
-                });
-        }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
-
-        cards.forEach((card) => cardObserver.observe(card));
+    } else {
+        showImmediately(cards);
     }
 
-    // 9. FILTER KATEGORI KARYA
+    // 7b. ANIMASI HERO (diputar ulang saat kembali ke atas)
+    const heroEls = document.querySelectorAll('.hero-enter, .hero-enter-photo');
+
+    if (heroEls.length && canAnimateOnScroll() && document.documentElement.classList.contains('js-enabled')) {
+        observeRepeating(heroEls, {
+            onEnter(entering) {
+                entering.forEach((el) => el.classList.remove('is-reset'));
+            },
+            onExit(el) {
+                el.classList.add('is-reset');
+            }
+        });
+    }
+
+    // 8. FILTER KATEGORI KARYA
     const filterWrap = document.getElementById('portfolioFilter');
 
     if (filterWrap && sliderTrack) {
@@ -618,47 +673,60 @@ onReady(function () {
                         card.style.transitionDelay = `${i * 60}ms`;
                         card.classList.remove('is-filtered-out');
                     });
-                }, toHide.length && !prefersReducedMotion() ? 300 : 0);
+                }, toHide.length ? 300 : 0);
             });
         });
     }
 
-    // 10. COUNTER STATISTIK
+    // 9. COUNTER STATISTIK
     const counters = document.querySelectorAll('[data-count-to]');
 
-    if ('IntersectionObserver' in window && counters.length && !prefersReducedMotion()) {
+    if (counters.length && canAnimateOnScroll()) {
         const runCounter = (el) => {
             const target = parseInt(el.dataset.countTo, 10) || 0;
             const duration = Math.min(1600, 900 + target * 10);
             const ease = (t) => 1 - Math.pow(1 - t, 3);
+            const runId = String(Date.now() + Math.random());
             let start = null;
 
+            el.dataset.countRun = runId;
+            const isCurrentRun = () => el.dataset.countRun === runId;
+
             const tick = (now) => {
+                if (!isCurrentRun()) return;
                 if (start === null) start = now;
                 const progress = Math.min((now - start) / duration, 1);
                 el.textContent = Math.round(target * ease(progress));
                 if (progress < 1) requestAnimationFrame(tick);
             };
             el.textContent = '0';
-            setTimeout(() => requestAnimationFrame(tick), 350);
+            setTimeout(() => {
+                if (isCurrentRun()) requestAnimationFrame(tick);
+            }, 350);
         };
 
-        const counterObserver = new IntersectionObserver((entries, observer) => {
+        const counterObserver = new IntersectionObserver((entries) => {
             entries.forEach((entry) => {
-                if (!entry.isIntersecting) return;
-                runCounter(entry.target);
-                observer.unobserve(entry.target);
+                const el = entry.target;
+                if (entry.intersectionRatio >= 0.6 && !el.dataset.counted) {
+                    el.dataset.counted = '1';
+                    runCounter(el);
+                } else if (!entry.isIntersecting) {
+                    // Sudah keluar layar: siap dihitung ulang saat terlihat lagi
+                    delete el.dataset.counted;
+                }
             });
-        }, { threshold: 0.6 });
+        }, { threshold: [0, 0.6] });
 
         counters.forEach((el) => counterObserver.observe(el));
     }
 
-    // 11. PARALLAX RINGAN
+    // 10. PARALLAX RINGAN
     const parallaxEls = document.querySelectorAll('[data-parallax]');
 
     if (parallaxEls.length) {
-        const parallaxQuery = window.matchMedia('(min-width: 1024px) and (prefers-reduced-motion: no-preference)');
+        // Hanya di layar besar dengan mouse; dimatikan di HP/tablet agar scroll tetap ringan
+        const parallaxQuery = window.matchMedia('(min-width: 1024px) and (hover: hover) and (prefers-reduced-motion: no-preference)');
         let ticking = false;
 
         const updateParallax = () => {
@@ -686,15 +754,15 @@ onReady(function () {
 
         window.addEventListener('scroll', requestParallax, { passive: true });
         window.addEventListener('resize', requestParallax, { passive: true });
-        parallaxQuery.addEventListener('change', requestParallax);
+        onMediaChange(parallaxQuery, requestParallax);
         updateParallax();
     }
 
-    // 12. ALERT FLASH
+    // 11. ALERT FLASH
     const dismissAlert = (alertEl) => {
         if (!alertEl || alertEl.classList.contains('is-leaving')) return;
         alertEl.classList.add('is-leaving');
-        setTimeout(() => alertEl.remove(), prefersReducedMotion() ? 0 : 300);
+        setTimeout(() => alertEl.remove(), 300);
     };
 
     document.querySelectorAll('[data-alert]').forEach((alertEl) => {
@@ -710,7 +778,7 @@ onReady(function () {
         }
     });
 
-    // 13. LOADING TOMBOL SUBMIT
+    // 12. LOADING TOMBOL SUBMIT
     document.addEventListener('submit', (e) => {
         if (e.defaultPrevented) return;
         const form = e.target;
@@ -735,7 +803,7 @@ onReady(function () {
         });
     });
 
-    // 14. SIDEBAR ADMIN
+    // 13. SIDEBAR ADMIN
     const sidebarToggle = document.getElementById('adminSidebarToggle');
 
     if (sidebarToggle) {

@@ -13,20 +13,47 @@
 
 <footer class="relative w-full bg-surface-container-low border-t border-outline-variant/30 overflow-hidden">
     <div class="container-luxe pt-16 lg:pt-20 pb-8">
+        <!-- Ajakan Booking -->
+        <div data-reveal
+            class="relative mb-14 rounded-[1.75rem] overflow-hidden bg-linear-to-br from-nude via-ivory to-gold-soft/60 border border-gold-soft/70 px-6 py-10 sm:px-12 sm:py-12 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8">
+            <svg class="spin-slow absolute -right-16 -top-16 w-56 h-56 text-gold/30 pointer-events-none" viewBox="0 0 100 100"
+                aria-hidden="true">
+                <circle cx="50" cy="50" r="48" fill="none" stroke="currentColor" stroke-width="0.5" stroke-dasharray="2 4" />
+                <circle cx="50" cy="50" r="34" fill="none" stroke="currentColor" stroke-width="0.4" />
+            </svg>
+            <div class="relative max-w-xl">
+                <span class="eyebrow mb-4">Siap Tampil Memukau?</span>
+                <h2 class="font-headline-lg text-3xl sm:text-[2.5rem] leading-tight text-primary mt-3">
+                    Amankan tanggal <span class="italic text-rose-gold">istimewa</span> Anda sekarang
+                </h2>
+            </div>
+            <div class="relative flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
+                <button type="button" data-target="kontak-section" class="nav-scroll-link btn btn-primary">
+                    <span class="material-symbols-outlined text-base leading-none">calendar_month</span>
+                    <span>Reservasi Jadwal</span>
+                </button>
+                <a href="https://wa.me/{{ $waInternational }}?text={{ $waDefaultText }}" target="_blank"
+                    rel="noopener noreferrer" class="btn btn-ghost">
+                    <span class="material-symbols-outlined text-base leading-none">chat</span>
+                    <span>Chat WhatsApp</span>
+                </a>
+            </div>
+        </div>
+
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-12 pb-12 border-b border-outline-variant/30">
 
             <!-- Identitas Brand -->
             <div data-reveal class="md:col-span-2 lg:col-span-5 flex flex-col items-start">
                 <div class="flex items-center gap-3.5 mb-5">
                     <div
-                        class="w-11 h-11 rounded-full bg-primary-container text-on-primary flex items-center justify-center font-headline-sm text-base tracking-wider ring-1 ring-secondary-fixed-dim/40 ring-offset-2 ring-offset-surface-container-low">
+                        class="w-11 h-11 rounded-full bg-primary-container text-gold-soft flex items-center justify-center font-headline-sm text-base tracking-wider ring-1 ring-gold/50 ring-offset-2 ring-offset-surface-container-low">
                         AS
                     </div>
                     <div class="flex flex-col">
                         <span class="font-headline-sm text-base tracking-[0.16em] text-primary uppercase leading-none">
                             Aramysta Salon
                         </span>
-                        <span class="font-label-sm text-[9px] tracking-[0.28em] text-secondary uppercase mt-1.5">
+                        <span class="font-label-sm text-[9px] tracking-[0.28em] text-gold uppercase mt-1.5">
                             Haute Beauté
                         </span>
                     </div>

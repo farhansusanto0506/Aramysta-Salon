@@ -77,6 +77,13 @@
     --shadow-lift: 0 2px 4px rgb(44 34 30 / 0.05), 0 18px 40px -16px rgb(44 34 30 / 0.28);
 
     --color-cream: #faf7f2;
+    --color-ivory: #fffcf7;
+    --color-nude: #efe1d5;
+    --color-nude-deep: #e2cbb9;
+    --color-gold: #b08d57;
+    --color-gold-soft: #e8d6b5;
+    --color-rose-gold: #b76e79;
+    --color-cocoa: #4a3428;
     --color-secondary-fixed: #ffdada;
     --color-secondary-fixed-dim: #f5b7b9;
     --color-on-tertiary-container: #9c8c72;

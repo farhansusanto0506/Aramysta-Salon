@@ -2,11 +2,12 @@
     $categoryCounts = $portfolios->countBy('category');
 @endphp
 
-<section id="koleksi-section" class="scroll-mt-20 border-t border-outline-variant/30">
+<section id="koleksi-section" class="scroll-mt-20 border-t border-outline-variant/30 bg-ivory/60">
     <div class="container-luxe pt-20 lg:pt-24 pb-8">
         <div data-reveal class="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-8">
             <div>
                 <div class="flex flex-wrap items-center gap-3 mb-4">
+                    <span class="section-num">02</span>
                     <span class="eyebrow">Koleksi Karya</span>
 
                     @auth
@@ -18,7 +19,7 @@
                 </div>
 
                 <h2 class="font-headline-lg text-3xl sm:text-headline-lg text-primary leading-tight">
-                    Arsip Tata Rias <span class="italic text-secondary">&amp;</span> Sanggul
+                    Arsip Tata Rias <span class="italic text-rose-gold">&amp;</span> Sanggul
                 </h2>
             </div>
 

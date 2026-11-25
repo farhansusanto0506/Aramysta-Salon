@@ -5,10 +5,16 @@
 
 <!-- Pemicu Animasi -->
 <script>
-    document.documentElement.classList.add('js-enabled');
-    setTimeout(function () {
-        if (!window.AramystaReady) document.documentElement.classList.remove('js-enabled');
-    }, 3000);
+    (function () {
+        var root = document.documentElement;
+        var supportsModules = 'noModule' in document.createElement('script');
+        if (!supportsModules || !('IntersectionObserver' in window)) return;
+
+        root.classList.add('js-enabled');
+        setTimeout(function () {
+            if (!window.AramystaReady) root.classList.remove('js-enabled');
+        }, 3000);
+    })();
 </script>
 
 <link href="https://fonts.googleapis.com" rel="preconnect" />

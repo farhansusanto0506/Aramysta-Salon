@@ -9,6 +9,7 @@
         <div data-reveal class="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-12">
             <div>
                 <div class="flex flex-wrap items-center gap-3 mb-4">
+                    <span class="section-num">05</span>
                     <span class="eyebrow">Kontak &amp; Reservasi</span>
 
                     @auth
@@ -19,7 +20,7 @@
                     @endauth
                 </div>
                 <h2 class="font-headline-lg text-3xl sm:text-headline-lg text-primary leading-tight">
-                    Jadwalkan Sesi <span class="italic text-secondary">Rias</span> Anda
+                    Jadwalkan Sesi <span class="italic text-rose-gold">Rias</span> Anda
                 </h2>
             </div>
             <p class="font-body-md text-on-surface-variant max-w-md">

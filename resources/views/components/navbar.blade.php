@@ -1,7 +1,8 @@
 @php
     $navItems = [
-        'portofolio-section' => 'Portofolio',
-        'koleksi-section' => 'Koleksi',
+        'portofolio-section' => 'Beranda',
+        'tentang-section' => 'Tentang',
+        'koleksi-section' => 'Portofolio',
         'layanan-section' => 'Layanan',
         'testimoni-section' => 'Ulasan',
         'kontak-section' => 'Kontak',
@@ -10,13 +11,13 @@
 
 <header id="siteHeader" class="site-header fixed inset-x-0 top-0 z-40">
     <div class="site-header__bar">
-        <div class="container-luxe h-20 flex items-center justify-between gap-4">
+        <div class="container-luxe site-header__inner flex items-center justify-between gap-4">
 
             <!-- Brand -->
             <button type="button" data-target="portofolio-section"
                 class="nav-scroll-link flex items-center gap-3 group shrink-0 text-left">
                 <span
-                    class="w-10 h-10 rounded-full bg-primary-container text-on-primary flex items-center justify-center font-headline-sm text-sm tracking-wider ring-1 ring-secondary-fixed-dim/40 ring-offset-2 ring-offset-surface transition-colors duration-300 group-hover:bg-secondary shrink-0">
+                    class="brand-mark w-10 h-10 rounded-full bg-primary-container text-gold-soft flex items-center justify-center font-headline-sm text-sm tracking-wider ring-1 ring-gold/50 ring-offset-2 ring-offset-surface group-hover:bg-secondary shrink-0">
                     AS
                 </span>
                 <span class="flex flex-col">
@@ -25,7 +26,7 @@
                         Aramysta Salon
                     </span>
                     <span
-                        class="font-label-sm text-[9px] tracking-[0.28em] text-secondary uppercase mt-1.5 whitespace-nowrap">
+                        class="font-label-sm text-[9px] tracking-[0.28em] text-gold uppercase mt-1.5 whitespace-nowrap">
                         Haute Beauté
                     </span>
                 </span>
@@ -77,6 +78,7 @@
                 </button>
             </div>
         </div>
+        <span class="scroll-progress" aria-hidden="true"></span>
     </div>
 
     <!-- Menu Mobile -->

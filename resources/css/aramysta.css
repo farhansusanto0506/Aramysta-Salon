@@ -1,9 +1,5 @@
 /* Reset & Base */
 @layer base {
-    :root {
-        --ease-luxe: cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
     html,
     body {
         margin: 0;
@@ -26,6 +22,14 @@
     :focus-visible {
         outline: 2px solid var(--color-secondary);
         outline-offset: 2px;
+    }
+
+    a,
+    button,
+    label,
+    [role='button'] {
+        -webkit-tap-highlight-color: transparent;
+        touch-action: manipulation;
     }
 }
 
@@ -67,8 +71,10 @@
         content: '';
         width: 1.75rem;
         height: 1px;
-        background: currentColor;
-        opacity: 0.6;
+        background: linear-gradient(90deg, var(--color-gold), var(--color-rose-gold));
+    }
+    .eyebrow--light {
+        color: var(--color-gold-soft);
     }
 
     /* Tombol */
@@ -100,11 +106,32 @@
         transition: opacity 0.3s var(--ease-luxe);
         pointer-events: none;
     }
-    .btn:hover:not(:disabled) {
-        transform: translateY(-2px);
-    }
-    .btn:hover:not(:disabled)::after {
-        opacity: 1;
+    @media (hover: hover) {
+        .btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+        }
+        .btn:hover:not(:disabled)::after {
+            opacity: 1;
+        }
+        .btn-primary:hover:not(:disabled) {
+            background-color: var(--color-secondary);
+            background-position: -30% 0;
+        }
+        .btn-gold:hover:not(:disabled) {
+            background-color: var(--color-cocoa);
+        }
+        .btn-ghost:hover:not(:disabled) {
+            background-color: #fff;
+            border-color: var(--color-secondary);
+        }
+        .btn-soft:hover:not(:disabled) {
+            background-color: var(--color-secondary);
+            color: var(--color-on-secondary);
+        }
+        .btn-danger:hover:not(:disabled) {
+            background-color: var(--color-error);
+            color: var(--color-on-error);
+        }
     }
     .btn:active:not(:disabled) {
         transform: translateY(0) scale(0.98);
@@ -122,10 +149,16 @@
 
     .btn-primary {
         background-color: var(--color-primary-container);
+        background-image: linear-gradient(110deg, transparent 35%, rgb(255 255 255 / 0.22) 50%, transparent 65%);
+        background-size: 250% 100%;
+        background-position: 130% 0;
+        background-repeat: no-repeat;
         color: var(--color-on-primary);
+        transition: transform 0.3s var(--ease-luxe), background-color 0.3s ease, background-position 0.9s var(--ease-luxe), color 0.3s ease;
     }
-    .btn-primary:hover:not(:disabled) {
-        background-color: var(--color-secondary);
+    .btn-gold {
+        background-color: var(--color-gold);
+        color: #fff;
     }
 
     .btn-ghost {
@@ -133,27 +166,15 @@
         color: var(--color-primary);
         border: 1px solid rgb(210 196 191 / 0.6);
     }
-    .btn-ghost:hover:not(:disabled) {
-        background-color: #fff;
-        border-color: var(--color-secondary);
-    }
 
     .btn-soft {
         background-color: var(--color-secondary-fixed);
         color: var(--color-on-secondary-fixed);
     }
-    .btn-soft:hover:not(:disabled) {
-        background-color: var(--color-secondary);
-        color: var(--color-on-secondary);
-    }
 
     .btn-danger {
         background-color: rgb(255 218 214 / 0.6);
         color: var(--color-on-error-container);
-    }
-    .btn-danger:hover:not(:disabled) {
-        background-color: var(--color-error);
-        color: var(--color-on-error);
     }
 
     .btn-icon {
@@ -348,6 +369,34 @@
         opacity: 0;
         transition: opacity 0.4s var(--ease-luxe);
     }
+    .site-header__inner {
+        height: 5rem;
+        transition: height 0.45s var(--ease-luxe);
+    }
+    .site-header.is-scrolled .site-header__inner {
+        height: 4rem;
+    }
+    .site-header .brand-mark {
+        transition: transform 0.45s var(--ease-luxe), background-color 0.3s ease;
+    }
+    .site-header.is-scrolled .brand-mark {
+        transform: scale(0.88);
+    }
+    .scroll-progress {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 2px;
+        background: linear-gradient(90deg, var(--color-gold), var(--color-rose-gold), var(--color-secondary));
+        transform: scaleX(var(--scroll-progress, 0));
+        transform-origin: left center;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+    .site-header.is-scrolled .scroll-progress {
+        opacity: 1;
+    }
     .site-header.is-scrolled .site-header__bar::before,
     .site-header.menu-open .site-header__bar::before {
         opacity: 1;
@@ -379,11 +428,13 @@
         transform-origin: left center;
         transition: transform 0.45s var(--ease-luxe);
     }
-    .nav-link:hover {
-        color: var(--color-primary);
-    }
-    .nav-link:hover::after {
-        transform: scaleX(0.5);
+    @media (hover: hover) {
+        .nav-link:hover {
+            color: var(--color-primary);
+        }
+        .nav-link:hover::after {
+            transform: scaleX(0.5);
+        }
     }
     .nav-link.is-active {
         color: var(--color-primary);
@@ -455,10 +506,15 @@
         white-space: nowrap;
         transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, transform 0.3s var(--ease-luxe);
     }
-    .filter-chip:hover {
-        border-color: var(--color-secondary);
-        color: var(--color-primary);
-        transform: translateY(-1px);
+    @media (hover: hover) {
+        .filter-chip:hover {
+            border-color: var(--color-secondary);
+            color: var(--color-primary);
+            transform: translateY(-1px);
+        }
+    }
+    .filter-chip:active {
+        transform: scale(0.96);
     }
     .filter-chip.is-active {
         background-color: var(--color-primary-container);
@@ -484,11 +540,13 @@
         color: var(--color-primary);
         transition: transform 0.3s var(--ease-luxe), background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
     }
-    .carousel-btn:hover {
-        background-color: var(--color-primary-container);
-        border-color: var(--color-primary-container);
-        color: var(--color-on-primary);
-        transform: translateY(-2px);
+    @media (hover: hover) {
+        .carousel-btn:hover {
+            background-color: var(--color-primary-container);
+            border-color: var(--color-primary-container);
+            color: var(--color-on-primary);
+            transform: translateY(-2px);
+        }
     }
     .carousel-btn:active {
         transform: scale(0.94);
@@ -501,19 +559,13 @@
     .portfolio-card .card-media img {
         transition: transform 0.7s var(--ease-luxe);
     }
-    .portfolio-card:hover .card-media img {
-        transform: scale(1.06);
-    }
-    .portfolio-card .card-shade {
+        .portfolio-card .card-shade {
         transition: opacity 0.5s var(--ease-luxe);
     }
     .portfolio-card .card-shade--hover {
         opacity: 0;
     }
-    .portfolio-card:hover .card-shade--hover {
-        opacity: 1;
-    }
-    .portfolio-card .card-caption {
+        .portfolio-card .card-caption {
         transition: transform 0.5s var(--ease-luxe);
     }
     .portfolio-card .card-desc {
@@ -527,6 +579,15 @@
             opacity: 0;
             transform: translateY(6px);
         }
+        .portfolio-card:hover .card-media img {
+            transform: scale(1.06);
+        }
+        .portfolio-card:hover .card-shade--hover {
+            opacity: 1;
+        }
+        .portfolio-card:hover .card-shadow {
+            opacity: 1;
+        }
         .portfolio-card:hover .card-caption {
             transform: none;
         }
@@ -539,29 +600,28 @@
         opacity: 0;
         transition: opacity 0.4s var(--ease-luxe);
     }
-    .portfolio-card:hover .card-shadow {
-        opacity: 1;
-    }
 
     /* Kartu Layanan */
     .service-card .service-image {
         transition: transform 0.7s var(--ease-luxe);
     }
-    .service-card:hover .service-image {
-        transform: scale(1.05);
-    }
     .service-card .card-shadow {
         opacity: 0;
         transition: opacity 0.4s var(--ease-luxe);
     }
-    .service-card:hover .card-shadow {
-        opacity: 1;
-    }
     .service-card .cta-arrow {
         transition: transform 0.3s var(--ease-luxe);
     }
-    .service-card .cta-btn:hover .cta-arrow {
-        transform: translateX(4px);
+    @media (hover: hover) {
+        .service-card:hover .service-image {
+            transform: scale(1.05);
+        }
+        .service-card:hover .card-shadow {
+            opacity: 1;
+        }
+        .service-card .cta-btn:hover .cta-arrow {
+            transform: translateX(4px);
+        }
     }
 
     /* Badge Paling Diminati */
@@ -578,33 +638,27 @@
         pointer-events: none;
     }
 
-    /* Animasi Scroll */
-    .reveal {
+    /* Animasi Scroll & Kartu (disembunyikan sebelum tampil agar tidak berkedip) */
+    [data-reveal],
+    [data-card-reveal] {
+        transition: opacity 0.7s var(--ease-luxe), transform 0.7s var(--ease-luxe);
+    }
+    .js-enabled [data-reveal]:not(.is-visible) {
         opacity: 0;
         transform: translateY(28px);
-        transition: opacity 0.7s var(--ease-luxe), transform 0.7s var(--ease-luxe);
     }
-    .reveal.is-visible {
-        opacity: 1;
-        transform: none;
-    }
-
-    /* Animasi Kartu */
-    .card-reveal {
+    .js-enabled [data-card-reveal]:not(.is-visible) {
         opacity: 0;
         transform: translateY(36px) scale(0.97);
-        transition: opacity 0.7s var(--ease-luxe), transform 0.7s var(--ease-luxe);
     }
-    .card-reveal.is-visible {
-        opacity: 1;
-        transform: none;
-    }
-    .card-reveal.is-visible:hover {
-        transform: translateY(-6px);
+    @media (hover: hover) {
+        [data-card-reveal]:hover {
+            transform: translateY(-6px);
+        }
     }
 
     /* Transisi Filter */
-    .portfolio-card.card-reveal.is-filtered-out,
+    .js-enabled .portfolio-card.is-filtered-out,
     .portfolio-card.is-filtered-out {
         opacity: 0;
         transform: scale(0.94);
@@ -620,6 +674,12 @@
     .js-enabled .hero-enter-photo {
         animation: hero-photo-in 0.7s var(--ease-luxe) backwards;
         animation-delay: 220ms;
+    }
+    /* Direset saat keluar layar, animasi diputar ulang saat terlihat lagi */
+    .js-enabled .hero-enter.is-reset,
+    .js-enabled .hero-enter-photo.is-reset {
+        animation: none;
+        opacity: 0;
     }
 
     /* Alert Masuk */
@@ -652,12 +712,14 @@
         font-size: 1.15rem;
         transition: transform 0.3s var(--ease-luxe);
     }
-    .admin-link:hover {
-        background-color: rgb(255 255 255 / 0.06);
-        color: #fff;
-    }
-    .admin-link:hover .material-symbols-outlined {
-        transform: translateX(2px);
+    @media (hover: hover) {
+        .admin-link:hover {
+            background-color: rgb(255 255 255 / 0.06);
+            color: #fff;
+        }
+        .admin-link:hover .material-symbols-outlined {
+            transform: translateX(2px);
+        }
     }
     .admin-link.is-active {
         background-color: rgb(255 255 255 / 0.1);
@@ -699,8 +761,153 @@
     .data-row {
         transition: background-color 0.2s ease;
     }
-    .data-row:hover {
-        background-color: rgb(246 243 238 / 0.7);
+    @media (hover: hover) {
+        .data-row:hover {
+            background-color: rgb(246 243 238 / 0.7);
+        }
+    }
+
+    /* Teks Aksen Rose Gold */
+    .text-rose-gold {
+        background-image: linear-gradient(100deg, var(--color-rose-gold) 0%, var(--color-gold) 55%, var(--color-secondary) 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+    }
+
+    /* Nomor Bagian */
+    .section-num {
+        font-family: var(--font-headline-sm);
+        font-style: italic;
+        font-size: 0.95rem;
+        letter-spacing: 0.04em;
+        color: var(--color-gold);
+    }
+
+    /* Strip Berjalan */
+    .marquee {
+        overflow: hidden;
+        -webkit-mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+        mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+    }
+    .marquee__track {
+        display: flex;
+        width: max-content;
+        animation: marquee 38s linear infinite;
+    }
+    @media (hover: hover) {
+        .marquee:hover .marquee__track {
+            animation-play-state: paused;
+        }
+    }
+
+    /* Ornamen Bergerak */
+    .float-soft {
+        animation: float-y 6s ease-in-out infinite;
+    }
+    .float-soft--delay {
+        animation-delay: -3s;
+    }
+    .spin-slow {
+        animation: spin 48s linear infinite;
+    }
+    .scroll-cue {
+        position: relative;
+        width: 1px;
+        height: 3rem;
+        overflow: hidden;
+        background: rgb(176 141 87 / 0.25);
+    }
+    .scroll-cue::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: -40%;
+        width: 100%;
+        height: 40%;
+        background: var(--color-gold);
+        animation: scroll-cue 2.2s var(--ease-luxe) infinite;
+    }
+
+    /* Bingkai Emas Kartu Karya */
+    .card-frame {
+        position: absolute;
+        inset: 0.75rem;
+        border-radius: 1.05rem;
+        border: 1px solid rgb(232 214 181 / 0.7);
+        opacity: 0;
+        transform: scale(1.04);
+        transition: opacity 0.5s var(--ease-luxe), transform 0.6s var(--ease-luxe);
+        pointer-events: none;
+    }
+    .card-index {
+        font-family: var(--font-headline-sm);
+        font-style: italic;
+        color: rgb(255 255 255 / 0.85);
+    }
+    @media (hover: hover) {
+        .portfolio-card:hover .card-frame {
+            opacity: 1;
+            transform: none;
+        }
+        .service-card {
+            transition: border-color 0.4s ease;
+        }
+        .service-card:hover {
+            border-color: rgb(176 141 87 / 0.55);
+        }
+    }
+
+    /* Kartu Keunggulan */
+    .pillar-card {
+        transition: border-color 0.4s ease, box-shadow 0.4s var(--ease-luxe), opacity 0.7s var(--ease-luxe), transform 0.7s var(--ease-luxe);
+    }
+    .pillar-card .pillar-icon {
+        transition: background-color 0.4s ease, color 0.4s ease, transform 0.5s var(--ease-luxe);
+    }
+    @media (hover: hover) {
+        .pillar-card:hover {
+            border-color: rgb(176 141 87 / 0.5);
+            box-shadow: var(--shadow-soft);
+        }
+        .pillar-card:hover .pillar-icon {
+            background-color: var(--color-gold);
+            color: #fff;
+            transform: rotate(-8deg) scale(1.06);
+        }
+    }
+
+    /* Panel Gelap Mewah */
+    .panel-dark {
+        background:
+            radial-gradient(120% 140% at 100% 0%, rgb(183 110 121 / 0.28) 0%, transparent 55%),
+            radial-gradient(90% 120% at 0% 100%, rgb(176 141 87 / 0.22) 0%, transparent 60%),
+            var(--color-primary-container);
+        color: #fff;
+        border-radius: 1.75rem;
+        box-shadow: var(--shadow-lift);
+    }
+
+    /* Variasi Animasi Muncul */
+    .js-enabled [data-reveal='left']:not(.is-visible) {
+        transform: translateX(-40px);
+    }
+    .js-enabled [data-reveal='right']:not(.is-visible) {
+        transform: translateX(40px);
+    }
+    .js-enabled [data-reveal='zoom']:not(.is-visible) {
+        transform: scale(0.94);
+    }
+    [data-reveal='mask'] {
+        transition: opacity 0.7s var(--ease-luxe), clip-path 1.1s var(--ease-luxe);
+    }
+    .js-enabled [data-reveal='mask']:not(.is-visible) {
+        opacity: 1;
+        transform: none;
+        clip-path: inset(0 0 100% 0 round 1.75rem);
+    }
+    .js-enabled [data-reveal='mask'].is-visible {
+        clip-path: inset(0 0 0 0 round 1.75rem);
     }
 
     /* Flatpickr */
@@ -801,6 +1008,20 @@
     to { transform: rotate(360deg); }
 }
 
+@keyframes marquee {
+    to { transform: translateX(-50%); }
+}
+
+@keyframes float-y {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-10px); }
+}
+
+@keyframes scroll-cue {
+    0%   { top: -40%; }
+    100% { top: 100%; }
+}
+
 @keyframes badge-glow {
     0%, 100% { opacity: 0; transform: scale(0.96); }
     50%      { opacity: 1; transform: scale(1.04); }
@@ -847,8 +1068,8 @@
         scroll-behavior: auto !important;
     }
 
-    .reveal,
-    .card-reveal,
+    .js-enabled [data-reveal]:not(.is-visible),
+    .js-enabled [data-card-reveal]:not(.is-visible),
     .js-enabled .hero-enter,
     .js-enabled .hero-enter-photo {
         opacity: 1;
@@ -857,7 +1078,7 @@
     }
 
     .btn:hover:not(:disabled),
-    .card-reveal.is-visible:hover,
+    [data-card-reveal]:hover,
     .carousel-btn:hover,
     .filter-chip:hover,
     .portfolio-card:hover .card-media img,
@@ -875,6 +1096,17 @@
     .featured-badge::after {
         animation: none;
         opacity: 1;
+    }
+
+    .marquee__track,
+    .float-soft,
+    .spin-slow,
+    .scroll-cue::after {
+        animation: none !important;
+    }
+
+    .js-enabled [data-reveal='mask']:not(.is-visible) {
+        clip-path: none;
     }
 
     .is-loading::before {

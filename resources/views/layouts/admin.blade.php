@@ -4,7 +4,6 @@
         ['route' => 'admin.services.index', 'match' => 'admin.services.*', 'icon' => 'spa', 'label' => 'Layanan'],
         ['route' => 'admin.schedules.index', 'match' => 'admin.schedules.*', 'icon' => 'event_available', 'label' => 'Jadwal'],
     ];
-    $contentUrl = Route::has('admin.content.edit') ? route('admin.content.edit') : route('portfolio.index');
 @endphp
 <!DOCTYPE html>
 <html lang="id">
@@ -41,9 +40,8 @@
                 </a>
             @endforeach
 
-            <a href="{{ $contentUrl }}"
-                class="admin-link {{ request()->routeIs('admin.content.*') ? 'is-active' : '' }}"
-                @unless (Route::has('admin.content.edit')) title="Foto hero diedit langsung di halaman utama" @endunless>
+            <a href="{{ route('portfolio.index') }}" class="admin-link"
+                title="Foto hero diedit langsung di halaman utama">
                 <span class="material-symbols-outlined">edit_document</span>
                 <span>Konten</span>
             </a>

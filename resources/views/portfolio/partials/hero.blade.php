@@ -15,7 +15,7 @@
     </div>
 
     <!-- Hero -->
-    <section id="portofolio-section" class="scroll-mt-24 container-luxe pt-8 sm:pt-12 lg:pt-16 pb-20 lg:pb-24">
+    <section id="portofolio-section" class="scroll-mt-24 container-luxe pt-8 sm:pt-12 lg:pt-16 pb-16 lg:pb-12">
 
         @if (session('success'))
             <div class="alert alert-success mb-8" role="status" data-alert>
@@ -47,9 +47,9 @@
                 <h1 class="hero-enter font-display-lg text-[2.5rem] leading-[1.08] sm:text-6xl lg:text-[4.25rem] lg:leading-[1.04] text-primary tracking-tight mb-7"
                     style="--d: 1">
                     Keanggunan Rias di Setiap
-                    <em class="relative inline-block font-normal italic text-secondary">
+                    <em class="relative inline-block font-normal italic text-rose-gold pr-1">
                         Momen
-                        <svg class="absolute left-0 -bottom-1.5 w-full h-2.5 text-secondary-fixed-dim" viewBox="0 0 120 10"
+                        <svg class="absolute left-0 -bottom-1.5 w-full h-2.5 text-gold-soft" viewBox="0 0 120 10"
                             preserveAspectRatio="none" aria-hidden="true">
                             <path d="M2 7 C 30 2, 60 2, 118 6" fill="none" stroke="currentColor" stroke-width="2"
                                 stroke-linecap="round" />
@@ -115,8 +115,33 @@
             <!-- Foto Hero -->
             <div class="lg:col-span-5 relative mx-auto w-full max-w-md lg:max-w-none">
                 <div data-parallax="0.05" class="hero-enter-photo relative">
+                    <!-- Cincin Ornamen -->
+                    <svg class="spin-slow absolute -top-10 -right-8 sm:-top-12 sm:-right-12 w-32 h-32 sm:w-40 sm:h-40 text-gold/60 -z-10"
+                        viewBox="0 0 100 100" aria-hidden="true">
+                        <circle cx="50" cy="50" r="48" fill="none" stroke="currentColor" stroke-width="0.6"
+                            stroke-dasharray="2 4" />
+                        <circle cx="50" cy="50" r="36" fill="none" stroke="currentColor" stroke-width="0.4" />
+                    </svg>
+
+                    <!-- Badge Mengambang -->
+                    <div class="float-soft absolute -left-3 sm:-left-8 top-10 z-10 hidden sm:flex items-center gap-2.5 rounded-2xl bg-ivory/85 backdrop-blur-md border border-gold-soft/70 px-4 py-3 shadow-[var(--shadow-lift)]"
+                        aria-hidden="true">
+                        <span class="w-9 h-9 rounded-full bg-gold-soft/70 text-gold flex items-center justify-center">
+                            <span class="material-symbols-outlined text-lg" style="font-variation-settings: 'FILL' 1">auto_awesome</span>
+                        </span>
+                        <span class="flex flex-col">
+                            <span class="font-headline-sm text-sm text-primary leading-tight">Bridal Specialist</span>
+                            <span class="text-[10px] uppercase tracking-[0.16em] text-on-surface-variant">Wedding &amp; Event</span>
+                        </span>
+                    </div>
+                    <div class="float-soft float-soft--delay absolute -right-3 sm:-right-6 bottom-36 z-10 hidden sm:flex items-center gap-2 rounded-full bg-primary-container/90 backdrop-blur-md px-4 py-2.5 shadow-[var(--shadow-lift)] text-gold-soft"
+                        aria-hidden="true">
+                        <span class="material-symbols-outlined text-base">home_pin</span>
+                        <span class="text-[10px] font-semibold uppercase tracking-[0.18em]">Studio &amp; Home Service</span>
+                    </div>
+
                     <!-- Bingkai Ornamen -->
-                    <div class="absolute -inset-3 sm:-inset-4 translate-x-3 translate-y-3 sm:translate-x-5 sm:translate-y-5 rounded-[2rem] border border-secondary/30 -z-10"
+                    <div class="absolute -inset-3 sm:-inset-4 translate-x-3 translate-y-3 sm:translate-x-5 sm:translate-y-5 rounded-[2rem] border border-gold/40 -z-10"
                         aria-hidden="true"></div>
 
                     <div
@@ -149,7 +174,7 @@
                         <div class="px-6 py-5 bg-surface-container-lowest text-primary">
                             <span
                                 class="inline-flex items-center gap-1.5 font-label-sm text-label-sm uppercase tracking-[0.15em] text-secondary mb-2">
-                                <span class="material-symbols-outlined text-secondary text-sm">verified</span>
+                                <span class="material-symbols-outlined text-gold text-sm" style="font-variation-settings: 'FILL' 1">verified</span>
                                 <span>Karya Pilihan • Signature Makeup</span>
                             </span>
                             <h3 class="font-headline-sm text-lg text-primary mb-1">
@@ -168,5 +193,28 @@
             </div>
 
         </div>
+
+        <!-- Petunjuk Scroll -->
+        <button type="button" data-target="tentang-section"
+            class="nav-scroll-link hidden lg:flex flex-col items-center gap-3 mx-auto mt-16 text-[10px] uppercase tracking-[0.3em] text-on-surface-variant hover:text-gold transition-colors">
+            <span>Gulir</span>
+            <span class="scroll-cue" aria-hidden="true"></span>
+        </button>
     </section>
+
+    <!-- Strip Kategori -->
+    <div class="border-y border-gold-soft/60 bg-nude/50 py-4" aria-hidden="true">
+        <div class="marquee">
+            <div class="marquee__track">
+                @for ($loopCopy = 0; $loopCopy < 2; $loopCopy++)
+                    <div class="flex items-center shrink-0">
+                        @foreach (['Bridal Makeup', 'Wisuda', 'Siraman', 'Sanggul & Hairdo', 'Lamaran', 'Home Service'] as $tag)
+                            <span class="px-6 sm:px-8 font-headline-sm italic text-lg sm:text-xl text-cocoa/80 whitespace-nowrap">{{ $tag }}</span>
+                            <span class="text-gold text-sm">✦</span>
+                        @endforeach
+                    </div>
+                @endfor
+            </div>
+        </div>
+    </div>
 </div>
