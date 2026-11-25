@@ -8,8 +8,6 @@ const onReady = (fn) => {
 
 window.AramystaReady = true;
 
-const prefersReducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
 onReady(function () {
     // 1. KONTROL GESER CAROUSEL PORTOFOLIO
     const sliderTrack = document.getElementById('portfolioSliderTrack');
@@ -515,7 +513,7 @@ onReady(function () {
 
     const revealTargets = document.querySelectorAll('[data-reveal]');
 
-    if ('IntersectionObserver' in window && revealTargets.length && !prefersReducedMotion()) {
+    if ('IntersectionObserver' in window && revealTargets.length) {
         revealTargets.forEach((el) => {
             el.classList.add('reveal');
             clearDelayOnEnd(el);
@@ -546,7 +544,7 @@ onReady(function () {
     // 8. ANIMASI KARTU KARYA & LAYANAN
     const cards = document.querySelectorAll('#portfolioSliderTrack .portfolio-card, #serviceSliderTrack .service-card');
 
-    if ('IntersectionObserver' in window && cards.length && !prefersReducedMotion()) {
+    if ('IntersectionObserver' in window && cards.length) {
         const CARD_STAGGER_MS = 110;
 
         cards.forEach((card) => {
@@ -618,7 +616,7 @@ onReady(function () {
                         card.style.transitionDelay = `${i * 60}ms`;
                         card.classList.remove('is-filtered-out');
                     });
-                }, toHide.length && !prefersReducedMotion() ? 300 : 0);
+                }, toHide.length ? 300 : 0);
             });
         });
     }
@@ -626,7 +624,7 @@ onReady(function () {
     // 10. COUNTER STATISTIK
     const counters = document.querySelectorAll('[data-count-to]');
 
-    if ('IntersectionObserver' in window && counters.length && !prefersReducedMotion()) {
+    if ('IntersectionObserver' in window && counters.length) {
         const runCounter = (el) => {
             const target = parseInt(el.dataset.countTo, 10) || 0;
             const duration = Math.min(1600, 900 + target * 10);
@@ -658,7 +656,6 @@ onReady(function () {
     const parallaxEls = document.querySelectorAll('[data-parallax]');
 
     if (parallaxEls.length) {
-        const parallaxQuery = window.matchMedia('(min-width: 1024px) and (prefers-reduced-motion: no-preference)');
         let ticking = false;
 
         const updateParallax = () => {
@@ -666,10 +663,6 @@ onReady(function () {
             const viewportMid = window.innerHeight / 2;
 
             parallaxEls.forEach((el) => {
-                if (!parallaxQuery.matches) {
-                    el.style.translate = '';
-                    return;
-                }
                 const rect = el.parentElement.getBoundingClientRect();
                 if (rect.bottom < -200 || rect.top > window.innerHeight + 200) return;
                 const factor = parseFloat(el.dataset.parallax) || 0;
@@ -686,7 +679,6 @@ onReady(function () {
 
         window.addEventListener('scroll', requestParallax, { passive: true });
         window.addEventListener('resize', requestParallax, { passive: true });
-        parallaxQuery.addEventListener('change', requestParallax);
         updateParallax();
     }
 
@@ -694,7 +686,7 @@ onReady(function () {
     const dismissAlert = (alertEl) => {
         if (!alertEl || alertEl.classList.contains('is-leaving')) return;
         alertEl.classList.add('is-leaving');
-        setTimeout(() => alertEl.remove(), prefersReducedMotion() ? 0 : 300);
+        setTimeout(() => alertEl.remove(), 300);
     };
 
     document.querySelectorAll('[data-alert]').forEach((alertEl) => {
