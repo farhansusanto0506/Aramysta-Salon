@@ -10,6 +10,27 @@ window.AramystaReady = true;
 
 const prefersReducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+// Safari/iOS < 14 belum punya MediaQueryList.addEventListener
+const onMediaChange = (query, handler) => {
+    if (typeof query.addEventListener === 'function') query.addEventListener('change', handler);
+    else if (typeof query.addListener === 'function') query.addListener(handler);
+};
+
+// sessionStorage bisa diblokir (mode privat / cookie dimatikan)
+const safeSession = {
+    get(key) {
+        try { return window.sessionStorage.getItem(key); } catch (err) { return null; }
+    },
+    set(key, value) {
+        try { window.sessionStorage.setItem(key, value); return true; } catch (err) { return false; }
+    },
+    remove(key) {
+        try { window.sessionStorage.removeItem(key); } catch (err) { /* abaikan */ }
+    }
+};
+
+const canAnimateOnScroll = () => 'IntersectionObserver' in window && !prefersReducedMotion();
+
 onReady(function () {
     // 1. KONTROL GESER CAROUSEL PORTOFOLIO
     const sliderTrack = document.getElementById('portfolioSliderTrack');
@@ -95,7 +116,7 @@ onReady(function () {
         document.addEventListener('click', (e) => {
             if (!siteHeader.contains(e.target)) setMenu(false);
         });
-        window.matchMedia('(min-width: 1024px)').addEventListener('change', () => setMenu(false));
+        onMediaChange(window.matchMedia('(min-width: 1024px)'), () => setMenu(false));
     }
 
     const navLinks = document.querySelectorAll('.nav-scroll-link');
@@ -124,15 +145,18 @@ onReady(function () {
                 }
             } else {
                 e.preventDefault();
-                sessionStorage.setItem('scrollTarget', targetId);
+                if (!safeSession.set('scrollTarget', targetId)) {
+                    window.location.href = '/#' + targetId;
+                    return;
+                }
                 window.location.href = '/';
             }
         });
     });
 
-    const pendingTarget = sessionStorage.getItem('scrollTarget');
+    const pendingTarget = safeSession.get('scrollTarget');
     if (pendingTarget) {
-        sessionStorage.removeItem('scrollTarget');
+        safeSession.remove('scrollTarget');
         const targetEl = document.getElementById(pendingTarget);
         if (targetEl) {
             setTimeout(() => {
@@ -146,7 +170,9 @@ onReady(function () {
         .filter(Boolean);
 
     if (navLinks.length > 0 && sections.length > 0) {
+        let navTicking = false;
         const updateActiveNav = () => {
+            navTicking = false;
             const scrollPos = window.scrollY + 140;
             let currentId = sections[0].id;
 
@@ -166,7 +192,14 @@ onReady(function () {
             });
         };
 
-        window.addEventListener('scroll', updateActiveNav, { passive: true });
+        const requestActiveNav = () => {
+            if (navTicking) return;
+            navTicking = true;
+            requestAnimationFrame(updateActiveNav);
+        };
+
+        window.addEventListener('scroll', requestActiveNav, { passive: true });
+        window.addEventListener('resize', requestActiveNav, { passive: true });
         updateActiveNav();
     }
 
@@ -501,12 +534,16 @@ onReady(function () {
     });
 
     // 7. ANIMASI SCROLL
+    // threshold 0 + rootMargin: elemen yang sangat tinggi (layar HP) atau kartu yang
+    // baru terlihat sebagian di carousel tetap terpicu.
     const STAGGER_MS = 90;
+    const REVEAL_OPTIONS = { threshold: 0, rootMargin: '0px 0px -8% 0px' };
     const clearDelayOnEnd = (el) => {
         el.addEventListener('transitionend', (e) => {
             if (e.target === el && e.propertyName === 'opacity') el.style.transitionDelay = '';
         });
     };
+    const showImmediately = (els) => els.forEach((el) => el.classList.add('is-visible'));
     const byPosition = (a, b) => {
         const ra = a.getBoundingClientRect();
         const rb = b.getBoundingClientRect();
@@ -515,11 +552,8 @@ onReady(function () {
 
     const revealTargets = document.querySelectorAll('[data-reveal]');
 
-    if ('IntersectionObserver' in window && revealTargets.length && !prefersReducedMotion()) {
-        revealTargets.forEach((el) => {
-            el.classList.add('reveal');
-            clearDelayOnEnd(el);
-        });
+    if (revealTargets.length && canAnimateOnScroll()) {
+        revealTargets.forEach(clearDelayOnEnd);
 
         const revealObserver = new IntersectionObserver((entries, observer) => {
             const groups = new Map();
@@ -538,21 +572,20 @@ onReady(function () {
                     observer.unobserve(el);
                 });
             });
-        }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+        }, REVEAL_OPTIONS);
 
         revealTargets.forEach((el) => revealObserver.observe(el));
+    } else {
+        showImmediately(revealTargets);
     }
 
     // 8. ANIMASI KARTU KARYA & LAYANAN
-    const cards = document.querySelectorAll('#portfolioSliderTrack .portfolio-card, #serviceSliderTrack .service-card');
+    const cards = document.querySelectorAll('[data-card-reveal]');
 
-    if ('IntersectionObserver' in window && cards.length && !prefersReducedMotion()) {
+    if (cards.length && canAnimateOnScroll()) {
         const CARD_STAGGER_MS = 110;
 
-        cards.forEach((card) => {
-            card.classList.add('card-reveal');
-            clearDelayOnEnd(card);
-        });
+        cards.forEach(clearDelayOnEnd);
 
         const cardObserver = new IntersectionObserver((entries, observer) => {
             entries
@@ -563,9 +596,11 @@ onReady(function () {
                     entry.target.classList.add('is-visible');
                     observer.unobserve(entry.target);
                 });
-        }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+        }, REVEAL_OPTIONS);
 
         cards.forEach((card) => cardObserver.observe(card));
+    } else {
+        showImmediately(cards);
     }
 
     // 9. FILTER KATEGORI KARYA
@@ -626,7 +661,7 @@ onReady(function () {
     // 10. COUNTER STATISTIK
     const counters = document.querySelectorAll('[data-count-to]');
 
-    if ('IntersectionObserver' in window && counters.length && !prefersReducedMotion()) {
+    if (counters.length && canAnimateOnScroll()) {
         const runCounter = (el) => {
             const target = parseInt(el.dataset.countTo, 10) || 0;
             const duration = Math.min(1600, 900 + target * 10);
@@ -658,7 +693,8 @@ onReady(function () {
     const parallaxEls = document.querySelectorAll('[data-parallax]');
 
     if (parallaxEls.length) {
-        const parallaxQuery = window.matchMedia('(min-width: 1024px) and (prefers-reduced-motion: no-preference)');
+        // Hanya di layar besar dengan mouse; dimatikan di HP/tablet agar scroll tetap ringan
+        const parallaxQuery = window.matchMedia('(min-width: 1024px) and (hover: hover) and (prefers-reduced-motion: no-preference)');
         let ticking = false;
 
         const updateParallax = () => {
@@ -686,7 +722,7 @@ onReady(function () {
 
         window.addEventListener('scroll', requestParallax, { passive: true });
         window.addEventListener('resize', requestParallax, { passive: true });
-        parallaxQuery.addEventListener('change', requestParallax);
+        onMediaChange(parallaxQuery, requestParallax);
         updateParallax();
     }
 

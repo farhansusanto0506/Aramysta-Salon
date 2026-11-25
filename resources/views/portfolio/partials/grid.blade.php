@@ -5,6 +5,7 @@
 
         @forelse ($portfolios as $item)
             <article
+                data-card-reveal
                 class="portfolio-card group relative isolate shrink-0 snap-start w-[82%] sm:w-[calc((100%-1.5rem)/2)] lg:w-[calc((100%-3rem)/3)]"
                 data-category="{{ $item->category }}"
                 data-tags="{{ strtolower($item->title . ' ' . $item->category_label . ' ' . $item->description . ' ' . ($item->location ?? '')) }}"
